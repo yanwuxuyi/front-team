@@ -36,7 +36,7 @@
 		    "path" : "pages/frmv/register",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "",
+		        "navigationBarTitleText": "注册",
 		        "enablePullDownRefresh": false
 		    }
 		    
@@ -153,21 +153,21 @@
 			"path" : "pages/forum/index",
 			"style" : 
 			{
-				"navigationBarTitleText" : "评论"
+				"navigationBarTitleText" : "生态圈"
 			}
 		},
 		{
 			"path" : "pages/forum/reply",
 			"style" : 
 			{
-				"navigationBarTitleText" : "恢复"
+				"navigationBarTitleText" : "回复"
 			}
 		},
 		{
 			"path" : "pages/forum/me",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "我的"
 			}
 		}
     ],

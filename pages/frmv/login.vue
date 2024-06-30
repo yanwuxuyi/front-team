@@ -2,8 +2,8 @@
 	<view>
 		<image style="width: 430px; height: 350px; background-color: #eeeeee;" :src="picsrc">
         <u-form :model="user"   ref="uForm"  > 
-			<u-form-item   left-icon="account" label-width="120" label="电话" prop="phone">
-				<u-input  placeholder="请输入电话" v-model="user.phone" type="text"></u-input>
+			<u-form-item   left-icon="account" label-width="120" label="学号" prop="studentId">
+				<u-input  placeholder="请输入学号" v-model="user.studentId" type="text"></u-input>
 			</u-form-item> 
 			<u-form-item   left-icon="lock" label-width="120"  label="密码" prop="password">
 				<u-input :password-icon="true"   type="password" v-model="user.password" placeholder="请输入密码"></u-input>
@@ -20,19 +20,40 @@
 			return {
 				picsrc:'../../static/images/cqulogo.png',
 				user: {
-					'phone': '',
+					'studentId': '',
 					'password': '' 
-				} 
+				},
+				rules: {
+				studentId: [
+				  { required: true, message: '请输入学号', trigger: 'blur' }
+				],
+				password: [
+				{
+				        required: true,
+				        message: '请输入密码',
+				        trigger: ['change','blur'],
+				},
+				{
+				        // 正则不能含有两边的引号
+				        pattern: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,12}$/, // 修改后的正则表达式  
+				        message: '需同时含有字母和数字，长度在6-12之间',
+				        trigger: ['change','blur'],
+				}]
+				}
 			}
 		},	
+		onReady() {
+		            this.$refs.uForm.setRules(this.rules);
+		        },
 				methods: {
 							submit(){				 
 								uni.request({
-								    url: 'http://192.168.1.163:8083/login',  
+								    url: 'http://192.168.50.101:8090/auth/login',  
 								    data: this.user,
 									method:"POST",
 								    success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-								       if(res.data.status){//成功登录
+									console.log(res);
+								       if(res.statusCode == 200){//成功登录
 										    try {
 												//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
 										    	uni.setStorageSync('user', res.data.result); //将用户对象本地存储 以便后续身份识别 权限验证等

@@ -1,5 +1,14 @@
 <template>
 	<view>
+<u-popup v-model="show" mode="center" class="popup-container">
+      <view class="popup-content">
+        未完善个人资料！<br>
+        请先完善个人资料！
+      </view>
+      <view class="popup-button-container">
+        <u-button @click="navigateToProfile" class="popup-button">完善资料</u-button>
+      </view>
+    </u-popup>
 		<view>
 			<u-navbar title-color="#fff" back-icon-color="#ffffff"
 				:is-fixed="isFixed" :is-back="isBack" 
@@ -29,6 +38,7 @@
 	export default {
 		data() {
 			return {
+				show: false,
 				// 顶部导航栏
 				title1: '找同好',
 				backText: '首页',
@@ -54,7 +64,7 @@
 					
 				}],
 				user: {
-					phone:''
+					studentid:''
 				},
 				liked: [{
 					
@@ -71,6 +81,12 @@
 			};
 		},
 		methods: {
+			 navigateToProfile() {
+			        // 跳转到完善个人资料页面
+			        uni.navigateTo({
+			          url: '/pages/frmv/collect'
+			        });
+			      },
 			click(index) {
 				this.list[index].show = false;
 				this.liked=this.list[index];
@@ -85,13 +101,21 @@
 		},
 		onShow() {
 			const value7=uni.getStorageSync('user');
-			this.user.phone=value7.phone;
-			console.log('查到了user为：',value7.phone)
+			console.log(value7);
+			console.log(value7.interests);
+			if (value7.interests  === '') {
+			        this.show = true;
+			        console.log('interest 为空，不继续执行');
+			        return;
+			      }
+			this.user.studentid=value7.studentId;
+			console.log('查到了user为：',value7.studentId)
 			uni.request({
-				url:'http://192.168.1.163:8083/querySimilarInterest',
+				url:'http://192.168.50.101:8090/auth/selectinterests',
 				data:this.user,
 				method:'POST',
 				success:(result)=> {
+					console.log(result);
 					const person_list = result.data.result;
 					console.log('查到了person_list为：',person_list)
 					this.list = person_list;
@@ -120,5 +144,36 @@
 		font-size: 28rpx;
 		color: $u-content-color;
 		margin-top: 20rpx;
+	}
+	.popup-container {
+	  background-color: #fff;
+	  padding: 20px;
+	  border-radius: 10px;
+	  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+	
+	.popup-content {
+	  text-align: center;
+	  font-size: 18px;
+	  color: #333;
+	  margin-bottom: 20px;
+	  line-height: 1.5;
+	}
+	
+	.popup-button-container {
+	  text-align: center;
+	}
+	
+	.popup-button {
+	  background-color: #a6d1ff;
+	  color: #fff;
+	  border: none;
+	  padding: 10px 20px;
+	  border-radius: 5px;
+	  font-size: 16px;
+	}
+	
+	.popup-button:hover {
+	  background-color: #6786b3;
 	}
 </style>

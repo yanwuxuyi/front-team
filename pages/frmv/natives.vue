@@ -1,5 +1,14 @@
 <template>
 	<view>
+		<u-popup v-model="show" mode="center" class="popup-container">
+		      <view class="popup-content">
+		        未完善个人资料！<br>
+		        请先完善个人资料！
+		      </view>
+		      <view class="popup-button-container">
+		        <u-button @click="navigateToProfile" class="popup-button">完善资料</u-button>
+		      </view>
+		    </u-popup>
 		<view>
 			<u-navbar title-color="#fff" back-icon-color="#ffffff"
 				:is-fixed="isFixed" :is-back="isBack" 
@@ -29,6 +38,7 @@
 			return {
 				// 顶部导航栏
 				title1: '找老乡',
+				show: fasle,
 				backText: '首页',
 				backIconName: 'nav-back',
 				right: false,
@@ -52,7 +62,7 @@
 
 				}],
 				user: {
-					phone:''
+					studentid:''
 				},
 				liked: [{
 					
@@ -90,9 +100,14 @@
 		},
 		onShow() {
 			const value6=uni.getStorageSync('user');
-			this.user.phone=value6.phone;
+			if (value6.city  === '') {
+			        this.show = true;
+			        console.log('city 为空，不继续执行');
+			        return;
+			      }
+			this.user.studentid=value6.studentId;
 			uni.request({
-				url:'http://192.168.1.163:8083/querySimilarRegion',
+				url:'http://192.168.50.101:8090/auth/selectcity',
 				data:this.user,
 				method:'POST',
 				success:(result)=> {
@@ -126,5 +141,36 @@
 		font-size: 28rpx;
 		color: $u-content-color;
 		margin-top: 20rpx;
+	}
+	.popup-container {
+	  background-color: #fff;
+	  padding: 20px;
+	  border-radius: 10px;
+	  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+	
+	.popup-content {
+	  text-align: center;
+	  font-size: 18px;
+	  color: #333;
+	  margin-bottom: 20px;
+	  line-height: 1.5;
+	}
+	
+	.popup-button-container {
+	  text-align: center;
+	}
+	
+	.popup-button {
+	  background-color: #a6d1ff;
+	  color: #fff;
+	  border: none;
+	  padding: 10px 20px;
+	  border-radius: 5px;
+	  font-size: 16px;
+	}
+	
+	.popup-button:hover {
+	  background-color: #6786b3;
 	}
 </style>

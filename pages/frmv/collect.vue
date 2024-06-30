@@ -19,44 +19,44 @@
 				<u-td>{{showform.name}}</u-td>
 			</u-tr>
 			<u-tr>
+				<u-td>昵称</u-td>
+				<u-td>{{showform.nickName}}</u-td>
+			</u-tr>
+			<u-tr>
 				<u-td>性别</u-td>
 				<u-td>{{showform.gender}}</u-td>
 			</u-tr>
 			<u-tr>
-				<u-td>身份证号</u-td>
-				<u-td>{{showform.idNumber}}</u-td>
+				<u-td>省份</u-td>
+				<u-td>{{showform.province}}</u-td>
 			</u-tr>
 			<u-tr>
-				<u-td>出生日期</u-td>
-				<u-td>{{showform.birthday}}</u-td>
+				<u-td>城市</u-td>
+				<u-td>{{showform.city}}</u-td>
 			</u-tr>
 			<u-tr>
-				<u-td>学位</u-td>
-				<u-td>{{showform.degree}}</u-td>
+				<u-td>国籍</u-td>
+				<u-td>{{showform.country}}</u-td>
 			</u-tr>
 			<u-tr>
-				<u-td>学院</u-td>
-				<u-td>{{showform.college}}</u-td>
+				<u-td>学院专业</u-td>
+				<u-td>{{showform.education}}</u-td>
 			</u-tr>
 			<u-tr>
-				<u-td>专业</u-td>
-				<u-td>{{showform.major}}</u-td>
+				<u-td>爱好</u-td>
+				<u-td>{{showform.interests}}</u-td>
 			</u-tr>
 			<u-tr>
-				<u-td>地区</u-td>
+				<u-td>宿舍</u-td>
+				<u-td>{{showform.dormitory}}</u-td>
+			</u-tr>
+			<u-tr>
+				<u-td>生日</u-td>
 				<u-td>{{showform.region}}</u-td>
 			</u-tr>
 			<u-tr>
-				<u-td>交通方式</u-td>
-				<u-td>{{showform.traffic}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>报道时间</u-td>
-				<u-td>{{showform.reportTime}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>兴趣</u-td>
-				<u-td>{{showform.interests}}</u-td>
+				<u-td>政治面貌</u-td>
+				<u-td>{{showform.political}}</u-td>
 			</u-tr>
 		</u-table>
 </view>
@@ -67,17 +67,24 @@
 			<u-form-item label="姓名" prop="name">
 				<u-input v-model="form.name" type="text" />
 			</u-form-item>
+			<u-form-item label="昵称" prop="nickName">
+				<u-input v-model="form.nickName" type="text" />
+			</u-form-item>
 			<u-form-item label="性别" prop='gender'>
 				<u-input v-model="form.gender" type="select" border: true @click="show=true" />
 				<u-action-sheet :list="actionSheetList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
 			</u-form-item>
-			<u-form-item label="身份证号" prop="idNumber">
-				<u-input v-model="form.idNumber" type="text" />
+			<u-form-item label="国籍" prop="country">
+				<u-input v-model="form.country" type="text" />
 			</u-form-item>
-			<u-form-item label="所在地区" prop='region'>
-				<u-input v-model="form.region" type="select" border: true @click="showregion=true" />
-				<u-select v-model="showregion" mode="mutil-column-auto" :list="regionlist" @confirm="confirmregion"
-					@click="regionback"></u-select>
+			<u-form-item label="省份" prop="province">
+				<u-input v-model="form.province" type="text" />
+			</u-form-item>
+			<u-form-item label="城市" prop="city">
+				<u-input v-model="form.city" type="text" />
+			</u-form-item>
+			<u-form-item label="宿舍" prop="dormitory">
+				<u-input v-model="form.dormitory" type="text" />
 			</u-form-item>
 			<u-form-item label="出生日期" prop='birthday'>
 			<view>
@@ -85,18 +92,13 @@
 					<u-input v-model="form.birthday" @click="showbirthday = true"/>
 			</view>
 			</u-form-item>
-			<u-form-item label="学院专业" prop='collegemajor'>
-				<u-input v-model="collegemajor" type="select" border: true @click="showcollegemajor=true" />
+			<u-form-item label="学院专业" prop='education'>
+				<u-input v-model="form.education" type="select" border: true @click="showcollegemajor=true" />
 				<u-select v-model="showcollegemajor" mode="mutil-column-auto" :list="collegemajorlist" @confirm="confirmcollegemajor"
 					@click="collegemajorback"></u-select>
 			</u-form-item>
-			<u-form-item label="学位" prop='degree'>
-				<u-input v-model="form.degree" type="select" border: true @click="showdegree=true" />
-				<u-select v-model="showdegree" mode="single-column" :list="degreelist" @confirm="confirmdegree"
-					@click="degreeback"></u-select>
-			</u-form-item>
-			<u-form-item label="交通方式" prop='traffic'>
-				<u-input v-model="form.traffic" type="select" border: true @click="showtraffic=true" />
+			<u-form-item label="政治面貌" prop='political'>
+				<u-input v-model="form.political" type="select" border: true @click="showtraffic=true" />
 				<u-select v-model="showtraffic" mode="single-column" :list="trafficlist" @confirm="confirmtraffic"
 					@click="trafficback"></u-select>
 			</u-form-item>
@@ -139,18 +141,20 @@
 				// #endif
 				// #ifndef MP
 				slotRight: true,
-				showform:{
-					name:'',
-					gender:'',
-					idNumber:'',
-					birthday:'',
-					degree:'',
-					college:'',
-					major:'',
-					region:'',
-					traffic:'',
-					reportTime:'',
-					interests:''
+				form: {
+					
+					birthday: '',
+					city: '',
+					country: '',
+					dormitory: '',
+					education: '',
+					gender: '',
+					interests: '',
+					name: '',
+					nickName: '',
+					phone:'',
+					political: '',
+					province: ''
 				},
 				collegemajor: "",
 				collected: false,
@@ -237,18 +241,19 @@
 				},
 				//////////表单变量
 				form: {
-					name: '',
-					gender: '',
-					idNumber: '',
-					region: '',
+					
 					birthday: '',
-					college: '',
-					major: '',
+					city: '',
+					country: '',
+					dormitory: '',
+					education: '',
+					gender: '',
 					interests: '',
-					reportTime: '',
+					name: '',
+					nickName: '',
 					phone:'',
-					traffic: '',
-					degree: '',
+					political: '',
+					province: ''
 				},
 				account:{
 					phone:'',
@@ -266,41 +271,37 @@
 				/////////////
 				degreelist: [{
 						value: '1',
-						label: '本科'
+						label: '群众'
 					},
 					{
 						value: '2',
-						label: '硕士'
+						label: '共青团员'
 					},
 					{
 						value: '3',
-						label: '博士'
+						label: '中共预备党员'
+					},
+					{
+						value: '4',
+						label: '中共党员'
 					}
 				],
 				//////////
 				trafficlist: [{
 						value: '1',
-						label: '火车'
+						label: '群众'
 					},
 					{
 						value: '2',
-						label: '飞机'
+						label: '共青团员'
 					},
 					{
 						value: '3',
-						label: '自驾'
+						label: '中共预备党员'
 					},
 					{
 						value: '4',
-						label: '打车'
-					},
-					{
-						value: '5',
-						label: '公交地铁'
-					},
-					{
-						value: '6',
-						label: '步行'
+						label: '中共党员'
 					}
 				],
 				actionSheetList: [
@@ -323,11 +324,11 @@
 						children: [
 							{
 								value: 2,
-								label: '物联网',
+								label: '计算机科学与技术',
 							},					
 							{
 								value: 3,
-								label: '计算机科学与技术',
+								label: '物联网',
 							},
 							{
 								value: 4,
@@ -409,6 +410,27 @@
 							label: '智能制造工程',
 						},]
 					},
+					{
+					value: 22,
+					label: '光电工程学院',
+					children: [
+						{
+							value: 23,
+							label: '',
+						},
+						{
+							value: 24,
+							label: '光电信息科学与工程',
+						},
+						{
+							value: 25,
+							label: '电子科学与技术',
+						},
+						{
+							value: 26,
+							label: '智能感知工程',
+						},]
+					}
 				],
 				////////////////
 				interestslist: [{
@@ -462,6 +484,7 @@
 						disabled: false
 					}
 				],
+				
 				///////////////
 			};
 		},
@@ -493,10 +516,11 @@
 						this.form.interests += (item + ',')
 					}
 				}
-				this.form.college=this.collegemajor.split('-')[0]
-				this.form.major=this.collegemajor.split('-')[1]
+				// this.form.college=this.collegemajor.split('-')[0]
+				// this.form.major=this.collegemajor.split('-')[1]
+				//this.form.education = this.
 				this.form.interests = this.form.interests.substring(0, this.form.interests.length-1)
-				console.log(this.form)
+				
 				this.$refs.uForm.validate(valid => {
 					if (valid) {
 						console.log('验证通过');
@@ -504,11 +528,16 @@
 						console.log('验证失败');
 					}
 				});
+				const Value=uni.getStorageSync('user');
+				this.form.studentID = Value.studentId;
+				//this.form.password = '123';
+				console.log(this.form);
 				uni.request({
-					url: 'http://192.168.1.163:8083/infoCollect',
+					url: 'http://192.168.50.101:8090/auth/update',
 					data: this.form,
 					method: "POST",
 					success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
+					console.log(res);
 						if (res.data.status) { //成功注册
 							try {
 								//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
@@ -526,21 +555,15 @@
 				});
 			},
 			//////////////学位显示
-			confirmdegree(degree) {
-				this.form.degree = degree[0].label;
+			confirmtraffic(political) {
+				this.form.political = political[0].label;
 			},
-			//////////////交通方式显示
-			confirmtraffic(traffic) {
-				this.form.traffic = traffic[0].label;
-			},
+
 			///////////////专业显示
 			confirmcollegemajor(collegemajor) {
-				this.collegemajor = collegemajor[0].label+'-'+collegemajor[1].label;
+				this.form.education = collegemajor[0].label+'-'+collegemajor[1].label;
 			},
-			///////////////城市显示
-			confirmregion(region) {
-				this.form.region = region[0].label + '-' + region[1].label + '-' + region[2].label;
-			},
+			
 			///////////////兴趣模块..............
 			// 选中任一checkbox时，由checkbox-group触发
 			checkboxChange(e) {
@@ -561,7 +584,7 @@
 			try { //见  https://uniapp.dcloud.net.cn/api/storage/storage.html#getstoragesync
 			const value1=uni.getStorageSync('user');
 			this.account.phone=value1.phone;
-			this.account.password=value1.password;
+			this.account.password='123';
 			uni.request({
 				url: 'http://192.168.1.163:8083/queryStudent',
 				data: this.account,

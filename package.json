@@ -13,6 +13,8 @@
     "echarts": "^5.5.1",
     "echarts-gl": "^2.0.9",
     "echarts-stat": "^1.2.0",
+    "mockjs": "^1.1.0",
+    "uview-plus": "^3.3.2",
     "vue-baidu-map": "^0.21.22"
   }
 }

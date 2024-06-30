@@ -219,7 +219,7 @@
 					//if (!this.logined)
 					//从未登录变为登录
 					this.yonghu = value
-					
+					//this.nickname = value.name;
 					this.logined = true
 				} else {
 					console.log("未登录成功，yonghu置空")
