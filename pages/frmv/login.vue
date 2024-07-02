@@ -11,13 +11,14 @@
 		</u-form> 
 		<u-button @click="submit" shape="circle">提交</u-button>
 		<u-button @click="goRegiter" shape="circle">注册</u-button>
-	</view>
+		<view :class="{'forgot-password': true, 'clicked': isClicked}" @click="forgotPassword">忘记密码</view></view>
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
+				isClicked:false,
 				picsrc:'../../static/images/cqulogo.png',
 				user: {
 					'studentId': '',
@@ -46,6 +47,11 @@
 		            this.$refs.uForm.setRules(this.rules);
 		        },
 				methods: {
+					forgotPassword(){
+						uni.navigateTo({
+						        url: '/pages/frmv/forgotPassword'
+						      });
+					},
 							submit(){				 
 								uni.request({
 								    url: 'http://192.168.50.101:8090/auth/login',  
@@ -53,7 +59,7 @@
 									method:"POST",
 								    success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
 									console.log(res);
-								       if(res.statusCode == 200){//成功登录
+								       if(res.data.status){//成功登录
 										    try {
 												//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
 										    	uni.setStorageSync('user', res.data.result); //将用户对象本地存储 以便后续身份识别 权限验证等
@@ -83,7 +89,22 @@
 .u-demo-area{
 	cursor: pointer;
 }
+.forgot-password {
+  margin: 10px 0;
+  width: 100%;
+  color: #007bff;
+  text-align: left;
+  cursor: pointer;
+}
 
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.clicked {
+  color: blue;
+  text-decoration: underline;
+}
 .test2 {
 	background-image: url('https://i.postimg.cc/h4rNfC2m/QQ-20230708115228.png');
 }

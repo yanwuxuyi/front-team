@@ -169,6 +169,27 @@
 			{
 				"navigationBarTitleText" : "我的"
 			}
+		},
+		{
+			"path" : "pages/frmv/forgotPassword",
+			"style" : 
+			{
+				"navigationBarTitleText" : "忘记密码"
+			}
+		},
+		{
+			"path" : "pages/frmv/dormmate",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/frmv/test2",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
     ],
 	"globalStyle": {
@@ -207,7 +228,7 @@
 							"selectedIconPath": "static/images/forumblue.png",
 							"text": "生态圈"
 						},{
-							"pagePath": "pages/frmv/myinfo",
+							"pagePath": "pages/frmv/test2",
 							"iconPath": "static/images/mygrey.png",
 							"selectedIconPath": "static/images/myblue.png",
 							"text": "我的"

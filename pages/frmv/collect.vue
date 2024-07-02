@@ -63,53 +63,52 @@
 <view v-else>
 	<view class="">
 		<u-form :model="form" ref="uForm">
-	
-			<u-form-item label="姓名" prop="name">
-				<u-input v-model="form.name" type="text" />
+			<u-form-item label="姓名" prop="name" label-width="150rpx" >
+				<u-input v-model="form.name" type="text"  />
 			</u-form-item>
-			<u-form-item label="昵称" prop="nickName">
+			<u-form-item label="昵称" label-width="150rpx" prop="nickName" >
 				<u-input v-model="form.nickName" type="text" />
 			</u-form-item>
-			<u-form-item label="性别" prop='gender'>
+			<u-form-item label="性别" label-width="150rpx" prop='gender' >
 				<u-input v-model="form.gender" type="select" border: true @click="show=true" />
 				<u-action-sheet :list="actionSheetList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
 			</u-form-item>
-			<u-form-item label="国籍" prop="country">
+			<u-form-item label="国籍" label-width="150rpx" prop="country" >
 				<u-input v-model="form.country" type="text" />
 			</u-form-item>
-			<u-form-item label="省份" prop="province">
+			<u-form-item label="省份"label-width="150rpx"  prop="province" >
 				<u-input v-model="form.province" type="text" />
 			</u-form-item>
-			<u-form-item label="城市" prop="city">
+			<u-form-item label="城市" label-width="150rpx" prop="city" >
 				<u-input v-model="form.city" type="text" />
 			</u-form-item>
-			<u-form-item label="宿舍" prop="dormitory">
+			<u-form-item label="宿舍" label-width="150rpx" prop="dormitory">
 				<u-input v-model="form.dormitory" type="text" />
 			</u-form-item>
-			<u-form-item label="出生日期" prop='birthday'>
+			<u-form-item label="出生日期" label-width="150rpx"  prop='birthday' >
 			<view>
 					<u-calendar v-model="showbirthday" :mode="mode" @change="getbirthday"></u-calendar>
 					<u-input v-model="form.birthday" @click="showbirthday = true"/>
 			</view>
 			</u-form-item>
-			<u-form-item label="学院专业" prop='education'>
+			<u-form-item label="学院专业" label-width="150rpx" prop='education'>
 				<u-input v-model="form.education" type="select" border: true @click="showcollegemajor=true" />
 				<u-select v-model="showcollegemajor" mode="mutil-column-auto" :list="collegemajorlist" @confirm="confirmcollegemajor"
 					@click="collegemajorback"></u-select>
 			</u-form-item>
-			<u-form-item label="政治面貌" prop='political'>
+			<u-form-item label="政治面貌" label-width="150rpx" prop='political' >
 				<u-input v-model="form.political" type="select" border: true @click="showtraffic=true" />
 				<u-select v-model="showtraffic" mode="single-column" :list="trafficlist" @confirm="confirmtraffic"
 					@click="trafficback"></u-select>
 			</u-form-item>
-			<u-form-item label="兴趣">
+			<u-form-item label="兴趣" label-width="150rpx" left-icon="heart">
 				<u-checkbox-group class="checkbox" @change="checkboxGroupChange">
 					<u-checkbox class="checkbox" @change="checkboxChange" v-for="(item, index) in interestslist" 
 					:key="index" :name="item.name"  v-model="item.checked">{{item.name}}</u-checkbox>
 				</u-checkbox-group>
 			</u-form-item>		
 		</u-form>
-		<u-button @click="submit()">提交</u-button>
+		<u-button @click="submit()" class="submit">提交</u-button>
 		<div class="updatetime">信息采集时间:{{ form.reportTime }}</div>
 	</view>
 </view>
@@ -628,4 +627,18 @@
 	.checkbox {
 		icon-size: 100rpx;
 	}
+	
+	.summit {
+	  background-color: #007bff;
+	  color: #fff;
+	  border: none;
+	  padding: 10px 20px;
+	  border-radius: 5px;
+	  font-size: 16px;
+	}
+	
+	.popup-button:hover {
+	  background-color: #0056b3;
+	}
+
 </style>
