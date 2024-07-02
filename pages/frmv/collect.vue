@@ -560,7 +560,7 @@
 
 			///////////////专业显示
 			confirmcollegemajor(collegemajor) {
-				this.form.education = collegemajor[0].label+'-'+collegemajor[1].label;
+				this.form.education = collegemajor[1].label;
 			},
 			
 			///////////////兴趣模块..............
