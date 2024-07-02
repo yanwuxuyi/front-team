@@ -112,6 +112,9 @@
 				</u-col>
 			</u-row>
 		</view>
+				<view @click="goAnotherPage" class="floating-icon">
+					<u-icon name="chat" size="40" color="#c7ddff"></u-icon>
+				</view>
 	</view>
 </template>
 
@@ -242,7 +245,11 @@
 		},
 		
 		methods: {
-		
+			goAnotherPage() {
+							uni.navigateTo({
+								url: '../index/test2' // 替换为你实际的页面路径
+							});
+						},
 			imageError() {
 
 			},
@@ -314,6 +321,21 @@
 </script>
 
 <style scoped lang="scss">
+	.floating-icon {
+			position: fixed;
+			bottom: 80px;
+			right: 10px;
+			width: 50px;
+			height: 50px;
+			background-color: #007aff;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+			z-index: 1000;
+			cursor: pointer;
+		}
 	.center {
 		justify-content: center;
 		text-align: center;
