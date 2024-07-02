@@ -190,6 +190,13 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/service/servicemain",
+			"style" : 
+			{
+				"navigationBarTitleText" : "服务中心"
+			}
 		}
     ],
 	"globalStyle": {
@@ -227,8 +234,15 @@
 							"iconPath": "static/images/forum.png",
 							"selectedIconPath": "static/images/forumblue.png",
 							"text": "生态圈"
-						},{
-							"pagePath": "pages/frmv/test2",
+						},
+						{
+							"pagePath": "pages/service/servicemain",
+							"iconPath": "static/images/forum.png",
+							"selectedIconPath": "static/images/forumblue.png",
+							"text": "服务中心"
+						},
+						{
+							"pagePath": "pages/frmv/myinfo",
 							"iconPath": "static/images/mygrey.png",
 							"selectedIconPath": "static/images/myblue.png",
 							"text": "我的"

@@ -164,7 +164,7 @@
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 93vh;
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
@@ -239,7 +239,7 @@
 }
 
 .send-button {
-  padding: 10px 20px;
+  padding: 2px 20px;
   background-color: blue;
   color: white;
   border: none;
