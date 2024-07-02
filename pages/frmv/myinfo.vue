@@ -200,16 +200,16 @@
 		},
 		onShow() {
 			const value = uni.getStorageSync('user');
-			uni.request({
-			    url: 'http://192.168.1.163:8083/queryStudent',  
-			    data: {phone:"13800000452"},
-				method:"POST",
-			    success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-			       if(res.data.status){	
-							this.gender=res.data.result.gender;
-				   }
-			    },
-			});
+			// uni.request({
+			//     url: 'http://192.168.1.163:8083/queryStudent',  
+			//     data: {phone:"13800000452"},
+			// 	method:"POST",
+			//     success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
+			//        if(res.data.status){	
+			// 				this.gender=res.data.result.gender;
+			// 	   }
+			//     },
+			// });
 			try { //见  https://uniapp.dcloud.net.cn/api/storage/storage.html#getstoragesync
 				const value = uni.getStorageSync('user');
 				this.picid=value.headPicture;
@@ -262,21 +262,21 @@
 			},
 			goCollect() {
 				const value = uni.getStorageSync('user');
-				uni.request({
-				    url: 'http://192.168.1.163:8083/queryStudent',  
-				    data: this.value,
-					method:"POST",
-				    success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-				       if(res.data.status){	
-							if(res.data.result.gender=="男"){
-								this.gender="man";
-							}
-							else {
-								this.gender="woman";
-							}
-					   }
-				    },
-				});
+				// uni.request({
+				//     url: 'http://192.168.1.163:8083/queryStudent',  
+				//     data: this.value,
+				// 	method:"POST",
+				//     success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
+				//        if(res.data.status){	
+				// 			if(res.data.result.gender=="男"){
+				// 				this.gender="man";
+				// 			}
+				// 			else {
+				// 				this.gender="woman";
+				// 			}
+				// 	   }
+				//     },
+				// });
 				if (uni.getStorageSync('collected')) {
 					uni.navigateTo({
 						url: '../frmv/collect'
