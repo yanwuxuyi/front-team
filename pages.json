@@ -178,10 +178,10 @@
 			}
 		},
 		{
-			"path" : "pages/frmv/dormmate",
+			"path" : "pages/service/dormmate",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "找室友"
 			}
 		},
 		{
@@ -196,6 +196,73 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "服务中心"
+			}
+		},
+		{
+			"path" : "pages/service/samehometown",
+			"style" : 
+			{
+				"navigationBarTitleText" : "找同乡"
+			}
+		},
+		{
+			"path" : "pages/service/schoolbus",
+			"style" : 
+			{
+				"navigationBarTitleText" : "校车时刻"
+			}
+		},
+		{
+			"path" : "pages/service/schoolinfo",
+			"style" : 
+			{
+				"navigationBarTitleText" : "学校简介"
+			}
+		},
+		{
+		    "path" : "pages/service/similarinterests",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false,
+				"navigationStyle": "custom" ,// 隐藏系统导航栏
+				"navigationBarTextStyle": "white" // 状态栏字体为白色
+		    }
+		    
+		},
+		{
+			"path" : "pages/service/phonenumber",
+			"style" : 
+			{
+				"navigationBarTitleText" : "电话簿"
+			}
+		},
+		{
+			"path" : "pages/service/map",
+			"style" : 
+			{
+				"navigationBarTitleText" : "校园地图"
+			}
+		},
+		{
+			"path" : "pages/service/teachplan",
+			"style" : 
+			{
+				"navigationBarTitleText" : "培养方案"
+			}
+		},
+		{
+			"path" : "pages/service/schoolbus2",
+			"style" : 
+			{
+				"navigationBarTitleText" : "校车时刻"
+			}
+		},
+		{
+			"path" : "pages/service/schoolinfoxiaoxun",
+			"style" : 
+			{
+				"navigationBarTitleText" : "校训"
 			}
 		}
     ],
@@ -237,8 +304,8 @@
 						},
 						{
 							"pagePath": "pages/service/servicemain",
-							"iconPath": "static/images/forum.png",
-							"selectedIconPath": "static/images/forumblue.png",
+							"iconPath": "static/service/service0.png",
+							"selectedIconPath": "static/service/service1.png",
 							"text": "服务中心"
 						},
 						{
