@@ -3,14 +3,7 @@
 		<view>
 			<u-tabs :list="list" :is-scroll="false" :current="current" @change="change"></u-tabs>
 		</view>
-		<view v-if="current">
-			校训
-			<image src="https://www.cqu.edu.cn/images/d-arrow-next1.png"></image>
-			<image src="https://www.cqu.edu.cn/images/d-bg2.jpg"></image>
-		</view>
-		<view v-else>
-			学校简介
-		</view>
+
 		<view>
 			<u-image width="100%" height="500rpx" src="/static/service/schoolinfo.jpg"></u-image>
 		</view>
@@ -63,11 +56,14 @@
 				this.current = index; // 更新当前选中的标签索引
 				switch (index) {
 					case 0:
-						// 跳转校训
-						index=1;
+						uni.navigateTo({
+							url: '/pages/service/schoolinfo'
+						});
 						break;
 					case 1:
-						index=0;
+						uni.navigateTo({
+							url: '/pages/service/schoolinfoxiaoxun'
+						});
 						break;
 					case 2:
 						// 跳转

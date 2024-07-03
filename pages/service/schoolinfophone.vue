@@ -1,13 +1,13 @@
 <template>
 	<view>
 		<view>
-			<u-tabs :list="list" :is-scroll="false" :current="2" @change="change"></u-tabs>
+			<u-tabs :list="list" :is-scroll="false" :current="current" @change="change"></u-tabs>
 		</view>
+
 		<view>
 			<u-image width="100%" height="1100rpx" src="/static/service/schoolinfophone.png"></u-image>
 		</view>
 	</view>
-
 </template>
 
 <script>
@@ -23,7 +23,7 @@
 						name: '各部门电话'
 					}
 				],
-				current: 1
+				current: 2
 			};
 		},
 		onLoad() {},
@@ -33,13 +33,11 @@
 				this.current = index; // 更新当前选中的标签索引
 				switch (index) {
 					case 0:
-						// 跳转校训
 						uni.navigateTo({
 							url: '/pages/service/schoolinfo'
 						});
 						break;
 					case 1:
-						// 跳转
 						uni.navigateTo({
 							url: '/pages/service/schoolinfoxiaoxun'
 						});
@@ -61,4 +59,5 @@
 </script>
 
 <style lang="scss" scoped>
+
 </style>
