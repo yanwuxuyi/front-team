@@ -35,10 +35,7 @@
 							<u-icon v-if="item.isLike" name="thumb-up-fill" class="like" :size="30" @click="getLike(index)"></u-icon>
 						</view>
 					</view>
-					<view class="reply" v-if="item.reply">
-						<view class="username">{{ item.reply.name }}</view>
-						<view class="text">{{ item.reply.contentStr }}</view>
-					</view>
+
 					<view class="content">{{ item.contentText }}</view>
 				</view>
 			</view>
@@ -51,10 +48,16 @@ export default {
 	data() {
 		return {
 			commentList: [],
-			comment: ''
+			comment: '',
+			uid:0
 		};
 	},
 	onLoad() {
+		const eventChannel = this.getOpenerEventChannel();
+        eventChannel.on('acceptCommentData', (data) => {
+            this.comment = data.data;
+        });
+		console.log(this.comment);
 		this.getReply();
 	},
 	methods: {
@@ -62,6 +65,26 @@ export default {
 		getLike(index) {
 			if (index === 0 || index > 0) {
 				this.commentList[index].isLike = !this.commentList[index].isLike;
+				console.log(this.commentList);
+				uni.request({
+					url:"http://192.168.50.101:8090/chat/commentfavor",
+					data:{
+						ifFavor:this.commentList[index].isLike,
+						uid:this.commentList[index].uid,
+						cid:this.commentList[index].cid
+					},
+					method:'POST',
+					success: (res) => {
+					    console.log(res);
+					    if (res.statusCode === 200) {
+					        // 成功后的处理逻辑
+							
+					    }
+					},
+					fail: (err) => {
+					    console.log(err);
+					}
+				})
 				if (this.commentList[index].isLike == true) {
 					this.commentList[index].likeNum++;
 				} else {
@@ -80,66 +103,49 @@ export default {
 
 		// 回复列表
 		getReply() {
-			this.comment = {
-				id: 1,
-				name: '叶轻眉',
-				date: '12-25 18:58',
-				contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-				url: 'https://cdn.uviewui.com/uview/template/SmilingDog.jpg',
-				allReply: 12,
-				likeNum: 33,
-				isLikes: false
-			};
-			this.commentList = [
-				{
-					name: '新八几',
-					date: '12-25 18:58',
-					contentText: '不要乱打广告啊喂！虽然是真的超好用',
-					url: 'https://cdn.uviewui.com/uview/template/SmilingDog.jpg',
-					likeNum: 33,
+			//const storedCommentList = uni.getStorageSync('commentList');
+			this.uid = this.comment.id;
+			console.log(this.uid);
+			// console.log(storedCommentList);
+			// this.comment = {
+			// 	id: storedCommentList[0].id,
+			// 	name: storedCommentList[0].name,
+			// 	date: storedCommentList[0].date,
+			// 	contentText: storedCommentList[0].contentText,
+			// 	url: storedCommentList[0].url,
+			// 	allReply: storedCommentList[0].allReply,
+			// 	likeNum: storedCommentList[0].likeNum,
+			// 	isLikes: storedCommentList[0].isLike
+			// };
+			//console.log(this.comment);
+			
+			uni.request({
+				url:`http://192.168.50.101:8090/chat/gettextmessage?uid=${this.uid}`,  
+				success: (res) => {
+				console.log("你好");
+				console.log(res);
+				if(res.statusCode == 200){
+				const data = res.data;
+				console.log(data);
+				this.commentList = data.map(item => ({
+					uid: item.uid,
+					rid: item.rid,
+					cid: item.cid,
+					name: item.nickname,
+					date: item.createTime,
+					contentText: item.comment,
+					url: item.fileData,
+					likeNum: item.favor || 0,
 					isLike: false,
-					reply: {
-						name: 'uview',
-						contentStr: 'uview是基于uniapp的一个UI框架，代码优美简洁，宇宙超级无敌彩虹旋转好用，用它！'
-					}
-				},
-				{
-					name: '叶轻眉1',
-					date: '01-25 13:58',
-					url: 'https://cdn.uviewui.com/uview/template/SmilingDog.jpg',
-					contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-					allReply: 0,
-					likeNum: 11,
-					isLike: false,
-					reply: {
-						name: '粘粘',
-						contentStr: '今天吃什么，明天吃什么，晚上吃什么，我只是一只小猫咪为什么要烦恼这么多'
-					}
-				},
-				{
-					name: '叶轻眉2',
-					date: '03-25 13:58',
-					contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-					allReply: 0,
-					likeNum: 21,
-					url: 'https://cdn.uviewui.com/uview/template/SmilingDog.jpg',
-					isLike: false,
-					allReply: 2,
-					reply: {
-						name: '豆包',
-						contentStr: '想吃冰糖葫芦粘豆包，但没钱5555.........'
-					}
-				},
-				{
-					name: '叶轻眉3',
-					date: '06-20 13:58',
-					contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-					allReply: 0,
-					likeNum: 150,
-					url: 'https://cdn.uviewui.com/uview/template/SmilingDog.jpg',
-					isLike: false
-				}
-			];
+					reply: item.replyList || []
+				}));
+				 }
+				 else{
+				this.$u.toast('帖子信息获取失败')  //提示框
+				 }
+				 }
+				 
+			})
 		}
 	}
 };

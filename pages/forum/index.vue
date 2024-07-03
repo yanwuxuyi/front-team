@@ -34,7 +34,15 @@
 			            <button @tap="cancelReply">取消</button>
 			        </view>
         </view>
-		
+		<view v-if="showInputBox2" class="input-box">
+			            <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
+			            <button @tap="submitReply2(res)">提交</button>
+			            <button @tap="cancelReply">取消</button>
+			        
+		</view>
+		<view v-if="showInputBox3" @click="addforum" class="floating-icon">
+			<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+		</view>
     </view>
 </template>
 
@@ -43,7 +51,11 @@
 export default {
 	data() {
 		return {
+			
 			showInputBox:false,
+			showInputBox2:false,
+			showInputBox3:true,
+			replyContent2:'',
 			commentList: [],
 			list: [{
 								name: '帖子'
@@ -69,6 +81,21 @@ export default {
 		
 		let vm=this;
 		this.getComment();
+		const value12 = uni.getStorageSync('user');
+		console.log(value12.id);
+		uni.request({
+			url:"http://192.168.50.101:8090/chat/gettextfavor",
+			data:{
+				id: value12.id
+			},
+			method:'POST',
+			success: (res) => {
+				console.log(res);
+				if(res){
+					
+				}
+			}
+			})
 	},
 	onUnload(){
 				uni.closeSocket({
@@ -82,9 +109,15 @@ export default {
 			uni.onSocketMessage(function (res) {
 			  console.log('收到服务器内容：' + res.data);
 			});
+			
 			},
 
 	methods: {
+		addforum() {
+			this.showInputBox2 = true;
+			this.showInputBox3 = false;
+		},
+		
 		// 显示回复输入框
         // 显示回复输入框
         showReplyInput(comment) {
@@ -99,41 +132,78 @@ export default {
 			console.log(value10.id);
 			console.log(comment.id);
 			console.log(this.replyContent);
-			// 假设userId是123，服务器运行在localhost的8080端口
-							// 创建webSocket
-							
+			
 							
 			uni.request({
 			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=1&rid=${value10.id}&uid=${comment.id}&favor=0`,
 				method:"POST",
 			    success: (res) => {
 			        console.log(res);
-			        if (res.statusCode === 200) {
+			        
 			            // 成功后的处理逻辑
+						//console.log(this.replyContent.trim());
 						if (this.replyContent.trim()) {
+							console.log(this.replyContent.trim());
+							this.showInputBox = false;
+							console.log(this.showInputBox);
+							this.$forceUpdate();  // 强制更新视图
 						    this.currentComment.replyList.push({
 						        name: '我',  // 这里可以换成实际的用户名
 						        contentStr: this.replyContent
 						    });
-						
-						    this.showInputBox = false;
-						    this.$forceUpdate();  // 强制更新视图
+							
+
 						} else {
 						    uni.showToast({
 						        title: '回复内容不能为空',
 						        icon: 'none'
 						    });
 						}
-			        }
+			        
 			    },
 			    fail: (err) => {
 			        console.log(err);
 			    }
 			});
         },
+		//发新的帖子
+		submitReply2(comment) {
+			const value11 = uni.getStorageSync('user');
+			console.log(value11.id);
+			console.log(this.replyContent2);
+			
+							
+			uni.request({
+			    url: `http://192.168.50.101:8090/chat/sendtextall?message=${this.replyContent2}&id=${String(value11.id)}`,
+				method:"POST",
+			    success: (res) => {
+			        console.log(res);
+			        
+			            // 成功后的处理逻辑
+						//console.log(this.replyContent.trim());
+						if (this.replyContent2.trim()) {
+							this.showInputBox2 = false;
+							console.log(this.showInputBox2);
+							this.$forceUpdate();  // 强制更新视图
+							this.getComment();
+						} else {
+						    uni.showToast({
+						        title: '回复内容不能为空',
+						        icon: 'none'
+						    });
+						}
+			        
+			    },
+			    fail: (err) => {
+			        console.log(err);
+			    }
+			});
+		},
         // 取消回复
         cancelReply() {
             this.showInputBox = false;
+			this.showInputBox2 = false;
+			this.showInputBox3 = true;
         },
 		change(index) {
 			 console.log(index);
@@ -179,11 +249,13 @@ export default {
 			console.log(this.commentList[index].id);
 			this.commentList[index].isLike = !this.commentList[index].isLike;
 			console.log(this.commentList[index].isLike);
+
 			uni.request({
 				url:"http://192.168.50.101:8090/chat/textfavor",
 				data:{
 					ifFavor:this.commentList[index].isLike,
-					uid:this.commentList[index].id
+					uid:this.commentList[index].id,
+					id: value12.id
 				},
 				method:'POST',
 				success: (res) => {
@@ -321,6 +393,21 @@ export default {
         }
     }
 }
+.floating-icon {
+			position: fixed;
+			bottom: 80px;
+			right: 10px;
+			width: 50px;
+			height: 50px;
+			background-color: #007aff;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+			z-index: 1000;
+			cursor: pointer;
+		}
 .input-box {
     position: fixed;
     bottom: 50rpx;
