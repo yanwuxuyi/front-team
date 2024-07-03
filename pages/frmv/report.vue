@@ -47,11 +47,12 @@
 				custom: true,
 				isFixed: true,
 				keyword: '',
-				// #ifdef MP
-				slotRight: false,
-				// #endif
-				// #ifndef MP
-				slotRight: true,
+				// // #ifdef MP
+				// slotRight: false,
+				// // #endif
+				
+				// // #ifndef MP
+				// slotRight: true,
 			}
 		},
 		methods: {

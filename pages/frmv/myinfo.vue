@@ -23,8 +23,8 @@
 			  <view class="card">
 			    <view class="top">
 			      <view class="userImage">
-					  <u-avatar v-if="gender==='男'" :src="'/static/images/headpic/'+picid+'.PNG'" size="140" showSex="true"  sexIcon="man" mode="circle" sexBgColor="#71d5a1" @click="goSelectheadpic()"></u-avatar>
-					  <u-avatar v-else :src="'/static/images/headpic/'+picid+'.PNG'" size="140" showSex="true"  sexIcon="woman" mode="circle" sexBgColor="#fab6b6" @click="goSelectheadpic()"></u-avatar>
+					  <u-avatar v-if="gender==='男'" :src="'/static/images/headpic/'+picid+'.PNG'" size="140" :showSex="true"  sexIcon="man" mode="circle" sexBgColor="#71d5a1" @click="goSelectheadpic()"></u-avatar>
+					  <u-avatar v-else :src="pic" size="140" :showSex="true"  sexIcon="woman" mode="circle" sexBgColor="#fab6b6" @click="goSelectheadpic()"></u-avatar>
 			      </view>
 			    </view>
 			    <view class="bottom">
@@ -150,10 +150,11 @@
 			return {
 				//初始
 				logined: false,
-				picid: 0,
+				pic:'',
 				yonghu: {
 					nickname: "游客"
 				} ,
+				usre:{},
 				gender: 'man',
 				//
 				show: false,
@@ -196,39 +197,51 @@
 				position: 'center',
 				url: '',
 				duration: 2000,
+				false:false,
+				true:true,
 			}
 		},
 		onShow() {
-			const value = uni.getStorageSync('user');
-			uni.request({
-			    url: 'http://192.168.1.163:8083/queryStudent',  
-			    data: {phone:"13800000452"},
-				method:"POST",
-			    success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-			       if(res.data.status){	
-							this.gender=res.data.result.gender;
-				   }
-			    },
-			});
-			try { //见  https://uniapp.dcloud.net.cn/api/storage/storage.html#getstoragesync
-				const value = uni.getStorageSync('user');
-				this.picid=value.headPicture;
-				console.log("个人信息页面获取到user的值为：", value)
-				console.log("picid值为：",this.picid)
-				if (value) {
-					//if (!this.logined)
-					//从未登录变为登录
-					this.yonghu = value
-					//this.nickname = value.name;
-					this.logined = true
-				} else {
-					console.log("未登录成功，yonghu置空")
-					this.yonghu = {}
-					this.logined = false
-				}
-			} catch (e) {
-				// error
+			const value5 = uni.getStorageSync('user');
+			if(value5.id)
+			{
+				this.logined=true;
+				this.user=value5;
+				let userId = value5.studentId; // 确保this.studentId已被定义  
+						if (!value5.fileData) {  
+							// 处理userId未定义的情况  
+							//uni.showToast({ title: '学生ID未定义', icon: 'none' });  
+							return;  
+						}  
+				  
+						let url = `http://192.168.50.101:8090/auth/getImage?studentId=${userId}`;  
+
+						uni.request({  
+							url: url,  
+							method: 'GET',  
+							responseType: 'arraybuffer',  
+							success: (res) => {  
+								// 注意：uni.request的success回调中的res是一个包含data、statusCode等属性的对象  
+								if (res.statusCode === 200) {  
+									const base64 = uni.arrayBufferToBase64(res.data);  
+									// 创建一个数据URL  
+									this.pic = `data:image/png;base64,${base64}`; // 注意：这里假设图片是PNG格式，根据实际情况可能需要调整  
+									value5.fileData=this.pic;
+									uni.setStorageSync('user',value5);
+									
+									// 现在你可以在模板中使用this.imageUrl来显示图片了  
+								} else {  
+									uni.showToast({ title: '服务器返回错误状态码', icon: 'none' });  
+								}  
+							},  
+							fail: (err) => {  
+								// 处理请求失败的情况  
+								console.error("请求失败:", err);  
+								uni.showToast({ title: '网络错误或服务器未响应', icon: 'none' });  
+							}  
+						});
 			}
+			
 		},
 		methods: {
 			goLogin() {
@@ -261,30 +274,7 @@
 				})
 			},
 			goCollect() {
-				const value = uni.getStorageSync('user');
-				uni.request({
-				    url: 'http://192.168.1.163:8083/queryStudent',  
-				    data: this.value,
-					method:"POST",
-				    success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-				       if(res.data.status){	
-							if(res.data.result.gender=="男"){
-								this.gender="man";
-							}
-							else {
-								this.gender="woman";
-							}
-					   }
-				    },
-				});
-				if (uni.getStorageSync('collected')) {
-					uni.navigateTo({
-						url: '../frmv/collect'
-					})
-				}
-				else {
-					this.showToast()
-				}
+
 			},
 			showToast() {
 				this.$refs.uToast.show({

@@ -1,4 +1,8 @@
-# cc-nineMenuBtn
+# cc-nineMenuBtn 
+
+### 我的技术微信公众号
+
+![图片](https://i.postimg.cc/RZ0sjnYP/front-End-Component.jpg)
 
 
 #### 使用方法 
@@ -7,8 +11,8 @@
 
 <view class="upView" style="background-color: aliceblue;">
 
-<!--使用方法: click:事件 myFlag:标识  myText:文字 imgSrc:图片地址 size:图片尺寸 -->
-<cc-nineMenuBtn @click="menuClick(0)" myFlag="12" myText='功能1'
+<!--使用方法: @menuClick:按钮点击事件 myFlag:红色标识  myText:文字 imgSrc:图片地址 size:图片尺寸 -->
+<cc-nineMenuBtn @menuClick="menuClick" myFlag="12" myText='功能1'
 				imgSrc='../../static/jsl_zhpj.png'></cc-nineMenuBtn>
 			
 </view>
@@ -29,10 +33,10 @@
 
 			<!--使用方法: click:事件 myFlag:标识  myText:文字 imgSrc:图片地址 size:图片尺寸 -->
 
-			<cc-nineMenuBtn @click="menuClick(0)" myFlag="12" myText='功能1'
+			<cc-nineMenuBtn @menuClick="menuClick" myFlag="12" myText='功能1'
 				imgSrc='../../static/jsl_zhpj.png'></cc-nineMenuBtn>
-			<cc-nineMenuBtn @click="menuClick(1)" myText='功能2' imgSrc='../../static/jsl_jsl.png'></cc-nineMenuBtn>
-			<cc-nineMenuBtn @click="menuClick(2)" myText='功能3' imgSrc='../../static/jsl_zjl.png'></cc-nineMenuBtn>
+			<cc-nineMenuBtn @menuClick="menuClick" myText='功能2' imgSrc='../../static/jsl_jsl.png'></cc-nineMenuBtn>
+			<cc-nineMenuBtn @menuClick="menuClick" myText='功能3' imgSrc='../../static/jsl_zjl.png'></cc-nineMenuBtn>
 			<cc-nineMenuBtn myText='功能4' imgSrc='../../static/jsl_xxl.png'></cc-nineMenuBtn>
 			<cc-nineMenuBtn myText='功能5' imgSrc='../../static/jsl_wl.png'></cc-nineMenuBtn>
 			<cc-nineMenuBtn myText='功能6' imgSrc='../../static/jsl_nll.png'></cc-nineMenuBtn>

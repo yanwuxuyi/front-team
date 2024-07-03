@@ -47,11 +47,11 @@
 		            this.$refs.uForm.setRules(this.rules);
 		        },
 				methods: {
-					forgotPassword(){
-						uni.navigateTo({
-						        url: '/pages/frmv/forgotPassword'
-						      });
-					},
+							forgotPassword(){
+								uni.navigateTo({
+										url: '/pages/frmv/forgotPassword'
+									  });
+							},
 							submit(){				 
 								uni.request({
 								    url: 'http://192.168.50.101:8090/auth/login',  
