@@ -87,7 +87,6 @@ export default {
 			success(res) {
 				console.log('成功', res);
 				
-				
 			},
 		})
 		this.getComment();
@@ -314,15 +313,6 @@ onShow() {
 		      switch(index) {
 		        case 0:
 		          // 跳转到首页
-		          uni.switchTab({
-                      url: '/pages/forun/index',
-                      success: function (res) {
-                       //console.log("跳转成功");
-                      },
-                      fail: function (err) {
-                        //console.error("跳转失败", err);
-                      }
-                    });
 		          uni.switchTab({
                       url: '/pages/forun/index',
                       success: function (res) {

@@ -93,7 +93,12 @@
 				   value5.fileData=that.imgDataUrl;
 				   uni.setStorageSync('user',value5);
 		          // 这里可以根据返回的数据进行后续处理，如提示用户上传成功等 
-				    uni.navigateBack();
+				    uni.request({
+				    	url:'http://192.168.50.101:8090/chat/uploadWithNull'
+				    })
+					uni.switchTab({
+				    	url: '/pages/frmv/myinfo'
+				    })
 		        },  
 		        fail: (err) => {  
 		          console.error('uploadImage fail:', err);  
@@ -109,12 +114,12 @@
 
 			}
 		},
-		onShow() {
+		onLoad() {
 			const value4=uni.getStorageSync('user');
 			console.log('获取到了user信息为：',value4);
 			this.studentId=value4.studentId;
 			this.imgDataUrl=value4.fileData;
-			console.log('头像信息为：',this.imgDataUrl);
+			//console.log('头像信息为：',this.imgDataUrl);
 		}
 	}
 </script>
