@@ -84,6 +84,7 @@
             data: JSON.stringify(params),
             success() {
               console.log('第一帧发送成功');
+			  realThis.TEXT = '';  // 这里清空输入框的内容
             }
           });
         });

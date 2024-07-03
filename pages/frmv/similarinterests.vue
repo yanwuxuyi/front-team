@@ -60,6 +60,7 @@
 				// #endif
 				// #ifndef MP
 				slotRight: true,
+				// #endif
 				list: [{
 					
 				}],
@@ -90,11 +91,11 @@
 			click(index) {
 				this.list[index].show = false;
 				this.liked=this.list[index];
-				uni.request({
-					url:'http://192.168.1.163:8083/changeLikes',
-					data:this.liked,
-					method:'POST'
-				})
+				// uni.request({
+				// 	url:'http://192.168.1.163:8083/changeLikes',
+				// 	data:this.liked,
+				// 	method:'POST'
+				// })
 				this.$u.toast(`点赞成功`);
 			}
 
@@ -102,7 +103,7 @@
 		onShow() {
 			const value7=uni.getStorageSync('user');
 			console.log(value7);
-			console.log(value7.interests);
+			console.log(value7);
 			if (value7.interests  === '') {
 			        this.show = true;
 			        console.log('interest 为空，不继续执行');

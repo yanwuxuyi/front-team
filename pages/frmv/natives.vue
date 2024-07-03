@@ -58,6 +58,7 @@
 				// #endif
 				// #ifndef MP
 				slotRight: true,
+				// #endif
 				list: [{
 
 				}],
