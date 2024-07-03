@@ -15,7 +15,7 @@
 					<u-icon v-if="comment.isLike" name="thumb-up-fill" class="like" :size="30" @click="getLike"></u-icon>
 				</view>
 			</view>
-			<view class="content">{{ comment.contentText }}</view>
+			<view class="content" >{{ comment.contentText }}</view>
 		</view>
 		<view class="all-reply">
 			<view class="all-reply-top">全部回复（{{ comment.allReply }}）</view>
@@ -35,18 +35,28 @@
 							<u-icon v-if="item.isLike" name="thumb-up-fill" class="like" :size="30" @click="getLike(index)"></u-icon>
 						</view>
 					</view>
-
-					<view class="content">{{ item.contentText }}</view>
+					<view class="reply" v-if="item.reply">
+						<view class="username">{{ item.reply.name }}</view>
+						<view class="text">{{ item.reply.contentStr }}</view>
+					</view>
+					<view class="content" @click="handleDoubleClick(item)">{{ item.contentText }}</view>
 				</view>
-			</view>
-		</view>
-	</view>
+				
+				<view v-if="showInputBox" class="input-box">
+				            <textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
+				            <button @tap="submitReply()">提交</button>
+				            <button @tap="cancelReply">取消</button>
+	</view></view></view></view>
 </template>
 
 <script>
+
 export default {
 	data() {
 		return {
+			temp: [],
+			replyContent:'',
+			showInputBox: false,
 			commentList: [],
 			comment: '',
 			uid:0
@@ -64,9 +74,10 @@ export default {
 			},
 		})
 		const eventChannel = this.getOpenerEventChannel();
-        eventChannel.on('acceptCommentData', (data) => {
-            this.comment = data.data;
-        });
+		eventChannel.on('acceptCommentData', (data) => {
+			console.log(data.data);
+		    this.comment = data.data;
+		});
 		console.log(this.comment);
 		this.getReply();
 	},
@@ -77,6 +88,57 @@ export default {
 	  }.bind(this)); // 使用 bind 绑定 this 上下文
 	},
 	methods: {
+		//双击回复
+		handleDoubleClick(item) {
+			//console.log("我点击了");
+			console.log(item);
+			this.temp = item;
+			this.showInputBox = true;
+
+		},
+		//取消评论
+		cancelReply() {
+		    this.showInputBox = false;
+			this.replyContent = '';
+		},
+		//回复评论
+		submitReply() {
+			console.log(this.temp);
+			uni.request({
+			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=${this.temp.cid}&rid=${this.temp.rid}&uid=${this.temp.uid}&favor=0`,
+				method:"POST",
+			    success: (res) => {
+			        console.log(res);
+			        
+			            // 成功后的处理逻辑
+						//console.log(this.replyContent.trim());
+						if (this.replyContent.trim()) {
+							console.log(this.replyContent.trim());
+							this.showInputBox = false;
+							console.log(this.showInputBox);
+							//this.currentComment.allReply++;
+							this.getReply();
+							this.$forceUpdate();  // 强制更新视图
+						    this.currentComment.replyList.push({
+						        name: '我',  // 这里可以换成实际的用户名
+						        contentStr: this.replyContent
+						    });
+							this.replyContent = '';
+							console.log(this.replyContent);
+			
+						} else {
+						    uni.showToast({
+						        title: '回复内容不能为空',
+						        icon: 'none'
+						    });
+						}
+			        
+			    },
+			    fail: (err) => {
+			        console.log(err);
+			    }
+			});
+		},
 		// 点赞
 		getLike(index) {
 			if (index === 0 || index > 0) {
@@ -122,9 +184,10 @@ export default {
 
 		// 回复列表
 		getReply() {
+			
 			//const storedCommentList = uni.getStorageSync('commentList');
 			this.uid = this.comment.id;
-			console.log(this.uid);
+			
 			// console.log(storedCommentList);
 			// this.comment = {
 			// 	id: storedCommentList[0].id,
@@ -137,7 +200,7 @@ export default {
 			// 	isLikes: storedCommentList[0].isLike
 			// };
 			//console.log(this.comment);
-			
+			console.log("uid  "+this.uid);
 			uni.request({
 				url:`http://192.168.50.101:8090/chat/gettextmessage?uid=${this.uid}`,  
 				success: (res) => {
@@ -147,6 +210,7 @@ export default {
 				const data = res.data;
 				console.log(data);
 				this.commentList = data.map(item => ({
+					rcid: item.rcid,
 					uid: item.uid,
 					rid: item.rid,
 					cid: item.cid,
@@ -156,7 +220,7 @@ export default {
 					url: item.fileData,
 					likeNum: item.favor || 0,
 					isLike: false,
-					reply: item.replyList || []
+					reply:  []
 				}));
 				const value12 = uni.getStorageSync('user');
 				// console.log(value12.id);
@@ -171,7 +235,7 @@ export default {
 					success: (res) => {
 						console.log(res);
 						if(res.statusCode == 200){
-							console.log(this.commentList);
+							//console.log("获取点赞后的输出："+this.commentList);
 							this.commentList.forEach(comment => {
 								res.data.forEach(temp => {
 									if(comment.cid == temp.cid){
@@ -179,9 +243,48 @@ export default {
 									}
 								})
 							});
+						//console.log("这里1");
+						this.commentList.forEach(item =>{
+							if(item.rcid != -1) {
+								//console.log("这里23");
+								this.commentList.forEach(commenttemp =>{
+									// console.log("这里4");
+									// console.log(commenttemp.cid);
+									// console.log(item.rcid);
+									if(commenttemp.cid == item.rcid) {
+										// console.log("这里2");
+										// console.log(commenttemp.rid);
+										item.reply = {
+											name: commenttemp.name,
+											contentStr: commenttemp.contentText
+										};
+										// console.log(item.reply);
+										// console.log(item);
+										// 找到评论的索引
+										//const indexToRemove = this.commentList.findIndex(ctemp => ctemp.cid === commenttemp.cid);
+										//console.log("要删除的索引"+indexToRemove);
+										//this.commentList.splice(indexToRemove, 1);
+
+									}
+									
+								})
+						
+								
+							}
+							else{
+								item.reply = null;
+							}
+							//console.log(item.reply);
+						}
+						);
+							
 						}
 					}
 					})
+
+					
+					
+					
 				 }
 				 else{
 				this.$u.toast('帖子信息获取失败')  //提示框
@@ -248,6 +351,33 @@ page {
 			color: #5677fc;
 		}
 	}
+}
+.input-box {
+    position: fixed;
+    bottom: 50rpx;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 20rpx;
+    box-shadow: 0 -2rpx 5rpx rgba(0, 0, 0, 0.1);
+    textarea {
+        width: 100%;
+        height: 200rpx;
+        padding: 10rpx;
+        border: 1rpx solid #ccc;
+        border-radius: 8rpx;
+        margin-bottom: 20rpx;
+    }
+    button {
+        width: 100%;
+        padding: 15rpx;
+        background-color: #5677fc;
+        color: #fff;
+        border: none;
+        border-radius: 8rpx;
+        text-align: center;
+        margin-bottom: 10rpx;
+    }
 }
 .all-reply {
 	margin-top: 10rpx;

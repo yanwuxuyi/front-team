@@ -128,7 +128,7 @@ onShow() {
 			
 							
 			uni.request({
-			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=1&rid=${value10.id}&uid=${this.currentComment.id}&favor=0`,
+			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=-1&rid=${value10.id}&uid=${this.currentComment.id}&favor=0`,
 				method:"POST",
 			    success: (res) => {
 			        console.log(res);

@@ -103,7 +103,7 @@
 		onShow() {
 			const value7=uni.getStorageSync('user');
 			console.log(value7);
-			console.log(value7);
+			console.log(value7.interests);
 			if (value7.interests  === '') {
 			        this.show = true;
 			        console.log('interest 为空，不继续执行');
