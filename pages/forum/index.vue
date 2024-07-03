@@ -25,25 +25,27 @@
                 </view>
                 <view class="bottom">
                     {{ res.date }}
-                    <view class="reply" @tap="showReplyInput()">回复</view>
+                    <view class="reply" @tap="showReplyInput(res)">回复</view>
                 </view>
-            </view>
+            </view></view>
 			<view v-if="showInputBox" class="input-box">
 			            <textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
 			            <button @tap="submitReply(res)">提交</button>
 			            <button @tap="cancelReply">取消</button>
 			        </view>
-        </view>
+        
 		<view v-if="showInputBox2" class="input-box">
 			            <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
 			            <button @tap="submitReply2(res)">提交</button>
 			            <button @tap="cancelReply">取消</button>
 			        
 		</view>
+		    
 		<view v-if="showInputBox3" @click="addforum" class="floating-icon">
 			<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
 		</view>
-    </view>
+
+	</view>
 </template>
 
 
@@ -56,6 +58,7 @@ export default {
 			showInputBox2:false,
 			showInputBox3:true,
 			replyContent2:'',
+			currentComment:[],
 			commentList: [],
 			list: [{
 								name: '帖子'
@@ -81,21 +84,8 @@ export default {
 		
 		let vm=this;
 		this.getComment();
-		const value12 = uni.getStorageSync('user');
-		console.log(value12.id);
-		uni.request({
-			url:"http://192.168.50.101:8090/chat/gettextfavor",
-			data:{
-				id: value12.id
-			},
-			method:'POST',
-			success: (res) => {
-				console.log(res);
-				if(res){
-					
-				}
-			}
-			})
+		console.log(this.showInputBox3);
+		
 	},
 	onUnload(){
 				uni.closeSocket({
@@ -128,14 +118,15 @@ export default {
         },
         // 提交回复
         submitReply(comment) {
+			console.log(comment);
 			const value10 = uni.getStorageSync('user');
 			console.log(value10.id);
-			console.log(comment.id);
+			console.log("id号"+this.currentComment.id);
 			console.log(this.replyContent);
 			
 							
 			uni.request({
-			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=1&rid=${value10.id}&uid=${comment.id}&favor=0`,
+			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=1&rid=${value10.id}&uid=${this.currentComment.id}&favor=0`,
 				method:"POST",
 			    success: (res) => {
 			        console.log(res);
@@ -146,6 +137,8 @@ export default {
 							console.log(this.replyContent.trim());
 							this.showInputBox = false;
 							console.log(this.showInputBox);
+							//this.currentComment.allReply++;
+							this.getComment();
 							this.$forceUpdate();  // 强制更新视图
 						    this.currentComment.replyList.push({
 						        name: '我',  // 这里可以换成实际的用户名
@@ -184,6 +177,7 @@ export default {
 						if (this.replyContent2.trim()) {
 							this.showInputBox2 = false;
 							console.log(this.showInputBox2);
+							this.showInputBox3 = true;
 							this.$forceUpdate();  // 强制更新视图
 							this.getComment();
 						} else {
@@ -246,6 +240,7 @@ export default {
         },
 		// 点赞
 		getLike(index) {
+			const value13 = uni.getStorageSync('user');
 			console.log(this.commentList[index].id);
 			this.commentList[index].isLike = !this.commentList[index].isLike;
 			console.log(this.commentList[index].isLike);
@@ -255,7 +250,7 @@ export default {
 				data:{
 					ifFavor:this.commentList[index].isLike,
 					uid:this.commentList[index].id,
-					id: value12.id
+					id: value13.id
 				},
 				method:'POST',
 				success: (res) => {
@@ -269,10 +264,14 @@ export default {
 				    console.log(err);
 				}
 			})
+			// console.log(this.commentList[index].isLike);
+			// console.log(this.commentList[index].likeNum);
 			if (this.commentList[index].isLike == true) {
 				this.commentList[index].likeNum++;
+				//console.log(this.commentList[index].likeNum);
 			} else {
 				this.commentList[index].likeNum--;
+				//console.log(this.commentList[index].likeNum);
 			}
 		},
 		// 评论列表
@@ -303,6 +302,28 @@ export default {
 				        console.error('本地存储失败', e);
 						}
 				             //this.commentList = commentList;
+					const value12 = uni.getStorageSync('user');
+					console.log(value12.id);
+					uni.request({
+						url:"http://192.168.50.101:8090/chat/gettextfavor",
+						data:{
+							id: value12.id
+						},
+						method:'POST',
+						success: (res) => {
+							console.log(res);
+							if(res.statusCode == 200){
+								console.log(this.commentList);
+								this.commentList.forEach(comment => {
+									res.data.forEach(temp => {
+										if(comment.id == temp.uid){
+											comment.isLike = true;
+										}
+									})
+								});
+							}
+						}
+						})
 				 }
 				 else{
 				this.$u.toast('帖子信息获取失败')  //提示框

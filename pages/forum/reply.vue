@@ -66,12 +66,15 @@ export default {
 			if (index === 0 || index > 0) {
 				this.commentList[index].isLike = !this.commentList[index].isLike;
 				console.log(this.commentList);
+				const value14 = uni.getStorageSync('user');
+				console.log(value14.id);
 				uni.request({
 					url:"http://192.168.50.101:8090/chat/commentfavor",
 					data:{
 						ifFavor:this.commentList[index].isLike,
 						uid:this.commentList[index].uid,
-						cid:this.commentList[index].cid
+						cid:this.commentList[index].cid,
+						id: value14.id
 					},
 					method:'POST',
 					success: (res) => {
@@ -139,6 +142,30 @@ export default {
 					isLike: false,
 					reply: item.replyList || []
 				}));
+				const value12 = uni.getStorageSync('user');
+				console.log(value12.id);
+				console.log(this.uid);
+				uni.request({
+					url:"http://192.168.50.101:8090/chat/getcommentfavor",
+					data:{
+						id: value12.id,
+						uid: this.uid
+					},
+					method:'POST',
+					success: (res) => {
+						console.log(res);
+						if(res.statusCode == 200){
+							console.log(this.commentList);
+							this.commentList.forEach(comment => {
+								res.data.forEach(temp => {
+									if(comment.cid == temp.cid){
+										comment.isLike = true;
+									}
+								})
+							});
+						}
+					}
+					})
 				 }
 				 else{
 				this.$u.toast('帖子信息获取失败')  //提示框
