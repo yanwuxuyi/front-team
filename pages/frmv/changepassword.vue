@@ -48,53 +48,53 @@
 					this.$u.toast("旧密码错误")
 					return
 				}
-				uni.request({
-					url: 'http://192.168.1.163:8083/change',
-					data: this.user,
-					method: "POST",
-					success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-						if (res.data.status) { //成功修改 
-						/*******更新存储的user信息*/
-							const value = uni.getStorageSync('user')
-							value.password=this.user.newpassword
-							uni.setStorageSync('user',value)
-						/*******/
-							////1.https://uniapp.dcloud.net.cn/api/router.html#event-channel 
-							try {
-								//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
-								let count = 2; // 倒计时的初始值
+				// uni.request({
+				// 	url: 'http://192.168.1.163:8083/change',
+				// 	data: this.user,
+				// 	method: "POST",
+				// 	success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
+				// 		if (res.data.status) { //成功修改 
+				// 		/*******更新存储的user信息*/
+				// 			const value = uni.getStorageSync('user')
+				// 			value.password=this.user.newpassword
+				// 			uni.setStorageSync('user',value)
+				// 		/*******/
+				// 			////1.https://uniapp.dcloud.net.cn/api/router.html#event-channel 
+				// 			try {
+				// 				//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
+				// 				let count = 2; // 倒计时的初始值
 
-								// 定义一个函数用于更新倒计时的显示
-								function updateCountdown() {
-									if (count > 0) {
-										uni.showToast({
-											title: `${count} 秒后跳转`,
-											icon: 'none',
-											position: 'top',
-											duration: 1000
-										});
-										count--;
-										setTimeout(updateCountdown, 1000); // 每秒更新一次倒计时显示
-									} else {
-										uni.navigateBack(); // 跳转回上一页面
-									}
-								}
+				// 				// 定义一个函数用于更新倒计时的显示
+				// 				function updateCountdown() {
+				// 					if (count > 0) {
+				// 						uni.showToast({
+				// 							title: `${count} 秒后跳转`,
+				// 							icon: 'none',
+				// 							position: 'top',
+				// 							duration: 1000
+				// 						});
+				// 						count--;
+				// 						setTimeout(updateCountdown, 1000); // 每秒更新一次倒计时显示
+				// 					} else {
+				// 						uni.navigateBack(); // 跳转回上一页面
+				// 					}
+				// 				}
 
-								// 在修改成功后调用这个函数开始倒计时
-								updateCountdown();
+				// 				// 在修改成功后调用这个函数开始倒计时
+				// 				updateCountdown();
 
-							} catch (e) {
-								uni.showToast({
-									title: "出现错误:" + e.message,
-									icon: "error",
-									duration: 1000
-								})
-							}
-						} else {
-							this.$u.toast('更改失败') //提示框
-						}
-					}
-				});
+				// 			} catch (e) {
+				// 				uni.showToast({
+				// 					title: "出现错误:" + e.message,
+				// 					icon: "error",
+				// 					duration: 1000
+				// 				})
+				// 			}
+				// 		} else {
+				// 			this.$u.toast('更改失败') //提示框
+				// 		}
+				// 	}
+				// });
 			},
 			radioChange(e) {
 				//console.log(e.detail)

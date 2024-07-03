@@ -99,7 +99,7 @@
 				this.list[index].show = false;
 				this.liked=this.list[index];
 				uni.request({
-					url:'http://192.168.1.163:8083/changeLikes',
+					url:'http://192.168.50.101:8090/changeLikes',
 					data:this.liked,
 					method:'POST'
 				})
