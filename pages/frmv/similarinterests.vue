@@ -60,6 +60,7 @@
 				// #endif
 				// #ifndef MP
 				slotRight: true,
+				// #endif
 				list: [{
 					
 				}],
@@ -90,11 +91,11 @@
 			click(index) {
 				this.list[index].show = false;
 				this.liked=this.list[index];
-				uni.request({
-					url:'http://192.168.1.163:8083/changeLikes',
-					data:this.liked,
-					method:'POST'
-				})
+				// uni.request({
+				// 	url:'http://192.168.1.163:8083/changeLikes',
+				// 	data:this.liked,
+				// 	method:'POST'
+				// })
 				this.$u.toast(`点赞成功`);
 			}
 

@@ -252,13 +252,14 @@
 			}
 		},
 		{
-			"path" : "pages/service/schoolbus2",
+			"path" : "pages/test/test",
 			"style" : 
 			{
-				"navigationBarTitleText" : "校车时刻"
+				"navigationBarTitleText" : ""
 			}
 		},
 		{
+<<<<<<< HEAD
 			"path" : "pages/service/schoolinfoxiaoxun",
 			"style" : 
 			{
@@ -271,6 +272,19 @@
 			{
 				"navigationBarTitleText" : "各部门电话"
 			}
+=======
+			"path": "uview-ui/components/u-avatar-cropper/u-avatar-cropper",
+			"style": {
+						"navigationBarTitleText": "头像裁剪",
+						"navigationBarBackgroundColor": "#000000"
+					}
+		},
+		{
+		  "path": "uni_modules/buuug7-img-cropper/pages/cropper",
+		  "style": {
+			"navigationBarTitleText": "图片裁剪"
+		}
+>>>>>>> f81e71f89d7599cf2c9348271b97b57d7e203d1e
 		}
     ],
 	"globalStyle": {

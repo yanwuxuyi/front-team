@@ -98,6 +98,7 @@
 				// #endif
 				// #ifndef MP
 				slotRight: true,
+				// #endif
 			}
 		},
 		methods: {

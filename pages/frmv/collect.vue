@@ -140,6 +140,7 @@
 				// #endif
 				// #ifndef MP
 				slotRight: true,
+				// #endif
 				form: {
 					
 					birthday: '',
@@ -562,7 +563,7 @@
 			confirmcollegemajor(collegemajor) {
 				this.form.education = collegemajor[1].label;
 			},
-			
+			//git 
 			///////////////兴趣模块..............
 			// 选中任一checkbox时，由checkbox-group触发
 			checkboxChange(e) {
@@ -584,34 +585,34 @@
 			const value1=uni.getStorageSync('user');
 			this.account.phone=value1.phone;
 			this.account.password='123';
-			uni.request({
-				url: 'http://192.168.1.163:8083/queryStudent',
-				data: this.account,
-				method: "POST",
-				success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-					if (res.data.status) { 
-						try {
-							//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
-							uni.setStorageSync('student', res.data.result); //将用户对象本地存储 以便后续身份识别 权限验证等
-						} catch (e) {
-							this.$u.toast('身份信息格式异常')
-						}
-					} else {
-						this.$u.toast('完善信息失败') //提示框
-					}
-					this.showform=uni.getStorageSync('student');
-					console.log('查到了学生数据为：',this.showform)
-						if (this.showform) {
-							this.collected = true
-							this.showform.birthday=this.showform.birthday.substring(0,9)
-							if(this.showform.interests==null){
-								this.showform.interests='暂无'
-							}
-						} else {
-							this.collected = false
-						}
-				}
-			});
+			// uni.request({
+			// 	url: 'http://192.168.1.163:8083/queryStudent',
+			// 	data: this.account,
+			// 	method: "POST",
+			// 	success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
+			// 		if (res.data.status) { 
+			// 			try {
+			// 				//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
+			// 				uni.setStorageSync('student', res.data.result); //将用户对象本地存储 以便后续身份识别 权限验证等
+			// 			} catch (e) {
+			// 				this.$u.toast('身份信息格式异常')
+			// 			}
+			// 		} else {
+			// 			this.$u.toast('完善信息失败') //提示框
+			// 		}
+			// 		this.showform=uni.getStorageSync('student');
+			// 		console.log('查到了学生数据为：',this.showform)
+			// 			if (this.showform) {
+			// 				this.collected = true
+			// 				this.showform.birthday=this.showform.birthday.substring(0,9)
+			// 				if(this.showform.interests==null){
+			// 					this.showform.interests='暂无'
+			// 				}
+			// 			} else {
+			// 				this.collected = false
+			// 			}
+			// 	}
+			// });
 			
 			} catch (e) {
 				// error

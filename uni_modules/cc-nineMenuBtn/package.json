@@ -1,7 +1,7 @@
 {
   "id": "cc-nineMenuBtn",
   "displayName": "自定义带标记提醒的宫格菜单组件，提供移动端常见的宫格布局，如八宫格、九宫格 。",
-  "version": "2.0.0",
+  "version": "2.3",
   "description": "自定义带标记提醒的宫格菜单组件，提供移动端常见的宫格布局，如八宫格、九宫格 。",
   "keywords": [
     "九宫格",
@@ -40,7 +40,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "n"
       },
       "client": {
         "Vue": {

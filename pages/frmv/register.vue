@@ -53,14 +53,14 @@
 				},
 				rules: {
 				        name: [
-				          { required: true, message: '请输入名字', trigger: 'blur' }
+				          { required: true, message: '请输入名字', trigger: ['change','blur'], }
 				        ],
 				        phone: [
-				          { required: true, message: '请输入电话', trigger: 'blur' },
-				          { pattern: /^1[3-9]\d{9}$/, message: '电话号码格式不正确', trigger: 'blur' }
+				          { required: true, message: '请输入电话', trigger: ['change','blur'], },
+				          { pattern: /^1[3-9]\d{9}$/, message: '电话号码格式不正确', trigger: ['change','blur'], }
 				        ],
 				        studentId: [
-				          { required: true, message: '请输入学号', trigger: 'blur' }
+				          { required: true, message: '请输入学号', trigger: ['change','blur'], }
 				        ],
 				        password: [
 				        {
@@ -76,18 +76,18 @@
 				        }
 				                            ],
 				        rpassword: [
-				          { required: true, message: '请再次输入密码', trigger: 'blur' },
+				          { required: true, message: '请再次输入密码', trigger: ['change','blur'], },
 				          { validator: (rule, value, callback) => {
 				              if (value !== this.model.password) {
 				                callback(new Error('两次输入密码不一致'));
 				              } else {
 				                callback();
 				              }
-				            }, trigger: 'blur'
+				            }, trigger: ['change','blur'],
 				          }
 				        ],
 				        verficationcode: [
-				          { required: true, message: '请输入验证码', trigger: 'blur' }
+				          { required: true, message: '请输入验证码', trigger: ['change','blur'], }
 				        ]
 				      }
 			}

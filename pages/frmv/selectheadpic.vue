@@ -1,24 +1,38 @@
-<template>
-  <view>
-	  <view class="text-tip" :action="action" style="text-align: left; margin: 10px 0;">
-	    请选择自己的头像:
-	  </view>
-    	<u-upload ref="uUpload"  :auto-upload="true" max-count="1" ></u-upload>
-    	<u-button @click="submit">提交</u-button>
-    <input type="file" ref="fileInput" @change="handleFileChange" style="display: none;" />
 
-    <view class="text-tip" style="text-align: left; margin-bottom: 20px;">
-      推荐的头像在下面的列表中:
-    </view>
-    <u-grid :col="3">
-      <u-grid-item v-for="index in 18" :key="index">
-        <view class="image-item" @tap="selectheadpic(index)">
-          <view class="image-content">
-            <image style="width: 120px; height: 150px; background-color: #eeeeee;" mode="aspectFill" :src="'/static/images/headpic/'+index+'.PNG'" @error="imageError"></image>
-          </view>
-        </view>
-      </u-grid-item>
-    </u-grid>
+
+<template>
+  <view >	  
+  
+		<view class="content">
+			<u-sticky  class="sticky-header">
+				<view class="comment1">
+					<view class="left1">
+						<u-avatar  :src="imgDataUrl" shape="circle" size=100>
+						</u-avatar>
+					</view>
+					<view class="right1" @click="uploadImage">
+						<button >提交</button>
+					</view>
+				</view>
+			</u-sticky>
+		</view>
+		<view style="padding: 20px;">
+			<button  @click="chooseImg"> 
+				选择本地
+			</button>
+		</view>
+
+
+
+	  <u-grid :col="3">
+	    <u-grid-item v-for="index in 18" :key="index">
+	  	<view class="image-item" @tap="selectheadpic('/static/images/headpic/'+index+'.PNG')">
+	  	  <view class="image-content">
+	  		<image style="width: 120px; height: 150px; background-color: #eeeeee;" mode="aspectFill" :src="'/static/images/headpic/'+index+'.PNG'" @error="imageError" ></image>
+	  	  </view>
+	  	</view>
+	    </u-grid-item>
+	  </u-grid>
   </view>
 </template>
 
@@ -27,61 +41,119 @@
 	export default {
 		data() {
 			return {
+				// 储存最后裁剪的数据 base64
+				imgDataUrl: "",
+				studentId:"20240002",
+				
 				mode: 'round',
 				action: '',
-				action1: 'http://192.168.50.101:8090/auth/updateheadpicture',
 				filesArr: [], 
-				user:{
-					headPicture:'',
-					phone:''
-				}
 
 			}
 		},
+	
 		methods: {
-				async submit() {
-				// 通过filter，筛选出上传进度为100的文件(因为某些上传失败的文件，进度值不为100，这个是可选的操作)
-				let files = this.$refs.uUpload.lists.filter(val => val.progress == 100);
-				this.headPicture = files
-				const value5 = uni.getStorageSync('user')
-				this.user.phone = value5.phone
-				try {
-				          const response = await fetch(this.action1, {
-				            method: 'POST',
-				            data: this.user
-				          });
-				          
-				          const result = await response.json();
-				console.log(result);
-				console.log(files)
-			}catch (error) {
-          console.error('Error:', error);
-        }},
+
+			     chooseImg() {
+			          const that = this;
+			          uni.navigateTo({
+			            url: "../../uni_modules/buuug7-img-cropper/pages/cropper",
+						
+			            events: {
+			              imgCropped(event) {
+			                // 监听裁剪完成
+			                // 返回的 event 中包含了已经裁剪好图片的base64编码字符串
+			                // 你可以使用 <image :src="imgDataUrl" mode="aspectFit"></image> 组件来展示裁剪后的图片
+			                // 或者你可以将该字符串通过接口上传给服务器用来保存
+			                console.log(event,'11');
+			                that.imgDataUrl = event.data;
+			                // do whatever you want
+			                // upload to server
+			              },
+			            },
+			          });
+			        },
+		    // 上传图片  
+		    uploadImage() {  
+				let that=this;
+		      const uploadUrl = 'http://192.168.50.101:8090/auth/uploadImage'; // 替换为你的上传接口  
+		      console.log(this.imgDataUrl);
+			  uni.uploadFile({  
+		        url: uploadUrl, // 仅为示例，非真实的接口地址  
+		        filePath: this.imgDataUrl,  
+		        name: 'image', // 根据你的后端接口要求修改  
+		        formData: {  
+		          'user': 'test' ,// 其他需要传递的参数  
+				  'studentId':this.studentId,
+		        },  
+		        success: (uploadRes) => {  
+		          // 返回值 res 为服务器返回的数据  
+		          console.log('uploadImage success:', uploadRes.data); 
+				   const value5 = uni.getStorageSync('user');
+				   value5.fileData=that.imgDataUrl;
+				   uni.setStorageSync('user',value5);
+		          // 这里可以根据返回的数据进行后续处理，如提示用户上传成功等 
+				    uni.request({
+				    	url:'http://192.168.50.101:8090/chat/uploadWithNull'
+				    })
+					uni.switchTab({
+				    	url: '/pages/frmv/myinfo'
+				    })
+		        },  
+		        fail: (err) => {  
+		          console.error('uploadImage fail:', err);  
+		          // 上传失败的处理  
+		        }  
+		      });  
+		    }  ,
 					
-			selectheadpic(index) {
-				const value5 = uni.getStorageSync('user')
-				console.log('点击后获取到了user信息为：',value5)
-				console.log('选择的是第',index,'张图片')
-				value5.headPicture=index
-				this.user.headPicture=index
-				uni.setStorageSync('user',value5)
-				uni.request({
-					url: 'http://192.168.50.101:8090/auth/updateheadpicture',
-					data: this.user,
-					method: "POST"
-				});
-				
-				uni.navigateBack()
+			selectheadpic(filepath) {
+				//console.log('选择的是第',index,'张图片');
+				this.imgDataUrl=filepath;
+				console.log(filepath);
+
 			}
 		},
 		onLoad() {
 			const value4=uni.getStorageSync('user');
-			console.log('获取到了user信息为：',value4)
-			this.user.phone=value4.phone;
+			console.log('获取到了user信息为：',value4);
+			this.studentId=value4.studentId;
+			this.imgDataUrl=value4.fileData;
+			//console.log('头像信息为：',this.imgDataUrl);
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	
+	.sticky-header {  
+	  //Color:#3c9cff;
+	  position: fixed;  
+	  top: 0;  
+	  left: 0;  
+	  right: 0;  
+	  z-index: 10; /* 确保吸顶区域位于其他内容之上 */  
+	  background-color: #a0cfff; /* 非透明背景色 */  
+	  display: flex;  
+	  align-items: center;  
+	  justify-content: space-between;  
+	  padding: 40rpx;  
+	  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 可选，添加阴影效果 */  
+	}
+	.content{
+		 padding: 25px;  
+	}
+	.comment1 {
+		display: flex;
+		padding: 10rpx;
+		.left1 {
+			//width: 64rpx;
+			left: 10;
+		}
+		.right1 {
+			flex: 1;
+			padding-left: 400rpx;
+			font-size: 20rpx;
+		}
+	}
+
 </style>

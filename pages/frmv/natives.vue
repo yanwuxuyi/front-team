@@ -58,6 +58,7 @@
 				// #endif
 				// #ifndef MP
 				slotRight: true,
+				// #endif
 				list: [{
 
 				}],
@@ -80,15 +81,15 @@
 		},
 		methods: {
 			click(index) {
-				this.list[index].show = false;
-				this.liked=this.list[index];
-				console.log(this.liked)
-				uni.request({
-					url:'http://192.168.1.163:8083/changeLikes',
-					data:this.liked,
-					method:'POST'
-				})
-				this.$u.toast(`点赞成功`);
+				// this.list[index].show = false;
+				// this.liked=this.list[index];
+				// console.log(this.liked)
+				// uni.request({
+				// 	url:'http://192.168.1.163:8083/changeLikes',
+				// 	data:this.liked,
+				// 	method:'POST'
+				// })
+				// this.$u.toast(`点赞成功`);
 			},
 			goIndex() {
 				console.log("fuck");

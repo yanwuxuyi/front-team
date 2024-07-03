@@ -1,4 +1,5 @@
 <template>
+	<view>
 	<view class="service-center">
 		<!-- 服务列表，每行四个 -->
 		<view class="service-list">
@@ -78,6 +79,7 @@
 			</view>
 		</view>
 	</view>
+
 	</view>
 </template>
 
