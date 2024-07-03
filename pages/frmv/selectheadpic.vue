@@ -114,7 +114,7 @@
 
 			}
 		},
-		onShow() {
+		onLoad() {
 			const value4=uni.getStorageSync('user');
 			console.log('获取到了user信息为：',value4);
 			this.studentId=value4.studentId;
