@@ -53,12 +53,28 @@ export default {
 		};
 	},
 	onLoad() {
+		this.webSocketTask = uni.connectSocket({
+			url: "ws://192.168.50.101:8090/ws/3",
+			header: {
+			    'content-type': 'application/json'
+			},
+			success(res) {
+				console.log('成功', res);
+				
+			},
+		})
 		const eventChannel = this.getOpenerEventChannel();
         eventChannel.on('acceptCommentData', (data) => {
             this.comment = data.data;
         });
 		console.log(this.comment);
 		this.getReply();
+	},
+	onShow() {
+	  uni.onSocketMessage(function (res) {
+	    console.log('收到服务器内容：' + res.data);
+	    this.getReply();
+	  }.bind(this)); // 使用 bind 绑定 this 上下文
 	},
 	methods: {
 		// 点赞
@@ -143,8 +159,8 @@ export default {
 					reply: item.replyList || []
 				}));
 				const value12 = uni.getStorageSync('user');
-				console.log(value12.id);
-				console.log(this.uid);
+				// console.log(value12.id);
+				// console.log(this.uid);
 				uni.request({
 					url:"http://192.168.50.101:8090/chat/getcommentfavor",
 					data:{
