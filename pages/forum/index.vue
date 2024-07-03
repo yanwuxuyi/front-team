@@ -79,12 +79,13 @@ export default {
 			},
 			success(res) {
 				console.log('成功', res);
+				
 			},
 		})
 		
 		let vm=this;
 		this.getComment();
-		console.log(this.showInputBox3);
+		//console.log(this.showInputBox3);
 		
 	},
 	onUnload(){
@@ -94,13 +95,14 @@ export default {
 					},
 				})
 			},
-
-	onShow(){
-			uni.onSocketMessage(function (res) {
-			  console.log('收到服务器内容：' + res.data);
-			});
 			
-			},
+onShow() {
+  uni.onSocketMessage(function (res) {
+    console.log('收到服务器内容：' + res.data);
+    this.getComment();
+  }.bind(this)); // 使用 bind 绑定 this 上下文
+},
+
 
 	methods: {
 		addforum() {
@@ -205,9 +207,15 @@ export default {
 		      switch(index) {
 		        case 0:
 		          // 跳转到首页
-		          uni.navigateTo({
-		            url: '/pages/forum/index'
-		          });
+		          uni.switchTab({
+                      url: '/pages/forun/index',
+                      success: function (res) {
+                       //console.log("跳转成功");
+                      },
+                      fail: function (err) {
+                        //console.error("跳转失败", err);
+                      }
+                    });
 		          break;
 		        case 1:
 		          // 跳转到论坛

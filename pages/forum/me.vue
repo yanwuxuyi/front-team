@@ -25,7 +25,7 @@
 			      switch(index) {
 			        case 0:
 			          // 跳转到首页
-uni.switchTab({
+					uni.switchTab({
                       url: '/pages/forum/index',
                       success: function (res) {
                        //console.log("跳转成功");
