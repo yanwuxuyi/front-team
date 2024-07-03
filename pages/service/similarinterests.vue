@@ -22,7 +22,7 @@
 				<u-swipe-action :show="false" :index="index" v-for="(item, index) in list" :key="item.id" @click="click"
 					:options="options" :disabled="disabled">
 					<view class="item u-border-bottom">
-						<image mode="aspectFill" :src="'../../static/images/headpic/'+item.headPicture+'.PNG'" />
+						<u-avatar :src="pic[item.id]" shape="circle" size=100></u-avatar>
 						<!-- 此层wrap在此为必写的，否则可能会出现标题定位错误 -->
 						<view class="title-wrap">
 							<text class="title u-line-2" style="font-size: large;">{{ item.name }}</text>
@@ -39,6 +39,8 @@
 		data() {
 			return {
 				show: false,
+				pic:[],
+				loaded:false,
 				// 顶部导航栏
 				title1: '找同好',
 				backText: '服务中心',
@@ -55,11 +57,7 @@
 				custom: true,
 				isFixed: true,
 				keyword: '',
-				// #ifdef MP
-				slotRight: false,
-				// #endif
-				// #ifndef MP
-				slotRight: true,
+
 				list: [{
 					
 				}],
@@ -96,7 +94,53 @@
 					method:'POST'
 				})
 				this.$u.toast(`点赞成功`);
-			}
+			},
+			getpic(userId) {
+			    return new Promise((resolve, reject) => {  
+					let vm=this;
+			        let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
+			        uni.request({  
+			            url: url,  
+			            method: 'GET',  
+			            responseType: 'arraybuffer',  
+			            success: (res) => {  
+			                if (res.statusCode === 200) {  
+			                    const base64 = uni.arrayBufferToBase64(res.data);  
+			                    const imageUrl = `data:image/png;base64,${base64}`; 
+								vm.pic[userId] = imageUrl; 
+								console.log('get:',userId);
+			                    // 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
+			                    // 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
+			                    resolve(imageUrl); // 解析Promise，传递图片URL  
+			                } else {  
+			                    reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
+			                }  
+			            },  
+			            fail: (err) => {  
+			                reject(err); // 网络错误或请求失败时拒绝Promise  
+			            }  
+			        });  
+			    });  
+			},
+			getallpic()
+			{ 	
+				let vm=this;
+				vm.loaded=false;
+				//console.log(vm.commentList);
+				console.log(vm.list.length,'头像');
+				 //    vm.commentList.forEach(comment => {  
+					// 		vm.getpic(comment.pid);
+					// })
+					let promises = vm.list.map(comment => {  
+					  return vm.getpic(comment.pid);  
+					});  
+					Promise.all(promises).then(() => {  
+					  console.log("所有图片都已加载完成");
+					  vm.loaded=true;
+					}).catch(error => {  
+					  console.error('加载图片时发生错误:', error);  
+					});
+			},
 
 		},
 		onShow() {
@@ -119,6 +163,7 @@
 					const person_list = result.data.result;
 					console.log('查到了person_list为：',person_list)
 					this.list = person_list;
+					this.getallpic();
 				}
 			});
 		}

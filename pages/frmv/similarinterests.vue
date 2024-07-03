@@ -22,7 +22,7 @@
 				<u-swipe-action :show="false" :index="index" v-for="(item, index) in list" :key="item.id" @click="click"
 					:options="options" :disabled="disabled">
 					<view class="item u-border-bottom">
-						<image mode="aspectFill" :src="'../../static/images/headpic/'+item.headPicture+'.PNG'" />
+						<view class="left"><u-avatar :src="pic[item.id]" shape="circle" size=90></u-avatar></view>
 						<!-- 此层wrap在此为必写的，否则可能会出现标题定位错误 -->
 						<view class="title-wrap">
 							<text class="title u-line-2" style="font-size: large;">{{ item.name }}</text>
@@ -39,6 +39,8 @@
 		data() {
 			return {
 				show: false,
+				loaded:false,
+				pic:[],
 				// 顶部导航栏
 				title1: '找同好',
 				backText: '首页',
@@ -145,6 +147,14 @@
 		font-size: 28rpx;
 		color: $u-content-color;
 		margin-top: 20rpx;
+	}
+	.left {
+		top:40rpx;
+	        width: 104rpx;
+	        height: 104rpx;
+	        border-radius: 50%;
+	        background-color: #f2f2f2;
+
 	}
 	.popup-container {
 	  background-color: #fff;

@@ -104,7 +104,7 @@ export default {
 			},
 			
 onShow() {
-			this.getComment();
+	this.getComment();
   uni.onSocketMessage(function (res) {
     console.log('收到服务器内容：' + res.data);
     //this.getComment();
