@@ -29,7 +29,7 @@
 			    </view>
 			    <view class="bottom">
 			      <view class="left">
-			        <view class="user-text">{{yonghu.nickname}}</view>
+					<view class="user-text">{{yonghu.nickname}}</view>  
 			        <view class="user-phone">点赞数：{{yonghu.likes}}</view>
 			      </view>
 			    </view>
@@ -203,6 +203,9 @@
 		},
 		onShow() {
 			const value5 = uni.getStorageSync('user');
+			console.log(value5);
+			if(value5.nickName)
+			this.yonghu.nickname=value5.nickName;
 			if(value5.id)
 			{
 				this.logined=true;

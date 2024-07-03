@@ -1,8 +1,6 @@
 
 <template>
 <view>
-
-
 		<view>
 			<u-navbar title-color="#fff" back-icon-color="#ffffff"
 				:is-fixed="isFixed" :is-back="isBack" 

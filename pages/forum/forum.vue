@@ -1,50 +1,54 @@
 <template>
     <view>
-        <u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
-        <view class="comment" v-for="(res, index) in commentList" :key="res.id">
-            <view class="left"><image :src="res.url" mode="aspectFill"></image></view>
-            <view class="right">
-                <view class="top">
-                    <view class="name">{{ res.name }}</view>
-                    <view class="like" :class="{ highlight: res.isLike }">
-                        <view class="num">{{ res.likeNum }}</view>
-                        <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
-                        <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
-                    </view>
-                </view>
-                <view class="content">{{ res.contentText }}</view>
-                <view class="reply-box">
-                    <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
-                        <view class="username">{{ item.name }}</view>
-                        <view class="text">{{ item.contentStr }}</view>
-                    </view>
-                    <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined">
-                        共{{ res.allReply }}条回复
-                        <u-icon class="more" name="arrow-right" :size="26"></u-icon>
-                    </view>
-                </view>
-                <view class="bottom">
-                    {{ res.date }}
-                    <view class="reply" @tap="showReplyInput(res)">回复</view>
-                </view>
-            </view></view>
-			<view v-if="showInputBox" class="input-box">
-			            <textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
-			            <button @tap="submitReply(res)">提交</button>
-			            <button @tap="cancelReply">取消</button>
-			        </view>
-        
-		<view v-if="showInputBox2" class="input-box">
-			            <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
-			            <button @tap="submitReply2(res)">提交</button>
-			            <button @tap="cancelReply">取消</button>
-			        
+		<view v-if="this.loaded==false">
+			正在加载
 		</view>
-		    
-		<view v-if="showInputBox3" @click="addforum" class="floating-icon">
-			<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+		<view v-else>
+			<u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
+			<view class="comment" v-for="(res, index) in commentList" :key="res.id">
+				<view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
+				<view class="right">
+					<view class="top">
+						<view class="name">{{ res.name }}</view>
+						<view class="like" :class="{ highlight: res.isLike }">
+							<view class="num">{{ res.likeNum }}</view>
+							<u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
+							<u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
+						</view>
+					</view>
+					<view class="content">{{ res.contentText }}</view>
+					<view class="reply-box">
+						<view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
+							<view class="username">{{ item.name }}</view>
+							<view class="text">{{ item.contentStr }}</view>
+						</view>
+						<view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined">
+							共{{ res.allReply }}条回复
+							<u-icon class="more" name="arrow-right" :size="26"></u-icon>
+						</view>
+					</view>
+					<view class="bottom">
+						{{ res.date }}
+						<view class="reply" @tap="showReplyInput(res)">回复</view>
+					</view>
+				</view></view>
+				<view v-if="showInputBox" class="input-box">
+							<textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
+							<button @tap="submitReply(res)">提交</button>
+							<button @tap="cancelReply">取消</button>
+						</view>
+			
+			<view v-if="showInputBox2" class="input-box">
+							<textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
+							<button @tap="submitReply2(res)">提交</button>
+							<button @tap="cancelReply">取消</button>
+						
+			</view>
+				
+			<view v-if="showInputBox3" @click="addforum" class="floating-icon">
+				<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+			</view>
 		</view>
-
 	</view>
 </template>
 
@@ -53,13 +57,14 @@
 export default {
 	data() {
 		return {
-			
+			loaded:false,
 			showInputBox:false,
 			showInputBox2:false,
 			showInputBox3:true,
 			replyContent2:'',
 			currentComment:[],
 			commentList: [],
+			pic:[],
 			list: [{
 								name: '帖子'
 							}, {
@@ -108,6 +113,68 @@ onShow() {
 		addforum() {
 			this.showInputBox2 = true;
 			this.showInputBox3 = false;
+		},
+		//根据所有当前评论者获取头像
+		getallpic()
+		{ 	
+			let vm=this;
+			vm.loaded=false;
+			//console.log(vm.commentList);
+			console.log(vm.commentList.length,'头像');
+			 //    vm.commentList.forEach(comment => {  
+				// 		vm.getpic(comment.pid);
+				// })
+				let promises = vm.commentList.map(comment => {  
+				  return vm.getpic(comment.pid);  
+				});  
+				Promise.all(promises).then(() => {  
+				  console.log("所有图片都已加载完成");
+				  vm.loaded=true;
+				}).catch(error => {  
+				  console.error('加载图片时发生错误:', error);  
+				  
+				});
+		},
+		
+		getpic(userId) {
+		    return new Promise((resolve, reject) => {  
+				let vm=this;
+		        let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
+		        uni.request({  
+		            url: url,  
+		            method: 'GET',  
+		            responseType: 'arraybuffer',  
+		            success: (res) => {  
+		                if (res.statusCode === 200) {  
+		                    const base64 = uni.arrayBufferToBase64(res.data);  
+		                    const imageUrl = `data:image/png;base64,${base64}`; 
+							vm.pic[userId] = imageUrl; 
+							console.log('get:',userId);
+		                    // 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
+		                    // 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
+		                    resolve(imageUrl); // 解析Promise，传递图片URL  
+		                } else {  
+		                    
+							//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
+		                }  
+		            },  
+		            fail: (err) => {  
+		                reject(err); // 网络错误或请求失败时拒绝Promise  
+		            }  
+		        });  
+		    });  
+		},
+		
+		
+		showToast() {
+			this.$refs.uToast.show({
+				title: this.title,
+				position: this.position,
+				type: 'error',
+				icon: this.icon,
+				url: this.url,
+				duration: this.duration,
+			});
 		},
 		
 		// 显示回复输入框
@@ -291,6 +358,7 @@ onShow() {
 				const data = res.data;
 				this.commentList = data.map(item => ({
 					id: item.uid,
+					pid:item.id,
 					name: item.nickname,
 					date: item.createTime,
 					contentText: item.message,
@@ -300,7 +368,7 @@ onShow() {
 					isLike: false,
 					replyList:[]
 				}));
-
+				this.getallpic();
 				 try {
 					  uni.setStorageSync('commentList', this.commentList);
 					  console.log(this.commentList);

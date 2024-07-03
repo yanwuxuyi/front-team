@@ -140,7 +140,7 @@
 	  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 可选，添加阴影效果 */  
 	}
 	.content{
-		 padding: 25px;  
+		 padding: 50px;  
 	}
 	.comment1 {
 		display: flex;

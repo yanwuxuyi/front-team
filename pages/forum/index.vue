@@ -4,7 +4,7 @@
 		<view v-if="this.loaded==false">
 			正在加载
 		</view>
-<view v-else>
+		<view v-else>
 		    <u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
 		    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
 		        <view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
@@ -23,7 +23,7 @@
 		                    <view class="username">{{ item.name }}</view>
 		                    <view class="text">{{ item.contentStr }}</view>
 		                </view>
-		                <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined">
+		                <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined&&res.allReply!=0">
 		                    共{{ res.allReply }}条回复
 		                    <u-icon class="more" name="arrow-right" :size="26"></u-icon>
 		                </view>
@@ -112,18 +112,7 @@ onShow() {
 },
 
 
-	methods: {
-		
-		loadData() {  
-		      // 模拟数据加载  
-		      return new Promise((resolve) => {  
-		        setTimeout(() => {  
-					console.log('数据加载完成');  
-		          resolve();  
-		        }, 1000);  
-		      });  
-		    },  
-			
+	methods: {	
 		addforum() {
 			this.showInputBox2 = true;
 			this.showInputBox3 = false;
