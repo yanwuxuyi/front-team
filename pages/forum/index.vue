@@ -4,7 +4,7 @@
 		<view v-if="this.loaded==false">
 			正在加载
 		</view>
-		<view v-else>
+<view v-else>
 		    <u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
 		    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
 		        <view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
@@ -148,6 +148,7 @@ onShow() {
 				  vm.loaded=true;
 				}).catch(error => {  
 				  console.error('加载图片时发生错误:', error);  
+				  
 				});
 		},
 		//根据id获得头像
@@ -195,7 +196,8 @@ onShow() {
 		                    // 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
 		                    resolve(imageUrl); // 解析Promise，传递图片URL  
 		                } else {  
-		                    reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
+		                    
+							//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
 		                }  
 		            },  
 		            fail: (err) => {  
