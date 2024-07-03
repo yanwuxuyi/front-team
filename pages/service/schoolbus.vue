@@ -1,13 +1,16 @@
 <template>
 	<view>
 		<view>
-			<u-tabs :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
+			<u-tabs :list="list" :is-scroll="false" :current="current" @change="change"></u-tabs>
 		</view>
-		<view>
-			<u-image width="100%" height="1100rpx" src="/static/service/schoolbus/schoolbus1.jpg"></u-image>
-		</view>
-	</view>
+			<view v-if="current">
+				<u-image width="100%" height="1100rpx" src="/static/service/schoolbus/schoolbus2.jpg"></u-image>
+			</view>
+			<view v-else>
+				<u-image width="100%" height="1100rpx" src="/static/service/schoolbus/schoolbus1.jpg"></u-image>
+			</view>
 
+	</view>
 </template>
 
 <script>
@@ -30,15 +33,9 @@
 				switch (index) {
 					case 0:
 						// 跳转到去老校区
-						uni.navigateTo({
-							url: '/pages/service/schoolbus'
-						});
-						break;
+						index = 1;
 					case 1:
-						// 跳转到去新校区
-						uni.navigateTo({
-							url: '/pages/service/schoolbus2'
-						});
+						index = 0;
 						break;
 					default:
 						// 默认操作

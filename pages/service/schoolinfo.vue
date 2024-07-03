@@ -1,10 +1,17 @@
 <template>
 	<view>
 		<view>
-			<u-tabs :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
+			<u-tabs :list="list" :is-scroll="false" :current="current" @change="change"></u-tabs>
+		</view>
+		<view v-if="current">
+			校训
+			<image src="https://www.cqu.edu.cn/images/d-arrow-next1.png"></image>
+			<image src="https://www.cqu.edu.cn/images/d-bg2.jpg"></image>
+		</view>
+		<view v-else>
+			学校简介
 		</view>
 	</view>
-
 </template>
 
 <script>
@@ -27,15 +34,10 @@
 				switch (index) {
 					case 0:
 						// 跳转校训
-						uni.navigateTo({
-							url: '/pages/service/schoolinfo'
-						});
+						index=1;
 						break;
 					case 1:
-						// 跳转
-						uni.navigateTo({
-							url: '/pages/service/schoolinfoxiaoxun'
-						});
+						index=0;
 						break;
 					default:
 						// 默认操作

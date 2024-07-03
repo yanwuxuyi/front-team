@@ -3,7 +3,7 @@
 		<u-form :model="user" ref="uForm">
 			<u-input v-show="false"  v-model="user.id" type="text"></u-input>
 			<u-form-item label-width="140" label-position="left" label="昵称" prop="nickname">
-				<u-input :border="border" placeholder="请输入昵称" v-model="user.nickname" type="text"></u-input>
+				<u-input :border="border" placeholder="请输入昵称" v-model="user.nickName" type="text"></u-input>
 			</u-form-item>
 			<u-form-item label-width="140" label-position="left" label="电话" prop="phone">
 				<u-input :password-icon="true" :border="border" type="text" v-model="user.phone"
@@ -20,10 +20,21 @@
 		data() {
 			return {
 				border: true,
-				user: { "nickname":"",
-				"Phone":"",
-				"oldPhone":"",
-				"password":""} 
+				user: { 
+				 "birthday": "",
+				  "city": "",
+				  "country": "",
+				  "dormitory": "",
+				  "education": "",
+				  "gender": "",
+				  "interests": "",
+				  "name": "",
+				  "nickName": "",
+				  "phone": "",
+				  "political": "",
+				  "province": "",
+				  "studentID": ""
+				} 
 			}
 		},
 		
@@ -39,7 +50,7 @@
 		methods: {
 			submit() {
 								uni.request({
-								    url: 'http://192.168.1.163:8083/change',  
+								    url: 'http://192.168.50.101:8090/auth/update',  
 								    data: this.user,
 									method:"POST",
 								    success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中

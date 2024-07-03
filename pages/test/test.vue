@@ -75,7 +75,7 @@
 			        },
 		    // 上传图片  
 		    uploadImage() {  
-				let that=this;
+				
 		      const uploadUrl = 'http://192.168.50.101:8090/auth/uploadImage'; // 替换为你的上传接口  
 		      console.log(this.imgDataUrl);
 			  uni.uploadFile({  
@@ -88,12 +88,8 @@
 		        },  
 		        success: (uploadRes) => {  
 		          // 返回值 res 为服务器返回的数据  
-		          console.log('uploadImage success:', uploadRes.data); 
-				   const value5 = uni.getStorageSync('user');
-				   value5.fileData=that.imgDataUrl;
-				   uni.setStorageSync('user',value5);
-		          // 这里可以根据返回的数据进行后续处理，如提示用户上传成功等 
-				    uni.navigateBack();
+		          console.log('uploadImage success:', uploadRes.data);  
+		          // 这里可以根据返回的数据进行后续处理，如提示用户上传成功等  
 		        },  
 		        fail: (err) => {  
 		          console.error('uploadImage fail:', err);  
@@ -109,12 +105,11 @@
 
 			}
 		},
-		onShow() {
+		onLoad() {
 			const value4=uni.getStorageSync('user');
 			console.log('获取到了user信息为：',value4);
-			this.studentId=value4.studentId;
+			this.user.studentId=value4.studentId;
 			this.imgDataUrl=value4.fileData;
-			console.log('头像信息为：',this.imgDataUrl);
 		}
 	}
 </script>
@@ -152,3 +147,4 @@
 	}
 
 </style>
+

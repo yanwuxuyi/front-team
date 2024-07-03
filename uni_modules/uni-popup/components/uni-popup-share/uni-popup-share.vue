@@ -3,15 +3,15 @@
 		<view class="uni-share-title"><text class="uni-share-title-text">{{shareTitleText}}</text></view>
 		<view class="uni-share-content">
 			<view class="uni-share-content-box">
-				<view class="uni-share-content-item" v-for="(item,index) in bottomData" @click='click(index)':key="index">
+				<view class="uni-share-content-item" v-for="(item,index) in bottomData" :key="index" @click.stop="select(item,index)">
 					<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
 					<text class="uni-share-text">{{item.text}}</text>
 				</view>
 
 			</view>
 		</view>
-		<view class="uni-share-button-box" >
-			<button class="uni-share-button" v-show="false" @click="close">{{cancelText}}</button>
+		<view class="uni-share-button-box">
+			<button class="uni-share-button" @click="close">{{cancelText}}</button>
 		</view>
 	</view>
 </template>
@@ -40,25 +40,25 @@
 		data() {
 			return {
 				bottomData: [{
-						text: '找老乡',
-						icon: 'https://i.postimg.cc/QNPHCF3L/image.png',
+						text: '微信',
+						icon: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/c2b17470-50be-11eb-b680-7980c8a877b8.png',
 						name: 'wx'
 					},
 					{
-						text: '找同好',
-						icon: 'https://i.postimg.cc/BnjpDL8x/image.png',
-						name: 'interests'
+						text: '支付宝',
+						icon: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/d684ae40-50be-11eb-8ff1-d5dcf8779628.png',
+						name: 'ali'
 					},
 					{
-						text: '校园地图',
-						icon: 'https://i.postimg.cc/bJPNknvr/image.png',
+						text: 'QQ',
+						icon: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/e7a79520-50be-11eb-b997-9918a5dda011.png',
 						name: 'qq'
 					},
-					// {
-					// 	text: '新浪',
-					// 	icon: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/0dacdbe0-50bf-11eb-8ff1-d5dcf8779628.png',
-					// 	name: 'sina'
-					// },
+					{
+						text: '新浪',
+						icon: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/0dacdbe0-50bf-11eb-8ff1-d5dcf8779628.png',
+						name: 'sina'
+					},
 					// {
 					// 	text: '百度',
 					// 	icon: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/1ec6e920-50bf-11eb-8a36-ebb87efcf8c0.png',
@@ -75,7 +75,7 @@
 		created() {},
 		computed: {
 			cancelText() {
-				return "返回"
+				return t("uni-popup.cancel")
 			},
 		shareTitleText() {
 				return this.title || t("uni-popup.shareTitle")
@@ -93,23 +93,6 @@
 				this.close()
 
 			},
-			click(index){
-				if(index==0){
-					uni.navigateTo({
-						url:'../../../../../pages/frmv/natives'
-					})
-				}
-				else if(index==1){
-					uni.navigateTo({
-						url:'../../../../../pages/frmv/similarinterests'
-					})
-				}
-				else{
-					uni.navigateTo({
-						url:'../../../../../pages/frmv/map'
-					})
-				}
-				},
 			/**
 			 * 关闭窗口
 			 */
@@ -122,7 +105,9 @@
 </script>
 <style lang="scss" >
 	.uni-popup-share {
-		background-color: #68a0ba;
+		background-color: #fff;
+		border-top-left-radius: 11px;
+		border-top-right-radius: 11px;
 	}
 	.uni-share-title {
 		/* #ifndef APP-NVUE */
@@ -131,11 +116,11 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		height: 70px;
+		height: 40px;
 	}
 	.uni-share-title-text {
-		font-size: 18px;
-		color: #ffff7f;
+		font-size: 14px;
+		color: #666;
 	}
 	.uni-share-content {
 		/* #ifndef APP-NVUE */
@@ -156,7 +141,7 @@
 	}
 
 	.uni-share-content-item {
-		width: 120px;
+		width: 90px;
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
@@ -171,14 +156,14 @@
 	}
 
 	.uni-share-image {
-		width: 95rpx;
-		height: 95rpx;
+		width: 30px;
+		height: 30px;
 	}
 
 	.uni-share-text {
 		margin-top: 10px;
-		font-size: 16px;
-		color: #ffff7f;
+		font-size: 14px;
+		color: #3B4144;
 	}
 
 	.uni-share-button-box {
@@ -192,8 +177,7 @@
 	.uni-share-button {
 		flex: 1;
 		border-radius: 50px;
-		color: #ffff7f;
-		background-color: #3d307f;
+		color: #666;
 		font-size: 16px;
 	}
 
