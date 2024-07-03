@@ -65,6 +65,26 @@ export default {
 		getLike(index) {
 			if (index === 0 || index > 0) {
 				this.commentList[index].isLike = !this.commentList[index].isLike;
+				console.log(this.commentList);
+				uni.request({
+					url:"http://192.168.50.101:8090/chat/commentfavor",
+					data:{
+						ifFavor:this.commentList[index].isLike,
+						uid:this.commentList[index].uid,
+						cid:this.commentList[index].cid
+					},
+					method:'POST',
+					success: (res) => {
+					    console.log(res);
+					    if (res.statusCode === 200) {
+					        // 成功后的处理逻辑
+							
+					    }
+					},
+					fail: (err) => {
+					    console.log(err);
+					}
+				})
 				if (this.commentList[index].isLike == true) {
 					this.commentList[index].likeNum++;
 				} else {
@@ -108,7 +128,9 @@ export default {
 				const data = res.data;
 				console.log(data);
 				this.commentList = data.map(item => ({
-					
+					uid: item.uid,
+					rid: item.rid,
+					cid: item.cid,
 					name: item.nickname,
 					date: item.createTime,
 					contentText: item.comment,
