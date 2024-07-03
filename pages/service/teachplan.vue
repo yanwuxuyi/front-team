@@ -1,87 +1,126 @@
 <template>
-	<view>
-		<image style="width: 430px; height: 350px; background-color: #eeeeee;" :src="picsrc">
-        <view class="teachplan-header">
-        	<text>培养方案查询入口</text>
+  <view class="page">
+    <view v-if="loading" class="loading">加载中...</view>
+    <view v-else>
+      <view class="section">
+        <text class="section-title">基本信息</text>
+        <view class="info-item">
+          <text class="label">培养方案名称：</text>
+          <text class="value">{{ program.programBaseInfo.programName }}</text>
         </view>
-		<u-form :model="user"   ref="uForm"  > 
-			<u-form-item   left-icon="account" label-width="120" label="学号" prop="studentId">
-				<u-input  placeholder="请输入学号" v-model="user.studentId" type="text"></u-input>
-			</u-form-item> 
-		</u-form> 
-		<u-button @click="submit" shape="circle">提交</u-button>
-		</view>
+        <view class="info-item">
+          <text class="label">培养方案代码：</text>
+          <text class="value">{{ program.programBaseInfo.programId }}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">年级：</text>
+          <text class="value">{{ program.programBaseInfo.grade }}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">专业名称：</text>
+          <text class="value">{{ program.programBaseInfo.majorName }}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">培养方案类别：</text>
+          <text class="value">{{ program.programBaseInfo.programType }}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">大类概述</text>
+          <text class="value">{{ program.programBaseInfo.mainCategoryOverView }}</text>
+        </view>
+       <view class="info-item">
+          <text class="label">专业概述:</text>
+          <text class="value">{{program.programBaseInfo.majorOverview }}</text>
+        </view>
+      </view>
+      
+      <view class="section">
+        <text class="section-title">专业培养目标及毕业要求</text>
+        <view class="info-item">
+          <text class="label">培养目标</text>
+          <text class="value">{{program.programBaseInfo.trainObjectives}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">毕业要求</text>
+          <text class="value">{{program.programBaseInfo.graduationRequireReachExtent}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				isClicked:false,
-				picsrc:'../../static/images/cqulogo.png',
-				user: {
-					'studentId': '',
-				},
-				rules: {
-				studentId: [
-				  { required: true, message: '请输入学号', trigger: 'blur' }
-				]
-				}
-			}
-		},	
-		onReady() {
-		            this.$refs.uForm.setRules(this.rules);
-		        },
-				methods: {
-							submit(){				 
-								uni.request({
-								    url: 'http://192.168.50.101:8090/major/getCourseByName',  
-								    data: this.user,
-									method:"GET",
-								    success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-									console.log(res);
-								       if(res.data.status){//成功查询
-										    try {
-										    	uni.setStorageSync('user', res.data.result); //将用户对象本地存储 
-												uni.navigateBack() //登录成功返回 我的个人信息页面  
-												console.log('登录成功，状态码为：',res.data.code)
-												console.log('登录成功，储存的user值为：',res.data.result)
-										    } catch (e) {
-										    	this.$u.toast('身份信息格式异常') 
-										    } 							
-									   }else{
-										   this.$u.toast('登录失败，用户名密码错误')  //提示框
-									   }
-								    }
-								}); 				 
-							}
-						}
-	}
+export default {
+  data() {
+    return {
+      loading: true,
+      program: null
+    };
+  },
+  onLoad() {
+    // 获取学生ID
+    const value = uni.getStorageSync('user');
+    const studentId = value.studentId;
+
+    // 根据学生ID请求后端数据
+    uni.request({
+      url: 'http://192.168.50.101:8090/major/getCourseByName', 
+      method: 'GET',
+      data: {
+        studentid: studentId
+      },
+      success: (res) => {
+        if (res.data.status === true) {
+          // 解析后端返回的数据
+          this.program = JSON.parse(res.data.result);
+          console.log('培养方案数据:', this.program);
+        } else {
+          console.error('请求失败:', res);
+        }
+      },
+      fail: (err) => {
+        console.error('请求失败:', err);
+      },
+      complete: () => {
+        this.loading = false; // 请求完成，隐藏加载提示
+      }
+    });
+  }
+};
 </script>
 
 <style>
-.u-demo-area{
-	cursor: pointer;
+.page {
+  padding: 20rpx; /* 页面边距，适配不同设备 */
 }
 
-.teachplan-header text {
-	font-size: 18px;
-	/* 示例字体大小 */
-	font-weight: bold;
-	/* 可选，加粗标题 */
+.loading {
+  margin-top: 20rpx;
+  text-align: center;
 }
 
-.teachplan-header {
-	width: 100%;
-	/* 确保标题占据整行 */
-	text-align: center;
-	/* 可选，根据设计需求调整 */
-	margin-bottom: 10px;
-	/* 与下面的功能模块保持一定的间距 */
+.section {
+  margin-bottom: 20rpx;
 }
 
-.clicked {
-  color: blue;
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10rpx;
   text-decoration: underline;
+}
+
+.info-item {
+  display: flex;
+  margin-bottom: 10rpx;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.value {
+  margin-left: 25rpx;
+  margin-right: 15rpx;
 }
 </style>

@@ -262,7 +262,14 @@
 			"path" : "pages/service/schoolinfoxiaoxun",
 			"style" : 
 			{
-				"navigationBarTitleText" : "校训"
+				"navigationBarTitleText" : "校训校风学风"
+			}
+		},
+		{
+			"path" : "pages/service/schoolinfophone",
+			"style" : 
+			{
+				"navigationBarTitleText" : "各部门电话"
 			}
 		}
     ],
