@@ -2,7 +2,7 @@
     <view>
         <u-tabs :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
         <view class="comment" v-for="(res, index) in commentList" :key="res.id">
-            <view class="left"><image :src="res.url" mode="aspectFill"></image></view>
+            <view class="left"><u-avatar :v-if="loaded==true" :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
             <view class="right">
                 <view class="top">
                     <view class="name">{{ res.name }}</view>
@@ -53,13 +53,14 @@
 export default {
 	data() {
 		return {
-			
+			loaded:false,
 			showInputBox:false,
 			showInputBox2:false,
 			showInputBox3:true,
 			replyContent2:'',
 			currentComment:[],
 			commentList: [],
+			pic:{},
 			list: [{
 								name: '帖子'
 							}, {
@@ -68,7 +69,7 @@ export default {
 								name: '我的',
 								count: 5
 							}],
-							current: 0
+			current: 0
 		};
 	},
 	onLoad() {
@@ -81,11 +82,11 @@ export default {
 				console.log('成功', res);
 			},
 		})
-		
 		let vm=this;
+
 		this.getComment();
+		vm.loaded=true;
 		console.log(this.showInputBox3);
-		
 	},
 	onUnload(){
 				uni.closeSocket({
@@ -96,16 +97,59 @@ export default {
 			},
 
 	onShow(){
+			let vm=this;
 			uni.onSocketMessage(function (res) {
 			  console.log('收到服务器内容：' + res.data);
+			  //vm.getallpic();
 			});
-			
 			},
 
 	methods: {
 		addforum() {
 			this.showInputBox2 = true;
 			this.showInputBox3 = false;
+		},
+		
+		//根据所有当前评论者获取头像
+		getallpic()
+		{ 	
+			let vm=this;
+			vm.loaded=false;
+			//console.log(vm.commentList);
+			console.log(vm.commentList.length,'头像');
+			    vm.commentList.forEach(comment => {  
+						vm.getpic(comment.pid);
+				})
+			vm.loaded=true;
+		},
+		//根据id获得头像
+		getpic(userId)
+		{
+			let vm=this;
+			let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;
+			uni.request({  
+				url: url,  
+				method: 'GET',  
+				responseType: 'arraybuffer',  
+				success: (res) => {  
+					// 注意：uni.request的success回调中的res是一个包含data、statusCode等属性的对象  
+					if (res.statusCode === 200) {  
+						const base64 = uni.arrayBufferToBase64(res.data);  
+						// 创建一个数据URL  
+						vm.pic[userId] = `data:image/png;base64,${base64}`; // 注意：这里假设图片是PNG格式，根据实际情况可能需要调整  
+						console.log('get:',userId);
+						// 现在你可以在模板中使用this.imageUrl来显示图片了  
+					} else {  
+						console.log(res);
+						uni.showToast({ title: '服务器返回错误状态码', icon: 'none' });  
+					}  
+				},  
+				fail: (err) => {  
+					// 处理请求失败的情况  
+					console.error("请求失败:", err);  
+					uni.showToast({ title: '网络错误或服务器未响应', icon: 'none' });  
+				}  
+			});
 		},
 		
 		// 显示回复输入框
@@ -284,6 +328,7 @@ export default {
 				const data = res.data;
 				this.commentList = data.map(item => ({
 					id: item.uid,
+					pid:item.id,
 					name: item.nickname,
 					date: item.createTime,
 					contentText: item.message,
@@ -293,7 +338,6 @@ export default {
 					isLike: false,
 					replyList:[]
 				}));
-
 				 try {
 					  uni.setStorageSync('commentList', this.commentList);
 					  console.log(this.commentList);
@@ -324,15 +368,26 @@ export default {
 							}
 						}
 						})
+						console.log(this.commentList,'1');
+						this.getallpic();
 				 }
 				 else{
 				this.$u.toast('帖子信息获取失败')  //提示框
 				 }
 				 }
 			})
-			
 
-		}
+		},
+		showToast() {
+			this.$refs.uToast.show({
+				title: this.title,
+				position: this.position,
+				type: 'error',
+				icon: this.icon,
+				url: this.url,
+				duration: this.duration,
+			});
+		},
 	}
 };
 </script>
