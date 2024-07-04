@@ -2,6 +2,13 @@
 <template>
 	<view>
 		<u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
+		<u-navbar title-color="#fff" back-icon-color="#ffffff"
+			:is-fixed="isFixed" :is-back="isBack" 
+			:background="background" 
+			:back-text-style="{color: '#fff'}" :title="title1" 
+			:back-icon-name="backIconName" :back-text="backText">
+			</u-navbar>
+			
 		<view v-if="account">
 			<view v-if="this.loaded==false">
 				<view class="holecontainer">
@@ -83,6 +90,9 @@ export default {
 			replyContent2:'',
 			currentComment:[],
 			commentList: [],
+			background: {
+				'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(140, 189, 198))'
+			},
 			pic:[],
 			list: [{
 								name: '帖子'
