@@ -11,6 +11,7 @@
 					       <div v-if="msg.role === 'user'" class="message user">
 					      <span>{{ msg.content }}</span> 
 					         <img src="../../static/icon/user-avatar.png" alt="User Avatar" class="avatar user-avatar">
+							
 					       </div>
 							<!-- 助手消息部分 -->
 					       <div v-if="msg.role === 'assistant'" class="message assistant">
@@ -26,6 +27,8 @@
 							<div class="left-icon"></div>
 							<!-- 输入框 -->
 					     <input v-model="TEXT" class="input" placeholder="请输入你的问题..." />
+						
+						  
 						  </div>
 					     <button @click="sendToSpark" class="send-button">发送</button>
 					   </div>
@@ -45,19 +48,19 @@
   import URL from 'url';
 
   export default {
-    data() {
-      return {
-        TEXT: '',
-        httpUrl: "https://spark-api.xf-yun.com/v3.5/chat",
-        modelDomain: 'generalv3.5',
-        APPID: 'a765f476',
-        APISecret: 'OTFkNTExNTFiYTIxM2E1Zjk4YWM5ZmU3',
-        APIKey: '458947a944ca96e4c8f340585b3aafd7',
-        sparkResult: '',
-        historyTextList: [],
-        tempRes: ''
-      }
-    },
+     data() {
+        return {
+          TEXT: '',
+          httpUrl: "https://spark-api.xf-yun.com/v3.5/chat",
+          modelDomain: 'generalv3.5',
+          APPID: '8b3366b0',
+          APISecret: 'NjI1ZWQ1ZGFkMWNlMDY5OGYwOThjNGJk',
+          APIKey: 'd2af4d921d6b7199655230ea1d83562f',
+          sparkResult: '',
+          historyTextList: [],
+          tempRes: ''
+        }
+      },
     methods: {
       async sendToSpark() {
         let myUrl = await this.getWebSocketUrl();
@@ -217,12 +220,12 @@
 .messages {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 10px; 
 }
 
 .message {
   display: flex;
-  align-items: center;
+  align-items:  center ;
   max-width: 70%;
   padding: 10px;
   border-radius: 10px;
@@ -244,85 +247,101 @@
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
+  margin-right:8px;
 }
 
 .user-avatar {
   margin-left: 10px; /* 用户头像居右，内容在左 */
+  border-radius:50%;
 }
 
 .assistant-avatar {
   margin-right: 10px; /* 助手头像居左，内容在右 */
+  border-radius:50%;
 }
 
-.input-area {
-  display: flex;
-  padding: 10px;
-  border-top: 1px solid #ccc;
-  background-color: #fff;
-}
+ .input-area {
+   display: flex;
+   padding: 10px;
+   border-top: 1px solid #ccc;
+   background-color: #fff;
+ }
 
-/* .input { 
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
+  .send-button {
+    padding: 10px 20px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height:40px;
+    width:80px;
+    font-size:14px;
+      line-height: 20px; /* 设置行高等于按钮的高度 */
+      margin-left:auto;
+      position:absolute;
+      top:50%;
+      right:5%/* 5% */;
+      transform:translateY(840%);
   }
- */
-
-.send-button {
-  padding: 10px 20px;
-  background-color: blue;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  height:40px;
-  width:80px;
-  font-size:14px;
-    line-height: 20px; /* 设置行高等于按钮的高度 */
-}
-
-.input-wrapper{
-	position: relative;
-	display:inline-block;
-}
-
-.left-icon{
-	position:absolute;
-	
-	/* 调整图标与左边框的距离 */
-	left:10px;
-	/* 调整卡通图片与顶部的距离，可以根据需要调整百分比值 */
-	top:50%;
-	transform:translateY(-50%);
-	/* 根据需要调整图标宽度 */
-	width:30px;
-	/* 根据需要调整图标高度*/
-	height:30px;
-	background-image:url('/static/icon/shurukuang.png');
-	background-size: cover;
-	
-}
-.input{
-	/* 图标宽度＋左边距离 */
-	padding-left: 42px;
-	/* 根据需要调整输入框宽度 */
-	width:300px;
-	/* 根据需要调整输入框高度 */
-	height:40px;
-	/* 根据需要调整字体大小 */
-	font-size:16px;
-	/* 输入框边框样式 */
-	border:1px solid #ccc;
-	/* 输入框圆角 */
-	border-radius:4px;
-	/* 计算元素的总宽度和高度时包括边框和内边距 */
-	box-sizing:border-box;
-}
-
-
-</style>
+  
+  .input-wrapper{
+      position: relative;
+      display:inline-block ;
+      /* align-items:center; */
+      width:100%;
+      max-width:600px;
+      overflow:hidden;
+  }
+  
+  .left-icon{
+      position:absolute;
+      
+      /* 调整图标与左边框的距离 */
+      left:10px;
+      /* 调整卡通图片与顶部的距离，可以根据需要调整百分比值 */
+      top:50%;
+      transform:translateY(-50%);
+      /* 根据需要调整图标宽度 */
+      width:30px;
+      /* 根据需要调整图标高度*/
+      height:30px;
+      background-image:url('../../static/icon/shurukuang.png');
+      background-size: cover;
+      
+  }
+  .input{
+      /* 图标宽度＋左边距离 */
+      padding-left: 42px;
+      /* 根据需要调整输入框宽度300px */
+      width:500c%;
+      /* 根据需要调整输入框高度 */
+      height:40px;
+      /* 根据需要调整字体大小 */
+      font-size:16px;
+      /* 输入框边框样式 */
+      border:1px solid #ccc;
+      /* 输入框圆角 */
+      border-radius:4px;
+      /* 计算元素的总宽度和高度时包括边框和内边距 */
+      box-sizing:border-box;
+      position:relative;
+      top:0;
+      right:0;
+  }
+  
+  @media screen and (max-width:600px){
+      .send-button{
+          position:static;
+          top:auto;
+          bottom:10px;
+          left:50%;
+          transform:translateX(-50%);
+      }
+      
+  }
+  
+  </style>
