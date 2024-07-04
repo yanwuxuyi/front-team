@@ -1,43 +1,77 @@
 <template>
-  <view>
+    <view>
+        <u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
 
+        <!-- 搜索框 -->
+        <view class="search-box">
+            <input type="text" v-model="searchQuery" placeholder="请输入搜索内容" @input="onSearchInput" />
+            <button @click="onSearch">搜索</button>
+        </view>
 
-    <u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
-    <!-- 搜索框 -->
-    <view class="search-box">
-      <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." @input="onSearchInput" />
-      <button @click="onSearch">搜索</button>
+        <view v-if="account">
+            <view v-if="this.loaded == false">
+                <view class="holecontainer">
+                    <u-loading mode="circle" color="#df1215" size="80"></u-loading>
+                </view>
+            </view>
+
+            <view v-else>
+                <view class="comment" v-for="(res, index) in commentList" :key="res.id">
+                    <view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
+                    <view class="right">
+                        <view class="top">
+                            <view class="name">{{ res.name }}</view>
+                            <view class="like" :class="{ highlight: res.isLike }">
+                                <view class="num">{{ res.likeNum }}</view>
+                                <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
+                                <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
+                            </view>
+                        </view>
+                        <view class="content">{{ res.contentText }}</view>
+                        <view class="reply-box">
+                            <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
+                                <view class="username">{{ item.name }}</view>
+                                <view class="text">{{ item.contentStr }}</view>
+                            </view>
+                            <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined && res.allReply != 0">
+                                共{{ res.allReply }}条回复
+                                <u-icon class="more" name="arrow-right" :size="26"></u-icon>
+                            </view>
+                        </view>
+                        <view class="bottom">
+                            {{ res.date }}
+                            <view class="reply" @tap="showReplyInput(res)">回复</view>
+                        </view>
+                    </view>
+                </view>
+
+                <view v-if="showInputBox" class="input-box">
+                    <textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
+                    <button @tap="submitReply(res)">提交</button>
+                    <button @tap="cancelReply">取消</button>
+                </view>
+
+                <view v-if="showInputBox2" class="input-box">
+                    <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
+                    <button @tap="submitReply2(res)">提交</button>
+                    <button @tap="cancelReply">取消</button>
+                </view>
+
+                <view v-if="showInputBox3" @click="addforum" class="floating-icon">
+                    <u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+                </view>
+            </view>
+        </view>
+
+        <view v-else>
+            <view class="holecontainer">
+                <view class="wrongcircle">
+                    <u-icon name="close-circle" size="162" color="#ff9c4a"></u-icon>
+                </view>
+                <text class="wrongnormal">请先登录</text>
+            </view>
+        </view>
     </view>
-    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
-      <view class="left"><image :src="res.url" mode="aspectFill"></image></view>
-      <view class="right">
-        <view class="top">
-          <view class="name">{{ res.name }}</view>
-          <view class="like" :class="{ highlight: res.isLike }">
-            <view class="num">{{ res.likeNum }}</view>
-            <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
-            <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
-          </view>
-        </view>
-        <view class="content">{{ res.contentText }}</view>
-        <view class="reply-box">
-          <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
-            <view class="username">{{ item.name }}</view>
-            <view class="text">{{ item.contentStr }}</view>
-          </view>
-          <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined">
-            共{{ res.allReply }}条回复
-            <u-icon class="more" name="arrow-right" :size="26"></u-icon>
-          </view>
-        </view>
-        <view class="bottom">
-          {{ res.date }}
-          <view class="reply" @tap="showReplyInput(res)">回复</view>
-        </view>
-      </view>
-    </view>
-
-  </view>
 </template>
 
 
@@ -45,8 +79,15 @@
 export default {
 	data() {
 		return {
+
 			searchQuery: '',
+
+			//加载完成
+
 			loaded:false,
+			//本地登录信息
+			account:'',
+			//
 			showInputBox:false,
 			showInputBox2:false,
 			showInputBox3:true,
@@ -90,12 +131,20 @@ export default {
 				})
 			},
 			
-onShow() {
-  uni.onSocketMessage(function (res) {
-    console.log('收到服务器内容：' + res.data);
-    this.getComment();
-  }.bind(this)); // 使用 bind 绑定 this 上下文
-},
+		onShow() {
+				this.account='';
+			const value10 = uni.getStorageSync('user');
+			if(value10.id)
+			{
+				console.log('当前用户',value10.id);
+				this.account=value10.id;
+				
+			}
+			uni.onSocketMessage(function (res) {
+			console.log('收到服务器内容：' + res.data);
+			this.getComment();
+		  }.bind(this)); // 使用 bind 绑定 this 上下文
+		},
 
 
 	methods: {
@@ -520,5 +569,29 @@ onShow() {
         text-align: center;
         margin-bottom: 10rpx;
     }
+	
 }
+	.holecontainer {
+		flex-direction: column;
+	  display: flex;  
+	  justify-content: center; /* 水平居中 */  
+	  align-items: center; /* 垂直居中 */  
+	  height: 20vh; /* 占据整个视窗的高度 */  
+	  padding: 80px 100px 0;
+	}  
+	.wrongcircle {
+		background-color: #ff3437;
+		border-radius: 100px;
+		width: 80px;
+		height: 80px;
+		align-items: center;
+		justify-content: center;
+		margin-top: 20rpx;
+	}
+	
+	.wrongnormal {
+		color: #fc1433;
+		font-size: 20px;
+		margin-top: 10px;
+	}
 </style>
