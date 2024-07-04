@@ -263,6 +263,15 @@
 		    },
 		  },
 		onLoad() {
+			uni.request({
+				url:'http://192.168.50.101:8090/count/countRegisterStudent',
+				success: (res) => {
+					console.log(res);
+					if(res.statusCode = 200){
+					this.endVal = res.data.result.count;
+					}
+				}
+			})
 			// uni.request({
 			// 	url: 'http://192.168.1.163:8083/countNumber',
 			// 	success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
