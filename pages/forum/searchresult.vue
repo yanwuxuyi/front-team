@@ -1,57 +1,43 @@
-
 <template>
-	<view>
-		<view v-if="this.loaded==false">
-			正在加载
-		</view>
-		<view v-else>
-		    <u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
-		    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
-		        <view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
-		        <view class="right">
-		            <view class="top">
-		                <view class="name">{{ res.name }}</view>
-		                <view class="like" :class="{ highlight: res.isLike }">
-		                    <view class="num">{{ res.likeNum }}</view>
-		                    <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
-		                    <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
-		                </view>
-		            </view>
-		            <view class="content">{{ res.contentText }}</view>
-		            <view class="reply-box">
-		                <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
-		                    <view class="username">{{ item.name }}</view>
-		                    <view class="text">{{ item.contentStr }}</view>
-		                </view>
-		                <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined&&res.allReply!=0">
-		                    共{{ res.allReply }}条回复
-		                    <u-icon class="more" name="arrow-right" :size="26"></u-icon>
-		                </view>
-		            </view>
-		            <view class="bottom">
-		                {{ res.date }}
-		                <view class="reply" @tap="showReplyInput(res)">回复</view>
-		            </view>
-		        </view></view>
-				<view v-if="showInputBox" class="input-box">
-				            <textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
-				            <button @tap="submitReply(res)">提交</button>
-				            <button @tap="cancelReply">取消</button>
-				        </view>
-		    
-			<view v-if="showInputBox2" class="input-box">
-				            <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
-				            <button @tap="submitReply2(res)">提交</button>
-				            <button @tap="cancelReply">取消</button>
-				        
-			</view>
-			    
-			<view v-if="showInputBox3" @click="addforum" class="floating-icon">
-				<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
-			</view>
-		
-		</view>
-	</view>
+  <view>
+
+
+    <u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
+    <!-- 搜索框 -->
+    <view class="search-box">
+      <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." @input="onSearchInput" />
+      <button @click="onSearch">搜索</button>
+    </view>
+    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
+      <view class="left"><image :src="res.url" mode="aspectFill"></image></view>
+      <view class="right">
+        <view class="top">
+          <view class="name">{{ res.name }}</view>
+          <view class="like" :class="{ highlight: res.isLike }">
+            <view class="num">{{ res.likeNum }}</view>
+            <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
+            <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
+          </view>
+        </view>
+        <view class="content">{{ res.contentText }}</view>
+        <view class="reply-box">
+          <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
+            <view class="username">{{ item.name }}</view>
+            <view class="text">{{ item.contentStr }}</view>
+          </view>
+          <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined">
+            共{{ res.allReply }}条回复
+            <u-icon class="more" name="arrow-right" :size="26"></u-icon>
+          </view>
+        </view>
+        <view class="bottom">
+          {{ res.date }}
+          <view class="reply" @tap="showReplyInput(res)">回复</view>
+        </view>
+      </view>
+    </view>
+
+  </view>
 </template>
 
 
@@ -59,6 +45,7 @@
 export default {
 	data() {
 		return {
+			searchQuery: '',
 			loaded:false,
 			showInputBox:false,
 			showInputBox2:false,
@@ -87,13 +74,17 @@ export default {
 			success(res) {
 				console.log('成功', res);
 				
-				
 			},
 		})
+		const eventChannel = this.getOpenerEventChannel();
+		eventChannel.on('acceptsearchQueryData', (data) => {
+		  this.searchQuery = data.data;
+		});
+		
+		let vm=this;
 		this.getComment();
-	},
-	mounted(){
-
+		//console.log(this.showInputBox3);
+		
 	},
 	onUnload(){
 				uni.closeSocket({
@@ -104,21 +95,35 @@ export default {
 			},
 			
 onShow() {
-	this.getComment();
   uni.onSocketMessage(function (res) {
     console.log('收到服务器内容：' + res.data);
-    //this.getComment();
+    this.getComment();
   }.bind(this)); // 使用 bind 绑定 this 上下文
 },
 
 
-	methods: {	
-		addforum() {
-			this.showInputBox2 = true;
-			this.showInputBox3 = false;
+	methods: {
+		//搜索功能
+		onSearch(){
+			this.getComment();
+			// uni.request({
+			// 	url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
+			// 	success: (res) => {
+			// 		console.log(res);
+			// 		console.log(this.searchQuery);
+					
+			// 	}
+			// })
 		},
-		
-		
+		onSearchInput(){
+			// uni.request({
+			// 	url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
+			// 	success: (res) => {
+			// 		console.log(res);
+			// 		console.log(this.searchQuery);
+			// 	}
+			// })
+		},
 		//根据所有当前评论者获取头像
 		getallpic()
 		{ 	
@@ -140,42 +145,15 @@ onShow() {
 				  
 				});
 		},
-		//根据id获得头像
-/* 		getpic(userId)
-		{
-			let vm=this;
-			let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;
-			uni.request({  
-				url: url,  
-				method: 'GET',  
-				responseType: 'arraybuffer',  
-				success: (res) => {  
-					// 注意：uni.request的success回调中的res是一个包含data、statusCode等属性的对象  
-					if (res.statusCode === 200) {  
-						const base64 = uni.arrayBufferToBase64(res.data);  
-						// 创建一个数据URL  
-						vm.pic[userId] = `data:image/png;base64,${base64}`; 
-						console.log('get:',userId);
-					} else {  
-						console.log(res);
-						uni.showToast({ title: '服务器返回错误状态码', icon: 'none' });  
-					}  
-				},  
-				fail: (err) => {  
-					console.error("请求失败:", err);  
-					uni.showToast({ title: '网络错误或服务器未响应', icon: 'none' });  
-				}  
-			});
-		}, */
-		getpic(userId) {  
-			console.log(userId);
+		
+		getpic(userId) {
 		    return new Promise((resolve, reject) => {  
 				let vm=this;
 		        let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
 		        uni.request({  
 		            url: url,  
 		            method: 'GET',  
-		            responseType: 'arraybuffer', 
+		            responseType: 'arraybuffer',  
 		            success: (res) => {  
 		                if (res.statusCode === 200) {  
 		                    const base64 = uni.arrayBufferToBase64(res.data);  
@@ -211,12 +189,7 @@ onShow() {
 		
 		// 显示回复输入框
         // 显示回复输入框
-        showReplyInput(comment) {
-			console.log("dianji");
-            this.currentComment = comment;
-            this.replyContent = '';
-            this.showInputBox = true;
-        },
+
         // 提交回复
         submitReply(comment) {
 			console.log(comment);
@@ -227,7 +200,7 @@ onShow() {
 			
 							
 			uni.request({
-			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=-1&rid=${value10.id}&uid=${this.currentComment.id}&favor=0`,
+			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=1&rid=${value10.id}&uid=${this.currentComment.id}&favor=0`,
 				method:"POST",
 			    success: (res) => {
 			        console.log(res);
@@ -260,70 +233,21 @@ onShow() {
 			    }
 			});
         },
-		//发新的帖子
-		submitReply2(comment) {
-			const value11 = uni.getStorageSync('user');
-			console.log(value11.id);
-			console.log(this.replyContent2);
-			
-							
-			uni.request({
-			    url: `http://192.168.50.101:8090/chat/sendtextall?message=${this.replyContent2}&id=${String(value11.id)}`,
-				method:"POST",
-			    success: (res) => {
-			        console.log(res);
-			        
-			            // 成功后的处理逻辑
-						//console.log(this.replyContent.trim());
-						if (this.replyContent2.trim()) {
-							this.showInputBox2 = false;
-							console.log(this.showInputBox2);
-							this.showInputBox3 = true;
-							this.$forceUpdate();  // 强制更新视图
-							this.getComment();
-						} else {
-						    uni.showToast({
-						        title: '回复内容不能为空',
-						        icon: 'none'
-						    });
-						}
-			        
-			    },
-			    fail: (err) => {
-			        console.log(err);
-			    }
-			});
-		},
-        // 取消回复
-        cancelReply() {
-            this.showInputBox = false;
-			this.showInputBox2 = false;
-			this.showInputBox3 = true;
-        },
+
 		change(index) {
 			 console.log(index);
 		      this.current = index;  // 更新当前选中的标签索引
 		      switch(index) {
 		        case 0:
-		          // 跳转到首页
 		          uni.switchTab({
-                      url: '/pages/forun/index',
-                      success: function (res) {
-                       //console.log("跳转成功");
-                      },
-                      fail: function (err) {
-                        //console.error("跳转失败", err);
-                      }
-                    });
-		          uni.switchTab({
-                      url: '/pages/forun/index',
-                      success: function (res) {
-                       //console.log("跳转成功");
-                      },
-                      fail: function (err) {
-                        //console.error("跳转失败", err);
-                      }
-                    });
+		            url: '/pages/forum/index',
+		            success: function (res) {
+		             //console.log("跳转成功");
+		            },
+		            fail: function (err) {
+		              //console.error("跳转失败", err);
+		            }
+		          });
 		          break;
 		        case 1:
 		          // 跳转到论坛
@@ -393,9 +317,9 @@ onShow() {
 		// 评论列表
 		getComment() {
 			uni.request({
-				url:'http://192.168.50.101:8090/chat/getmessage',  
+				url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
 				 success: (res) => {
-//					console.log(res);
+					console.log(res);
 				if(res.statusCode == 200){
 				const data = res.data;
 				this.commentList = data.map(item => ({
@@ -413,14 +337,14 @@ onShow() {
 				this.getallpic();
 				 try {
 					  uni.setStorageSync('commentList', this.commentList);
-//					  console.log(this.commentList);
+					  console.log(this.commentList);
 				    //localStorage.setItem('commentList', JSON.stringify(this.commentList));
 				    } catch (e) {
 				        console.error('本地存储失败', e);
 						}
 				             //this.commentList = commentList;
 					const value12 = uni.getStorageSync('user');
-//					console.log(value12.id);
+					console.log(value12.id);
 					uni.request({
 						url:"http://192.168.50.101:8090/chat/gettextfavor",
 						data:{
@@ -428,9 +352,9 @@ onShow() {
 						},
 						method:'POST',
 						success: (res) => {
-//							console.log(res);
+							console.log(res);
 							if(res.statusCode == 200){
-//								console.log(this.commentList);
+								console.log(this.commentList);
 								this.commentList.forEach(comment => {
 									res.data.forEach(temp => {
 										if(comment.id == temp.uid){
@@ -455,6 +379,29 @@ onShow() {
 </script>
 
 <style lang="scss" scoped>
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-box button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #007aff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .comment {
     display: flex;
     padding: 30rpx;

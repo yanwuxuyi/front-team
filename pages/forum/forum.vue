@@ -1,13 +1,13 @@
 <template>
   <view>
-    <!-- 搜索框 -->
-    <view class="search-box">
-      <input type="text" v-model="searchQuery" placeholder="请输入搜索内容" @input="onSearchInput" />
-      <button @click="onSearch">搜索</button>
-    </view>
+
 
     <u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
-
+    <!-- 搜索框 -->
+    <view class="search-box">
+      <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." @input="onSearchInput" />
+      <button @click="onSearch">搜索</button>
+    </view>
     <view class="comment" v-for="(res, index) in commentList" :key="res.id">
       <view class="left"><image :src="res.url" mode="aspectFill"></image></view>
       <view class="right">
@@ -45,6 +45,7 @@
 export default {
 	data() {
 		return {
+			searchQuery: '',
 			loaded:false,
 			showInputBox:false,
 			showInputBox2:false,
@@ -98,6 +99,32 @@ onShow() {
 
 
 	methods: {
+		//搜索功能
+		onSearch(){
+			uni.request({
+				url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
+				success: (res) => {
+					console.log(res);
+					console.log(this.searchQuery);
+					uni.navigateTo({
+					  url: '/pages/forum/searchresult',
+					  success: (res) => {
+					      // 通过eventChannel向新页面传递数据
+					      res.eventChannel.emit('acceptsearchQueryData', { data: this.searchQuery });
+					  }
+					});
+				}
+			})
+		},
+		onSearchInput(){
+			// uni.request({
+			// 	url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
+			// 	success: (res) => {
+			// 		console.log(res);
+			// 		console.log(this.searchQuery);
+			// 	}
+			// })
+		},
 		//根据所有当前评论者获取头像
 		getallpic()
 		{ 	
