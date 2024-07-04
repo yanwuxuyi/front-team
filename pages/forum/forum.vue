@@ -14,7 +14,7 @@
 
             <view v-else>
 				<view class="search-box">
-				    <input type="text" v-model="searchQuery" placeholder="请输入搜索内容" @input="onSearchInput" />
+				    <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." @input="onSearchInput" />
 				    <button @click="onSearch">搜索</button>
 				</view>
                 <view class="comment" v-for="(res, index) in commentList" :key="res.id">
@@ -46,21 +46,7 @@
                     </view>
                 </view>
 
-                <view v-if="showInputBox" class="input-box">
-                    <textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
-                    <button @tap="submitReply(res)">提交</button>
-                    <button @tap="cancelReply">取消</button>
-                </view>
 
-                <view v-if="showInputBox2" class="input-box">
-                    <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
-                    <button @tap="submitReply2(res)">提交</button>
-                    <button @tap="cancelReply">取消</button>
-                </view>
-
-                <view v-if="showInputBox3" @click="addforum" class="floating-icon">
-                    <u-icon name="plus" size="40" color="#c7ddff"></u-icon>
-                </view>
             </view>
         </view>
 

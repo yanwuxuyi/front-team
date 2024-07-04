@@ -48,6 +48,21 @@
   import URL from 'url';
 
   export default {
+
+    data() {
+      return {
+        TEXT: '',
+        httpUrl: "https://spark-api.xf-yun.com/v3.5/chat",
+        modelDomain: 'generalv3.5',
+        APPID: '8b3366b0',
+        APISecret: 'NjI1ZWQ1ZGFkMWNlMDY5OGYwOThjNGJk',
+        APIKey: 'd2af4d921d6b7199655230ea1d83562f',
+        sparkResult: '',
+        historyTextList: [],
+        tempRes: ''
+      }
+    },
+
      data() {
         return {
           TEXT: '',
@@ -61,6 +76,7 @@
           tempRes: ''
         }
       },
+
     methods: {
       async sendToSpark() {
         let myUrl = await this.getWebSocketUrl();

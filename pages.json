@@ -21,8 +21,8 @@
 			}
 
 		},
-		
-		
+
+
 		{
 			"path": "pages/frmv/login",
 			"style": {
@@ -165,7 +165,7 @@
 
 				"navigationBarTitleText": "AI问答"
 
-				
+
 
 			}
 		},
@@ -215,6 +215,7 @@
 				"navigationBarTitleText": "校园地图"
 			}
 		},
+
 		{
 			"path": "pages/service/teachplan",
 			"style": {
@@ -254,27 +255,44 @@
 
 		},
 		{
-			"path" : "pages/frmv/webrouterspecial",
+			"path": "pages/frmv/webrouterspecial",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/index/weather",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/frmv/stepOfReport",
+			"style": {
+				"navigationBarTitleText": "报道注册"
+			}
+		},
+		{
+			"path": "pages/forum/searchresult",
+			"style": {
+				"navigationBarTitleText": "搜索结果"
+			}
+		},
+		{
+			"path" : "pages/forum/test3",
 			"style" : 
 			{
 				"navigationBarTitleText" : ""
 			}
 		},
 		{
-			"path" : "pages/index/weather",
+			"path" : "pages/frmv/connect",
 			"style" : 
 			{
 				"navigationBarTitleText" : ""
-			}
-		},
-		{
-			"path" : "pages/forum/searchresult",
-			"style" : 
-			{
-				"navigationBarTitleText" : "搜索结果"
 			}
 		}
-    ],
+	],
 
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

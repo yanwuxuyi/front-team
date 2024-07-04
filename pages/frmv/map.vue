@@ -222,6 +222,7 @@
 			
 			//一食堂
 			yishitang() {
+				console.log("cli");
 				uni.navigateTo({
 					url: '/pages/frmv/webView?url=' + encodeURIComponent('https://map.baidu.com/search/%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E4%B8%80%E9%A3%9F%E5%A0%82/@11852657.635,3427022.73,19z?querytype=s&da_src=shareurl&wd=%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E4%B8%80%E9%A3%9F%E5%A0%82&c=132&src=0&pn=0&sug=0&l=13&b=(11832479,3426259;11878559,3449651)&from=webmap&biz_forward=%7B%22scaler%22:2,%22styles%22:%22pl%22%7D&device_ratio=2')
 				})
