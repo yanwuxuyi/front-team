@@ -190,7 +190,7 @@
 		{
 			"path": "pages/service/schoolinfo",
 			"style": {
-				"navigationBarTitleText": "学校简介"
+				"navigationBarTitleText": "我的重大"
 			}
 		},
 		{
@@ -215,6 +215,7 @@
 				"navigationBarTitleText": "校园地图"
 			}
 		},
+
 		{
 			"path": "pages/service/teachplan",
 			"style": {
@@ -278,17 +279,27 @@
 			}
 		},
 		{
-			"path" : "pages/service/commonquestions",
-			"style" : 
-			{
-				"navigationBarTitleText" : "常见问题"
+			"path": "pages/service/commonquestions",
+			"style": {
+				"navigationBarTitleText": "常见问题"
 			}
 		},
 		{
-			"path" : "pages/service/otherquestion",
-			"style" : 
-			{
-				"navigationBarTitleText" : "其他问题"
+			"path": "pages/service/otherquestion",
+			"style": {
+				"navigationBarTitleText": "其他问题"
+			}
+		},
+		{
+			"path": "pages/forum/test3",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/frmv/connect",
+			"style": {
+				"navigationBarTitleText": "" 
 			}
 		}
 	],
@@ -303,7 +314,7 @@
 
 	"tabBar": {
 		"color": "#7A7E83",
-		"selectedColor": "#3cc51f",
+		"selectedColor": "#55aaff",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"height": "50px",

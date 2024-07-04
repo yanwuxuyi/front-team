@@ -217,6 +217,7 @@
 			}
 		}
 	};
+	
 </script>
 
 
@@ -299,7 +300,7 @@
 		/* 用户头像居右，内容在左 */
 		border-radius: 50%;
 	}
-
+	
 	.assistant-avatar {
 		margin-right: 10px;
 		/* 助手头像居左，内容在右 */
