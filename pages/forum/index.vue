@@ -23,7 +23,7 @@
 		                    <view class="username">{{ item.name }}</view>
 		                    <view class="text">{{ item.contentStr }}</view>
 		                </view>
-		                <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined">
+		                <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined&&res.allReply!=0">
 		                    共{{ res.allReply }}条回复
 		                    <u-icon class="more" name="arrow-right" :size="26"></u-icon>
 		                </view>
@@ -104,7 +104,7 @@ export default {
 			},
 			
 onShow() {
-			this.getComment();
+	this.getComment();
   uni.onSocketMessage(function (res) {
     console.log('收到服务器内容：' + res.data);
     //this.getComment();
@@ -112,18 +112,7 @@ onShow() {
 },
 
 
-	methods: {
-		
-		loadData() {  
-		      // 模拟数据加载  
-		      return new Promise((resolve) => {  
-		        setTimeout(() => {  
-					console.log('数据加载完成');  
-		          resolve();  
-		        }, 1000);  
-		      });  
-		    },  
-			
+	methods: {	
 		addforum() {
 			this.showInputBox2 = true;
 			this.showInputBox3 = false;
@@ -148,6 +137,7 @@ onShow() {
 				  vm.loaded=true;
 				}).catch(error => {  
 				  console.error('加载图片时发生错误:', error);  
+				  
 				});
 		},
 		//根据id获得头像
@@ -196,7 +186,8 @@ onShow() {
 		                    // 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
 		                    resolve(imageUrl); // 解析Promise，传递图片URL  
 		                } else {  
-		                    reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
+		                    
+							//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
 		                }  
 		            },  
 		            fail: (err) => {  
