@@ -21,6 +21,8 @@
 			}
 
 		},
+
+
 		{
 			"path": "pages/frmv/login",
 			"style": {
@@ -160,7 +162,11 @@
 		{
 			"path": "pages/index/test2",
 			"style": {
-				"navigationBarTitleText": "AI小助手"
+
+				"navigationBarTitleText": "AI问答"
+
+
+
 			}
 		},
 		{
@@ -249,24 +255,27 @@
 
 		},
 		{
-			"path" : "pages/frmv/webrouterspecial",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/frmv/webrouterspecial",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/index/weather",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/index/weather",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/forum/searchresult",
-			"style" : 
-			{
-				"navigationBarTitleText" : "搜索结果"
+			"path": "pages/frmv/stepOfReport",
+			"style": {
+				"navigationBarTitleText": "报道注册"
+			}
+		},
+		{
+			"path": "pages/forum/searchresult",
+			"style": {
+				"navigationBarTitleText": "搜索结果"
 			}
 		},
 		{
@@ -276,7 +285,7 @@
 				"navigationBarTitleText" : ""
 			}
 		}
-    ],
+	],
 
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
