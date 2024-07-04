@@ -1,22 +1,38 @@
 <template>
-  <div class="chat-container">
-    <div class="chat-window">
-      <div class="messages" v-for="(msg, index) in historyTextList" :key="index">
-        <div v-if="msg.role === 'user'" class="message user">
-          <span>{{ msg.content }}</span>
-          <img src="../../static/icon/user-avatar.png" alt="User Avatar" class="avatar user-avatar">
-        </div>
-        <div v-if="msg.role === 'assistant'" class="message assistant">
-          <img src="../../static/icon/assistant-avatar.png" alt="Assistant Avatar" class="avatar assistant-avatar">
-          <span>{{ msg.content }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="input-area">
-      <input v-model="TEXT" class="input" placeholder="请输入消息..." />
-      <button @click="sendToSpark" class="send-button">发送</button>
-    </div>
-  </div>
+	<div>
+	<html>
+		
+		<body>
+			
+					<div class="chat-container">
+					   <div class="chat-window">
+					     <div class="messages" v-for="(msg, index) in historyTextList" :key="index">
+							  <!-- 用户消息部分 -->
+					       <div v-if="msg.role === 'user'" class="message user">
+					      <span>{{ msg.content }}</span> 
+					         <img src="../../static/icon/user-avatar.png" alt="User Avatar" class="avatar user-avatar">
+					       </div>
+							<!-- 助手消息部分 -->
+					       <div v-if="msg.role === 'assistant'" class="message assistant">
+					         <img src="../../static/icon/assistant-avatar.png" alt="Assistant Avatar" class="avatar assistant-avatar">
+					         <span>{{ msg.content }}</span>
+					       </div>
+					     </div>
+					   </div>
+						<!-- 用户输入新消息的区域 -->
+					   <div class="input-area">
+							<div class="input-wrapper">
+							<!-- 在输入框的最左边插入的图片 --> 
+							<div class="left-icon"></div>
+							<!-- 输入框 -->
+					     <input v-model="TEXT" class="input" placeholder="请输入你的问题..." />
+						  </div>
+					     <button @click="sendToSpark" class="send-button">发送</button>
+					   </div>
+					 </div>
+		</body>
+	</html>
+	</div>
 </template>
 
 
@@ -161,6 +177,23 @@
   }
 </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <style>
 .chat-container {
   display: flex;
@@ -231,20 +264,65 @@
   background-color: #fff;
 }
 
-.input {
+/* .input { 
   flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-right: 10px;
-}
+  }
+ */
 
 .send-button {
-  padding: 2px 20px;
+  padding: 10px 20px;
   background-color: blue;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  height:40px;
+  width:80px;
+  font-size:14px;
+    line-height: 20px; /* 设置行高等于按钮的高度 */
 }
+
+.input-wrapper{
+	position: relative;
+	display:inline-block;
+}
+
+.left-icon{
+	position:absolute;
+	
+	/* 调整图标与左边框的距离 */
+	left:10px;
+	/* 调整卡通图片与顶部的距离，可以根据需要调整百分比值 */
+	top:50%;
+	transform:translateY(-50%);
+	/* 根据需要调整图标宽度 */
+	width:30px;
+	/* 根据需要调整图标高度*/
+	height:30px;
+	background-image:url('/static/icon/shurukuang.png');
+	background-size: cover;
+	
+}
+.input{
+	/* 图标宽度＋左边距离 */
+	padding-left: 42px;
+	/* 根据需要调整输入框宽度 */
+	width:300px;
+	/* 根据需要调整输入框高度 */
+	height:40px;
+	/* 根据需要调整字体大小 */
+	font-size:16px;
+	/* 输入框边框样式 */
+	border:1px solid #ccc;
+	/* 输入框圆角 */
+	border-radius:4px;
+	/* 计算元素的总宽度和高度时包括边框和内边距 */
+	box-sizing:border-box;
+}
+
+
 </style>
