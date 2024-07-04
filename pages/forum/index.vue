@@ -1,9 +1,9 @@
 
 <template>
-	<view>
-		<view v-if="this.loaded==false">
+	<!-- <view> -->
+<!-- 		<view v-if="this.loaded==false">
 			正在加载
-		</view>
+		</view> -->
 		<view v-else>
 		    <u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
 		    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
@@ -50,7 +50,7 @@
 				<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
 			</view>
 		
-		</view>
+		<!-- </view> -->
 	</view>
 </template>
 
@@ -178,13 +178,14 @@ onShow() {
 			});
 		}, */
 		getpic(userId) {  
+			console.log(userId);
 		    return new Promise((resolve, reject) => {  
 				let vm=this;
 		        let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
 		        uni.request({  
 		            url: url,  
 		            method: 'GET',  
-		            responseType: 'arraybuffer',  
+		            responseType: 'arraybuffer', 
 		            success: (res) => {  
 		                if (res.statusCode === 200) {  
 		                    const base64 = uni.arrayBufferToBase64(res.data);  

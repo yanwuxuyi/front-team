@@ -12,6 +12,10 @@
 					<text class="map-wrap-text">重庆大学虎溪校区</text>
 				</view>
 				</view>
+				  <view class="right-slot">
+					<text class="weather-text">{{currentWeather}}</text>
+					<image :src="weatherIcon" class="weather-icon" @click="showWeather"></image>
+				  </view>
 			</u-navbar>
 		</view>
 		<view>
@@ -122,6 +126,7 @@
 	export default {
 		data() {
 			return {
+				currentWeather:'',
 				// 倒计时
 				timeStamp: '86400',
 				// 滚动数字
@@ -234,17 +239,54 @@
 				fbtx: false
 			}
 		},
+		computed: {
+		    weatherIcon() {
+				console.log('选择：'+ this.currentWeather);
+		      switch (this.currentWeather) {
+		        case '晴':
+		          return '../../static/icon/sun.png';
+		        case '中雨':
+		          return '../../static/icon/rain.png';
+		        case '多云':
+		          return '../../static/icon/cloud.png';
+		        default:
+		          return '../../static/icon/cloud.png';
+		      }
+		    },
+		  },
 		onLoad() {
+			// uni.request({
+			// 	url: 'http://192.168.1.163:8083/countNumber',
+			// 	success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
+			// 			this.endVal=res.data
+			// 	}
+			// });
+			// uni.navigateTo({
+			// 	url: '/pages/frmv/webView?url=' + 'https://v.xiumi.us/stage/v5/6q26F/465620607'
+			// })
+			
+			// uni.navigateTo({
+			// 	url: '/pages/frmv/webrouterspecial?url=' + encodeURIComponent('https://v.xiumi.us/stage/v5/6q26F/465620607')
+			// })
 			uni.request({
-				url: 'http://192.168.1.163:8083/countNumber',
-				success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-						this.endVal=res.data
+				url: 'http://192.168.50.101:8090/utils/weather',
+				success: (res) =>{
+					console.log(res);
+					if(res.statusCode = 200){
+						this.currentWeather = res.data.showapi_res_body.hourList[0].weather;
+						console.log(this.currentWeather);
+					}
 				}
-			});
+			})
 			this.calculateTime();
 		},
 		
 		methods: {
+			showWeather() {
+				uni.navigateTo({
+					url: '../index/weather' // 替换为你实际的页面路径
+				});
+			},
 			goAnotherPage() {
 							uni.navigateTo({
 								url: '../index/test2' // 替换为你实际的页面路径
@@ -379,7 +421,11 @@
 		align-items: center;
 		flex: 1;
 	}
-	
+	.weather-icon {
+	  width: 30px;
+	  height: 30px;
+	  cursor: pointer;
+	}
 	.map-wrap {
 		display: flex;
 		align-items: center;
@@ -395,7 +441,6 @@
 		width: 130rpx;
 		height: 130rpx;
 		top: 70rpx;
-		
 	}
 	
 	.popupStyle {
@@ -403,4 +448,14 @@
 		border-color: #352f7f;
 		color: #352f7f;
 	}
+	.weather-text {
+	  margin-right: 6px; /* 控制文本和图标之间的间距 */
+	  color: #ffffff; /* 设置文本颜色 */
+	}
+	.right-slot {
+	  display: flex;
+	  align-items: center;
+	  margin-right: 10px; /* 添加右边距，控制图标位置 */
+	}
+
 </style>

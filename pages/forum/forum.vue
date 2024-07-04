@@ -1,6 +1,13 @@
 <template>
+	
     <view>
+
         <u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
+		<!-- 搜索框 -->
+		<view class="search-box">
+		    <input type="text" v-model="searchQuery" placeholder="请输入搜索内容" @input="onSearchInput" />
+		    <button @click="onSearch">搜索</button>
+		</view>
         <view class="comment" v-for="(res, index) in commentList" :key="res.id">
             <view class="left"><image :src="res.url" mode="aspectFill"></image></view>
             <view class="right">
@@ -345,6 +352,29 @@ onShow() {
 </script>
 
 <style lang="scss" scoped>
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-box button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #007aff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .comment {
     display: flex;
     padding: 30rpx;

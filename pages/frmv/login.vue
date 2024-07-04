@@ -63,7 +63,15 @@
 										    try {
 												//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
 										    	uni.setStorageSync('user', res.data.result); //将用户对象本地存储 以便后续身份识别 权限验证等
-												uni.navigateBack() //登录成功返回 我的个人信息页面  
+												uni.switchTab({
+												                      url: '/pages/frmv/myinfo',
+												                      success: function (res) {
+												                       //console.log("跳转成功");
+												                      },
+												                      fail: function (err) {
+												                        //console.error("跳转失败", err);
+												                      }
+												                    });//登录成功返回 我的个人信息页面  
 												console.log('登录成功，储存的user值为：',res.data.result)
 										    } catch (e) {
 										    	this.$u.toast('身份信息格式异常') 

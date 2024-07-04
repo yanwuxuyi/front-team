@@ -270,6 +270,20 @@
 		  "style": {
 			"navigationBarTitleText": "图片裁剪"
 		}
+		},
+		{
+			"path" : "pages/frmv/webrouterspecial",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/index/weather",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
     ],
 	"globalStyle": {
