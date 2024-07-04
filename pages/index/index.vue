@@ -245,8 +245,16 @@
 		      switch (this.currentWeather) {
 		        case '晴':
 		          return '../../static/icon/sun.png';
+				case '大雨':
+				    return '../../static/icon/bigrain.png';
+				case '大暴雨':
+				    return '../../static/icon/bigrain.png';
+				case '雷阵雨':
+					return '../../static/icon/rerain.png';
 		        case '中雨':
 		          return '../../static/icon/rain.png';
+				case '小雨':
+				    return '../../static/icon/rain.png';
 		        case '多云':
 		          return '../../static/icon/cloud.png';
 		        default:
