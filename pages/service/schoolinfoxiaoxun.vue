@@ -1,116 +1,57 @@
-<template>
-	<view>
-		<view>
-			<u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
-		</view>
-		<view class="container">
-			<!-- 校训部分 -->
-			<view class="section">
-				<text class="title">校训</text>
-				<image class="image" src="/static/service/xiaoxun.jpg" mode="aspectFit"></image>
-				<text class="content">耐劳苦、尚俭朴、勤学业、爱国家</text>
-			</view>
-		
-			<!-- 校风部分 -->
-			<view class="section">
-				<text class="title">校风</text>
-				<image class="image" src="/static/service/xiaofeng.png" mode="aspectFit"></image>
-				<text class="content">团结、勤奋、求实、创新</text>
-			</view>
-		
-			<!-- 学风部分 -->
-			<view class="section">
-				<text class="title">学风</text>
-				<image class="image" src="/static/service/xuefeng.jpg" mode="aspectFit"></image>
-				<text class="content">求知、求精、求实、求新</text>
-			</view>
-		</view>
-	</view>
-
-</template>
-
-<script>
-	export default {
-		data() {
-			return {
-				list: [{
-					name: '学校简介'
-				}, {
-					name: '校训校风学风'
-				},
-				{
-					name:'各部门电话'
-				}],
-				current: 1
-			};
-		},
-		onLoad() {},
-		methods: {
-			change(index) {
-				console.log(index);
-				this.current = index; // 更新当前选中的标签索引
-				switch (index) {
-					case 0:
-						// 跳转校训
-						uni.navigateTo({
-							url: '/pages/service/schoolinfo'
-						});
-						break;
-					case 1:
-						// 跳转
-						uni.navigateTo({
-							url: '/pages/service/schoolinfoxiaoxun'
-						});
-						break;
-					case 2:
-							// 跳转
-							uni.navigateTo({
-								url: '/pages/service/schoolinfophone'
-							});
-							break;
-					default:
-						// 默认操作
-						break;
-				}
-
-			}
-		}
-	};
-</script>
-
-<style lang="scss" scoped>
-	.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 20px;
-	}
-	
-	.section {
-		margin-bottom: 20px;
-		width: 90%;
-		/* 控制每一部分的宽度 */
-		text-align: center;
-	}
-	
-	.title {
-		font-size: 18px;
-		font-weight: bold;
-		margin-bottom: 10px;
-	}
-	
-	.image {
-		width: 100%;
-		/* 图片宽度自适应 */
-		height: 200px;
-		/* 图片高度固定，根据需求调整 */
-		margin-bottom: 10px;
-	}
-	
-	.content {
-		font-size: 16px;
-		line-height: 1.5;
-	}
+<template>  
+  <view class="container">  
+    <!-- 背景图片 -->  
+    <image class="background-image" src="../../static/images/报道须知2.png" mode="aspectFill"></image>  
+    <!-- 滚动蒙版容器 -->  
+		<scroll-view class="scroll-mask" scroll-y="true">  
+		  <!-- 蒙版 -->  
+		  <view class="text-mask">  
+			<!-- 文字内容 -->  
+			<text class="text-content">这里是需要滚动的文字内容...</text>  
+			<!-- 可以继续添加更多内容 -->  
+		  </view>
+		</scroll-view>  
+  </view>  
+</template>  
+  
+<style lang="scss" scoped>  
+.container {  
+  position: relative;  
+  width: 100%;  
+  height: 100%; /* 或者指定一个具体的高度 */  
+  overflow: hidden; /* 防止滚动穿透 */  
+}  
+  
+.background-image {  
+  position: absolute;  
+  top: 0;  
+  left: 0;  
+  width: 100%;  
+  height: 100%;  
+  z-index: 0; /* 确保背景在蒙版之下 */  
+}  
+  
+.scroll-mask {  
+  position: absolute;  
+  top: 0;  
+  left: 0;  
+  width: 100%;  
+  height: 100%; /* 或者根据需要调整 */  
+  overflow-y: auto; /* 允许垂直滚动 */  
+  z-index: 1; /* 确保蒙版在背景之上 */  
+  padding: 20px; /* 为蒙版内容提供内边距 */  
+  box-sizing: border-box; /* 确保内边距不会增加容器的总宽度和高度 */  
+}  
+  
+.text-mask {  
+  background-color: rgba(255, 255, 255, 0.5); /* 白色半透明背景 */  
+  border-radius: 10px; /* 可选，为蒙版添加圆角 */  
+  padding: 10px; /* 蒙版内部的内边距 */  
+}  
+  
+.text-content {  
+  color: #333; /* 文字颜色 */  
+  font-size: 16px; /* 文字大小 */  
+  /* 其他文字样式 */
+}  
 </style>
-
-

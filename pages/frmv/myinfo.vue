@@ -150,9 +150,11 @@
 			return {
 				//初始
 				logined: false,
+				
 				pic:'',
 				yonghu: {
-					nickname: "游客"
+					nickname: "游客",
+					likes:0,
 				} ,
 				usre:{},
 				gender: 'man',
@@ -205,9 +207,13 @@
 			const value5 = uni.getStorageSync('user');
 			console.log(value5);
 			if(value5.nickName)
-			this.yonghu.nickname=value5.nickName;
+			{
+				this.yonghu.nickname=value5.nickName;
+			}
+
 			if(value5.id)
 			{
+				this.getlikes(value5.id);
 				this.logined=true;
 				this.user=value5;
 				let userId = value5.studentId; // 确保this.studentId已被定义  
@@ -247,6 +253,22 @@
 			
 		},
 		methods: {
+			getlikes(userId)
+			{
+				console.log(userId);
+				let vm=this;
+				let url = `http://192.168.50.101:8090/auth/getUserFavor?id=${userId}`;  
+				uni.request({
+					url: url,  
+					method: 'GET',  
+					success: (res) => {
+						console.log(res);
+						vm.yonghu.likes=res.data;
+						
+					}
+					  
+				});
+			},
 			goLogin() {
 				console.log('转入了登陆页面')
 				uni.navigateTo({
