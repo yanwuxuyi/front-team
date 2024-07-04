@@ -260,6 +260,13 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/frmv/stepOfReport",
+			"style" : 
+			{
+				"navigationBarTitleText" : "报道注册"
+			}
 		}
     ],
 

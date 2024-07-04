@@ -103,12 +103,12 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #ffc69c;" class="style1" @click="goService()" :title="titlev" :thumb="thumbv" :padding="paddingz" :border="borderz"
+					<u-card style="background-color: #ffc69c;" class="style1" @click="goReport()" :title="titlev" :thumb="thumbv" :padding="paddingz" :border="borderz"
 						:head-border-bottom="hbbz" :foot-border-top="fbtz">
 						<view class="" slot="body">
 							<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
 								<view class="u-body-item-title u-line-2">
-									内含多个功能帮助新生适应新环境
+									请跟随引导完成注册流程
 								</view>
 							</view>
 						</view>
@@ -231,8 +231,8 @@
 				borderx: false,
 				hbbx: false,
 				fbtx: false,
-				titlev: '服务中心',
-				thumbv: '../../static/images/grid.png',
+				titlev: '报道流程',
+				thumbv: '../../static/images/reportlogo.png',
 				paddingx: 20,
 				borderx: false,
 				hbbx: false,
@@ -331,14 +331,15 @@
 					this.showToast()
 				}
 			},
-			goService() {
+			goReport() {
 				const value = uni.getStorageSync('user')
 				if (value) {
-					this.$refs.share.open()
+					uni.navigateTo({
+						url: '../frmv/stepOfReport'
+					})
 				}
 				else {
 					this.showToast()
-					this.$refs.share.open()
 				}
 			},
 			showToast() {
