@@ -50,9 +50,9 @@
         TEXT: '',
         httpUrl: "https://spark-api.xf-yun.com/v3.5/chat",
         modelDomain: 'generalv3.5',
-        APPID: 'a765f476',
-        APISecret: 'OTFkNTExNTFiYTIxM2E1Zjk4YWM5ZmU3',
-        APIKey: '458947a944ca96e4c8f340585b3aafd7',
+        APPID: '8b3366b0',
+        APISecret: 'NjI1ZWQ1ZGFkMWNlMDY5OGYwOThjNGJk',
+        APIKey: 'd2af4d921d6b7199655230ea1d83562f',
         sparkResult: '',
         historyTextList: [],
         tempRes: ''
