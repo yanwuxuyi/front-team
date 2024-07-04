@@ -276,6 +276,20 @@
 			"style": {
 				"navigationBarTitleText": "搜索结果"
 			}
+		},
+		{
+			"path" : "pages/service/commonquestions",
+			"style" : 
+			{
+				"navigationBarTitleText" : "常见问题"
+			}
+		},
+		{
+			"path" : "pages/service/otherquestion",
+			"style" : 
+			{
+				"navigationBarTitleText" : "其他问题"
+			}
 		}
 	],
 

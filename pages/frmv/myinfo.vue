@@ -273,7 +273,7 @@
 			},
 			goXiumi() {
 				uni.navigateTo({
-					url: '/pages/frmv/webView?url=' + 'https://v.xiumi.us/stage/v5/6q26F/465620607'
+					url: '/pages/frmv/webView?url=' + 'https://v.xiumi.us/stage/v5/72a10/550089537'
 				})
 			},
 			goCollect() {
