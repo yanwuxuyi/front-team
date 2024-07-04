@@ -191,13 +191,14 @@ onShow() {
 			});
 		}, */
 		getpic(userId) {  
+			console.log(userId);
 		    return new Promise((resolve, reject) => {  
 				let vm=this;
 		        let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
 		        uni.request({  
 		            url: url,  
 		            method: 'GET',  
-		            responseType: 'arraybuffer',  
+		            responseType: 'arraybuffer', 
 		            success: (res) => {  
 		                if (res.statusCode === 200) {  
 		                    const base64 = uni.arrayBufferToBase64(res.data);  

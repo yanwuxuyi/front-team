@@ -7,7 +7,13 @@
 						<u-loading mode="circle" color="#df1215" size="80"></u-loading>
 				</view>
 			</view>
+
 			<view v-else>
+				    <!-- 搜索框 -->
+				<view class="search-box">
+					<input type="text" v-model="searchQuery" placeholder="请输入搜索内容" @input="onSearchInput" />
+					<button @click="onSearch">搜索</button>
+				</view>
 				<view class="comment" v-for="(res, index) in commentList" :key="res.id">
 					<view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
 					<view class="right">
@@ -135,10 +141,6 @@ export default {
 
 
 	methods: {
-		addforum() {
-			this.showInputBox2 = true;
-			this.showInputBox3 = false;
-		},
 		//根据所有当前评论者获取头像
 		getallpic()
 		{ 	
@@ -204,12 +206,7 @@ export default {
 		
 		// 显示回复输入框
         // 显示回复输入框
-        showReplyInput(comment) {
-			console.log("dianji");
-            this.currentComment = comment;
-            this.replyContent = '';
-            this.showInputBox = true;
-        },
+
         // 提交回复
         submitReply(comment) {
 			console.log(comment);
@@ -253,46 +250,7 @@ export default {
 			    }
 			});
         },
-		//发新的帖子
-		submitReply2(comment) {
-			const value11 = uni.getStorageSync('user');
-			console.log(value11.id);
-			console.log(this.replyContent2);
-			
-							
-			uni.request({
-			    url: `http://192.168.50.101:8090/chat/sendtextall?message=${this.replyContent2}&id=${String(value11.id)}`,
-				method:"POST",
-			    success: (res) => {
-			        console.log(res);
-			        
-			            // 成功后的处理逻辑
-						//console.log(this.replyContent.trim());
-						if (this.replyContent2.trim()) {
-							this.showInputBox2 = false;
-							console.log(this.showInputBox2);
-							this.showInputBox3 = true;
-							this.$forceUpdate();  // 强制更新视图
-							this.getComment();
-						} else {
-						    uni.showToast({
-						        title: '回复内容不能为空',
-						        icon: 'none'
-						    });
-						}
-			        
-			    },
-			    fail: (err) => {
-			        console.log(err);
-			    }
-			});
-		},
-        // 取消回复
-        cancelReply() {
-            this.showInputBox = false;
-			this.showInputBox2 = false;
-			this.showInputBox3 = true;
-        },
+
 		change(index) {
 			 console.log(index);
 		      this.current = index;  // 更新当前选中的标签索引
@@ -438,6 +396,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-box button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #007aff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .comment {
     display: flex;
     padding: 30rpx;
