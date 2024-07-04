@@ -3,10 +3,7 @@
         <u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
 
         <!-- 搜索框 -->
-        <view class="search-box">
-            <input type="text" v-model="searchQuery" placeholder="请输入搜索内容" @input="onSearchInput" />
-            <button @click="onSearch">搜索</button>
-        </view>
+
 
         <view v-if="account">
             <view v-if="this.loaded == false">
@@ -16,6 +13,10 @@
             </view>
 
             <view v-else>
+				<view class="search-box">
+				    <input type="text" v-model="searchQuery" placeholder="请输入搜索内容" @input="onSearchInput" />
+				    <button @click="onSearch">搜索</button>
+				</view>
                 <view class="comment" v-for="(res, index) in commentList" :key="res.id">
                     <view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
                     <view class="right">

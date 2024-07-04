@@ -1,51 +1,6 @@
 
 <template>
 	<view>
-
-		<view v-if="this.loaded==false">
-			正在加载
-		</view>
-		<view v-else>
-		    <u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
-		    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
-		        <view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
-		        <view class="right">
-		            <view class="top">
-		                <view class="name">{{ res.name }}</view>
-		                <view class="like" :class="{ highlight: res.isLike }">
-		                    <view class="num">{{ res.likeNum }}</view>
-		                    <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
-		                    <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
-		                </view>
-		            </view>
-		            <view class="content">{{ res.contentText }}</view>
-		            <view class="reply-box">
-		                <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
-		                    <view class="username">{{ item.name }}</view>
-		                    <view class="text">{{ item.contentStr }}</view>
-		                </view>
-		                <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined&&res.allReply!=0">
-		                    共{{ res.allReply }}条回复
-		                    <u-icon class="more" name="arrow-right" :size="26"></u-icon>
-		                </view>
-		            </view>
-		            <view class="bottom">
-		                {{ res.date }}
-		                <view class="reply" @tap="showReplyInput(res)">回复</view>
-		            </view>
-		        </view></view>
-				<view v-if="showInputBox" class="input-box">
-				            <textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
-				            <button @tap="submitReply(res)">提交</button>
-				            <button @tap="cancelReply">取消</button>
-				        </view>
-		    
-			<view v-if="showInputBox2" class="input-box">
-				            <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
-				            <button @tap="submitReply2(res)">提交</button>
-				            <button @tap="cancelReply">取消</button>
-				        
-
 		<u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
 		<view v-if="account">
 			<view v-if="this.loaded==false">
@@ -99,7 +54,6 @@
 				</view>
 			
 			</view>
-
 		</view>
 		<view v-else>
 			<view class="holecontainer">
@@ -109,7 +63,7 @@
 				<text class="wrongnormal">请先登录</text>
 				
 			</view>
-				</view></view>
+				
 		</view>
 	</view>
 </template>
