@@ -245,8 +245,16 @@
 		      switch (this.currentWeather) {
 		        case '晴':
 		          return '../../static/icon/sun.png';
+				case '大雨':
+				    return '../../static/icon/bigrain.png';
+				case '大暴雨':
+				    return '../../static/icon/bigrain.png';
+				case '雷阵雨':
+					return '../../static/icon/rerain.png';
 		        case '中雨':
 		          return '../../static/icon/rain.png';
+				case '小雨':
+				    return '../../static/icon/rain.png';
 		        case '多云':
 		          return '../../static/icon/cloud.png';
 		        default:
@@ -255,6 +263,15 @@
 		    },
 		  },
 		onLoad() {
+			uni.request({
+				url:'http://192.168.50.101:8090/count/countRegisterStudent',
+				success: (res) => {
+					console.log(res);
+					if(res.statusCode = 200){
+					this.endVal = res.data.result.count;
+					}
+				}
+			})
 			// uni.request({
 			// 	url: 'http://192.168.1.163:8083/countNumber',
 			// 	success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中

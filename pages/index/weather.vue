@@ -30,7 +30,7 @@
 				</view>
 				<view class="txt-tips">
 					<m-skeleton :loading="loading" width="500rpx" height="50rpx">
-						<text class="txt-info">{{ resultData.tips.observe && resultData.tips.observe[0] }}</text>
+						<text class="txt-info"> tips {{ resultData.tips  }}</text>
 					</m-skeleton>
 				</view>
 				<view class="weather-img">
@@ -49,6 +49,7 @@
 					<view class="hours-list">
 						<view class="hours-item" v-for="(item, index) in resultData.forecast_1h" :key="index">
 							<view class="item-time">{{ formatTimeToHours(item.update_time) }}</view>
+							<!-- <view class="item-time">{{ item.update_time }}</view> -->
 							<view class="item-icon"><image :src="`//mat1.gtimg.com/pingjs/ext2020/weather/pc/icon/weather/day/${item.weather_code}.png`" mode=""></image></view>
 							<view class="item-degree">{{ item.degree }}°</view>
 						</view>
@@ -95,6 +96,7 @@ export default {
 	},
 	data() {
 		return {
+			imagecode:'',
 			loading: false,
 			areaCode: ['44', '4403', '440305'],
 			locationInfo: {
@@ -144,9 +146,7 @@ export default {
 					wind_direction: '',
 					wind_power: ''
 				},
-				tips: {
-					observe: {}
-				}
+				tips: ''
 			},
 			areaPickerInfo: {}
 		};
@@ -168,14 +168,24 @@ uni.request({
           wind_direction: res.data.showapi_res_body.hourList[0].wind_direction,
           wind_power: res.data.showapi_res_body.hourList[0].wind_power,
         },
-        forecast_1h: [],
+        forecast_1h: []
+		
       };
-      
+      if (res.data.showapi_res_body.hourList[0].temperature < 20){
+		  this.resultData.tips = '天冷注意保暖哦';
+	  } 
+	  else if (res.data.showapi_res_body.hourList[0].temperature >=20 && res.data.showapi_res_body.hourList[0].temperature <=30) {
+		  this.resultData.tips = '温度适宜，祝您心情愉悦';
+	  }
+	  else if (res.data.showapi_res_body.hourList[0].temperature >=30){
+		  this.resultData.tips = '天气炎热，注意不要中暑哦';
+	  }
       // 遍历 hourList 并赋值给 forecast_1h
       res.data.showapi_res_body.hourList.forEach(hour => {
         this.resultData.forecast_1h.push({
           degree: hour.temperature,
           update_time: hour.time,
+		  weather_code: hour.weather_code
         });
       });
 	  console.log(this.resultData);
@@ -189,6 +199,12 @@ uni.request({
 	},
 	computed: {},
 	methods: {
+		formatTimeToHours(time) {
+			let currentTime = time.substring(0, 10);
+			let hours = currentTime.substr(-2);
+			return hours + ':00';
+			// return hours;
+		}
 		}
 };
 </script>
