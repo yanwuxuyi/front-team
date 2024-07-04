@@ -74,6 +74,17 @@
 			        <u-icon class="icon" name="arrow-right" @click="goXiumi()"></u-icon>
 			      </view>
 			    </view>
+				<view class="item">
+				  <view class="left flex-center">
+				    <u-icon class="icon" name="chat"></u-icon>
+				  </view>
+				  <view class="center">
+				    <text>联系我们</text>
+				  </view>
+				  <view class="right flex-center">
+				    <u-icon class="icon" name="arrow-right" @click="connect()"></u-icon>
+				  </view>
+				</view>
 			  </view>
 			  <view class="card">
 			    <view class="item item-bottom-solid">
@@ -247,6 +258,11 @@
 			
 		},
 		methods: {
+			connect() {
+				uni.navigateTo({
+					url: '/pages/frmv/connect'
+				})
+			},
 			goLogin() {
 				console.log('转入了登陆页面')
 				uni.navigateTo({
