@@ -1,64 +1,72 @@
 <template>
     <view>
-        <u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
-
-        <!-- 搜索框 -->
-
-
-        <view v-if="account">
-            <view v-if="this.loaded == false">
-                <view class="holecontainer">
-                    <u-loading mode="circle" color="#df1215" size="80"></u-loading>
-                </view>
-            </view>
-
-            <view v-else>
-				<view class="search-box">
-				    <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." @input="onSearchInput" />
-				    <button @click="onSearch">搜索</button>
+		<u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
+		<view v-if="account">
+			<view v-if="this.loaded==false" class="musk">
+					<view class="holecontainer">
+						<view class="wrongcircle"  :style="{ backgroundColor: `hsl(${hue}, 100%, 50%)` }">
+							<u-icon class="icon" name="chrome-circle-fill" size="162" color="black"></u-icon>
+							
+						</view>
+						<text class="wrongnormal" :style="{ color: `hsl(${hue}, 100%, 50%)` }">正在加载</text>
+					</view>
+			</view>
+			<view v-else>
+				<view class="comment" v-for="(res, index) in commentList" :key="res.id">
+					<view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
+					<view class="right">
+						<view class="top">
+							<view class="name">{{ res.name }}</view>
+							<view class="like" :class="{ highlight: res.isLike }">
+								<view class="num">{{ res.likeNum }}</view>
+								<u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
+								<u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
+							</view>
+						</view>
+						<view class="content">{{ res.contentText }}</view>
+						<view class="reply-box">
+							<view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
+								<view class="username">{{ item.name }}</view>
+								<view class="text">{{ item.contentStr }}</view>
+							</view>
+							<view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined&&res.allReply!=0">
+								共{{ res.allReply }}条回复
+								<u-icon class="more" name="arrow-right" :size="26"></u-icon>
+							</view>
+						</view>
+						<view class="bottom">
+							{{ res.date }}
+							<view class="reply" @tap="showReplyInput(res)">回复</view>
+						</view>
+					</view></view>
+					<view v-if="showInputBox" class="input-box">
+								<textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
+								<button @tap="submitReply(res)">提交</button>
+								<button @tap="cancelReply">取消</button>
+							</view>
+				
+				<view v-if="showInputBox2" class="input-box">
+								<textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
+								<button @tap="submitReply2(res)">提交</button>
+								<button @tap="cancelReply">取消</button>
+							
 				</view>
-                <view class="comment" v-for="(res, index) in commentList" :key="res.id">
-                    <view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
-                    <view class="right">
-                        <view class="top">
-                            <view class="name">{{ res.name }}</view>
-                            <view class="like" :class="{ highlight: res.isLike }">
-                                <view class="num">{{ res.likeNum }}</view>
-                                <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
-                                <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
-                            </view>
-                        </view>
-                        <view class="content">{{ res.contentText }}</view>
-                        <view class="reply-box">
-                            <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
-                                <view class="username">{{ item.name }}</view>
-                                <view class="text">{{ item.contentStr }}</view>
-                            </view>
-                            <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined && res.allReply != 0">
-                                共{{ res.allReply }}条回复
-                                <u-icon class="more" name="arrow-right" :size="26"></u-icon>
-                            </view>
-                        </view>
-                        <view class="bottom">
-                            {{ res.date }}
-                            <view class="reply" @tap="showReplyInput(res)">回复</view>
-                        </view>
-                    </view>
-                </view>
-
-
-            </view>
-        </view>
-
-        <view v-else>
-            <view class="holecontainer">
-                <view class="wrongcircle">
-                    <u-icon name="close-circle" size="162" color="#ff9c4a"></u-icon>
-                </view>
-                <text class="wrongnormal">请先登录</text>
-            </view>
-        </view>
-    </view>
+					
+				<view v-if="showInputBox3" @click="addforum" class="floating-icon">
+					<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+				</view>
+			</view>
+		</view>
+		<view v-else>
+			<view class="holecontainer">
+				<view class="wrongcircle">
+					<u-icon name="close-circle" size="162" color="#ff9c4a"></u-icon>
+				</view>
+				<text class="wrongnormal">请先登录</text>
+				
+			</view>
+		</view>
+	</view>
 </template>
 
 
@@ -66,11 +74,11 @@
 export default {
 	data() {
 		return {
-
-			searchQuery: '',
-
+			//变色定时器
+			hue:0,
+			
+			intervalId:null,
 			//加载完成
-
 			loaded:false,
 			//本地登录信息
 			account:'',
@@ -119,7 +127,7 @@ export default {
 			},
 			
 		onShow() {
-				this.account='';
+			this.account='';
 			const value10 = uni.getStorageSync('user');
 			if(value10.id)
 			{
@@ -135,31 +143,29 @@ export default {
 
 
 	methods: {
-		//搜索功能
-		onSearch(){
-			uni.request({
-				url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
-				success: (res) => {
-					console.log(res);
-					console.log(this.searchQuery);
-					uni.navigateTo({
-					  url: '/pages/forum/searchresult',
-					  success: (res) => {
-					      // 通过eventChannel向新页面传递数据
-					      res.eventChannel.emit('acceptsearchQueryData', { data: this.searchQuery });
-					  }
-					});
-				}
-			})
-		},
-		onSearchInput(){
-			// uni.request({
-			// 	url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
-			// 	success: (res) => {
-			// 		console.log(res);
-			// 		console.log(this.searchQuery);
-			// 	}
-			// })
+		
+		// 更新颜色的方法
+		    startColorCycle() {  
+				this.hue=0;
+		      this.intervalId = setInterval(() => {  
+		        this.updateHue();  
+		      }, 100); // 注意：这里使用了箭头函数，但通常建议将函数单独定义  
+		    },  
+		    stopColorCycle() {  
+		      if (this.intervalId) {  
+		        clearInterval(this.intervalId);  
+		        this.intervalId = null;  
+		      }  
+		    }, 
+		// 更新色相值的方法  
+		updateHue() {  
+		  // 让色相值在0到360之间循环变化  
+		  this.hue = (this.hue + 1) % 360;  
+		  console.log("hue",this.hue);
+		},  
+		addforum() {
+			this.showInputBox2 = true;
+			this.showInputBox3 = false;
 		},
 		//根据所有当前评论者获取头像
 		getallpic()
@@ -176,6 +182,7 @@ export default {
 				});  
 				Promise.all(promises).then(() => {  
 				  console.log("所有图片都已加载完成");
+				  this.stopColorCycle();
 				  vm.loaded=true;
 				}).catch(error => {  
 				  console.error('加载图片时发生错误:', error);  
@@ -226,7 +233,12 @@ export default {
 		
 		// 显示回复输入框
         // 显示回复输入框
-
+        showReplyInput(comment) {
+			console.log("dianji");
+            this.currentComment = comment;
+            this.replyContent = '';
+            this.showInputBox = true;
+        },
         // 提交回复
         submitReply(comment) {
 			console.log(comment);
@@ -270,7 +282,46 @@ export default {
 			    }
 			});
         },
-
+		//发新的帖子
+		submitReply2(comment) {
+			const value11 = uni.getStorageSync('user');
+			console.log(value11.id);
+			console.log(this.replyContent2);
+			
+							
+			uni.request({
+			    url: `http://192.168.50.101:8090/chat/sendtextall?message=${this.replyContent2}&id=${String(value11.id)}`,
+				method:"POST",
+			    success: (res) => {
+			        console.log(res);
+			        
+			            // 成功后的处理逻辑
+						//console.log(this.replyContent.trim());
+						if (this.replyContent2.trim()) {
+							this.showInputBox2 = false;
+							console.log(this.showInputBox2);
+							this.showInputBox3 = true;
+							this.$forceUpdate();  // 强制更新视图
+							this.getComment();
+						} else {
+						    uni.showToast({
+						        title: '回复内容不能为空',
+						        icon: 'none'
+						    });
+						}
+			        
+			    },
+			    fail: (err) => {
+			        console.log(err);
+			    }
+			});
+		},
+        // 取消回复
+        cancelReply() {
+            this.showInputBox = false;
+			this.showInputBox2 = false;
+			this.showInputBox3 = true;
+        },
 		change(index) {
 			 console.log(index);
 		      this.current = index;  // 更新当前选中的标签索引
@@ -353,6 +404,9 @@ export default {
 		},
 		// 评论列表
 		getComment() {
+			let vm=this;
+			vm.loaded=false;
+			this.startColorCycle();
 			uni.request({
 				url:'http://192.168.50.101:8090/chat/hotmessage',  
 				 success: (res) => {
@@ -416,29 +470,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.search-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-}
-
-.search-box input {
-  flex: 1;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.search-box button {
-  margin-left: 10px;
-  padding: 5px 10px;
-  border: none;
-  background-color: #007aff;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
+	.musk {
+	  position: absolute;  
+	  width: 100%;
+	  height: 235%;
+ background-color: rgba(141, 141, 141, 0.5); /* 黑色半透明背景 */  
+	  opacity: 0.5; /* 假设我们想要一个半透明的蒙版 */  
+	  z-index: 4; /* 确保蒙版位于输入框和按钮下方 */ 
+	   width: 100%; /* 确保横向覆盖整个屏幕 */
+	}  
 .comment {
     display: flex;
     padding: 30rpx;
@@ -565,20 +605,37 @@ export default {
 	  align-items: center; /* 垂直居中 */  
 	  height: 20vh; /* 占据整个视窗的高度 */  
 	  padding: 80px 100px 0;
+	  //position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
 	}  
 	.wrongcircle {
-		background-color: #ff3437;
-		border-radius: 100px;
-		width: 80px;
-		height: 80px;
+		background-color: currentColor;
+		border-radius: 200rpx;
+		width: 160rpx;
+		height: 160rpx;
 		align-items: center;
 		justify-content: center;
-		margin-top: 20rpx;
+		//margin-top: 20rpx;
+		/* 应用动画 */
+		position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
 	}
 	
 	.wrongnormal {
-		color: #fc1433;
+		color: currentColor;
 		font-size: 20px;
 		margin-top: 10px;
 	}
+	/*非常好代码,使我旋转*/
+		@keyframes rotate {
+		  from {  
+		    transform: rotate(0deg);  
+		  }  
+		  to {  
+		    transform: rotate(360deg);  
+		  }  
+		}  
+		  
+		.icon {  
+		  /* 应用动画 */  
+		  animation: rotate 2s linear infinite;  
+		}
 </style>

@@ -1,64 +1,66 @@
 
 <template>
 	<view>
-		<u-tabs :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
-	
-	<u-navbar title-color="#fff" back-icon-color="#ffffff" 
-	:backgroundColor="'#ff0000'"
-	:back-text-style="{color: '#fff'}">
-	</u-navbar>
-	
-	
-	
+		<u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
 		<view v-if="account">
-			<view v-if="this.loaded==false">
-				<view class="holecontainer">
-						<u-loading mode="circle" color="#df1215" size="80"></u-loading>
-				</view>
+			<view v-if="this.loaded==false" class="musk">
+					<view class="holecontainer">
+						<view class="wrongcircle"  :style="{ backgroundColor: `hsl(${hue}, 100%, 50%)` }">
+							<u-icon class="icon" name="chrome-circle-fill" size="162" color="black"></u-icon>
+							
+						</view>
+						<text class="wrongnormal" :style="{ color: `hsl(${hue}, 100%, 50%)` }">正在加载</text>
+					</view>
 			</view>
 			<view v-else>
-			    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
-			        <view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
-			        <view class="right">
-			            <view class="top">
-			                <view class="name">{{ res.name }}</view>
-			                <view class="like" :class="{ highlight: res.isLike }">
-			                    <view class="num">{{ res.likeNum }}</view>
-			                    <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
-			                    <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
-			                </view>
-			            </view>
-			            <view class="content">{{ res.contentText }}</view>
-			            <view class="reply-box">
-			                <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
-			                    <view class="username">{{ item.name }}</view>
-			                    <view class="text">{{ item.contentStr }}</view>
-			                </view>
-			                <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined&&res.allReply!=0">
-			                    共{{ res.allReply }}条回复
-			                    <u-icon class="more" name="arrow-right" :size="26"></u-icon>
-			                </view>
-			            </view>
-			            <view class="bottom">
-			                {{ res.date }}
-			                <view class="reply" @tap="showReplyInput(res)">回复</view>
-			            </view>
-			        </view></view>
-					<view v-if="showInputBox" class="input-box">
-					            <textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
-					            <button @tap="submitReply(res)">提交</button>
-					            <button @tap="cancelReply">取消</button>
-					        </view>
-			    
+				<view class="comment" v-for="(res, index) in commentList" :key="res.id">
+					<view class="left" @click="clickpic(res.pid)"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
+					<view class="right">
+						<view class="top">
+							<view class="name">{{ res.name }}</view>
+							<view class="like" :class="{ highlight: res.isLike }">
+								<view class="num">{{ res.likeNum }}</view>
+								<u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
+								<u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
+							</view>
+						</view>
+						<view class="content">{{ res.contentText }}</view>
+						<view class="reply-box">
+							<view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
+								<view class="username">{{ item.name }}</view>
+								<view class="text">{{ item.contentStr }}</view>
+							</view>
+							<view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined && res.allReply != 0">
+								共{{ res.allReply }}条回复
+								<u-icon class="more" name="arrow-right" :size="26"></u-icon>
+							</view>
+						</view>
+						<view class="bottom">
+							{{ res.date }}
+							<view class="reply" @tap="showReplyInput(res)">回复</view>
+						</view>
+					</view>
+				</view>
+				
+
+				
+				<view v-if="showInputBox" class="input-box">
+					<textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
+					<button @tap="submitReply(res)">提交</button>
+					<button @tap="cancelReply">取消</button>
+				</view>
+
 				<view v-if="showInputBox2" class="input-box">
 					            <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
 					            <button @tap="submitReply2(res)">提交</button>
 					            <button @tap="cancelReply">取消</button>
 					        
 				</view>
-				    
-				<view v-if="showInputBox3" @click="addforum" class="floating-icon">
-					<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+				    <view v-if="showInputBox4" @click="addforum" class="floating-icon">
+				    	<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+				    </view>
+				<view v-if="showInputBox3" @click="addup" class="floating-icon2">
+					<u-icon name="arrow-up" size="40" color="#c7ddff"></u-icon>
 				</view>
 			
 			</view>
@@ -81,6 +83,10 @@
 export default {
 	data() {
 		return {
+			//变色定时器
+			hue:0,
+			
+			intervalId:1,
 			//加载完成
 			loaded:false,
 			//本地登录信息
@@ -88,6 +94,7 @@ export default {
 			showInputBox:false,
 			showInputBox2:false,
 			showInputBox3:true,
+			showInputBox4:true,
 			replyContent2:'',
 		
 			currentComment:[],
@@ -145,17 +152,72 @@ onShow() {
 
 
 	methods: {	
+		
+		// 更新颜色的方法
+		    startColorCycle() {  
+				this.hue=0;
+		      this.intervalId = setInterval(() => {  
+		        this.updateHue();  
+		      }, 100); // 注意：这里使用了箭头函数，但通常建议将函数单独定义  
+		    },  
+		    stopColorCycle() {  
+		      if (this.intervalId) {  
+		        clearInterval(this.intervalId);  
+		        this.intervalId = null;  
+		      }  
+		    }, 
+		// 更新色相值的方法  
+		updateHue() {  
+		  // 让色相值在0到360之间循环变化  
+		  this.hue = (this.hue + 1) % 360;  
+		  console.log("hue",this.hue);
+		},  
+		
+		addup() {
+		      window.scrollTo({
+		        top: 0,
+		        behavior: 'smooth' // 使用平滑滚动
+		      });
+		    },
 		addforum() {
 			this.showInputBox2 = true;
 			this.showInputBox3 = false;
 		},
-		
+		clickpic(id)
+		{
+			console.log("跳转",id);
+			uni.request({
+				url:`http://192.168.50.101:8090/auth/getAllById?id=${id}`,
+				method:'GET',
+				success: (res) => { 
+					console.log(res);
+					const value=res.data.result;
+					const user=uni.getStorageSync("user");
+					if(user.id==value.id)
+					{
+						uni.navigateTo({
+						  url: '/pages/forum/me'
+						});
+					
+					}
+					else{
+						uni.setStorageSync("others",value);
+						uni.navigateTo({
+						  url: '/pages/forum/others'
+						});
+					}
+				}
+				
+			})
+			
+		},
 		
 		//根据所有当前评论者获取头像
 		getallpic()
 		{ 	
 			let vm=this;
 			vm.loaded=false;
+			this.startColorCycle();
 			//console.log(vm.commentList);
 			console.log(vm.commentList.length,'头像');
 			 //    vm.commentList.forEach(comment => {  
@@ -166,6 +228,7 @@ onShow() {
 				});  
 				Promise.all(promises).then(() => {  
 				  console.log("所有图片都已加载完成");
+				  vm.startColorCycle();
 				  vm.loaded=true;
 				}).catch(error => {  
 				  console.error('加载图片时发生错误:', error);  
@@ -488,6 +551,16 @@ onShow() {
 </script>
 
 <style lang="scss" scoped>
+	.musk {
+	  position: absolute;  
+	  width: 100%;
+	  height: 235%;
+	  background-color: rgba(141, 141, 141, 0.5); /* 灰色半透明背景 */  
+	  opacity: 0.5; /* 假设我们想要一个半透明的蒙版 */  
+	  z-index: 4; /* 确保蒙版位于输入框和按钮下方 */ 
+	   width: 100%; /* 确保横向覆盖整个屏幕 */
+	}  
+	
 .comment {
     display: flex;
     padding: 30rpx;
@@ -579,6 +652,21 @@ onShow() {
 			z-index: 1000;
 			cursor: pointer;
 		}
+		.floating-icon2 {
+					position: fixed;
+					bottom: 150px;
+					right: 10px;
+					width: 50px;
+					height: 50px;
+					background-color: #007aff;
+					border-radius: 50%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+					z-index: 1000;
+					cursor: pointer;
+				}
 .input-box {
     position: fixed;
     bottom: 50rpx;
@@ -614,27 +702,37 @@ onShow() {
 	  align-items: center; /* 垂直居中 */  
 	  height: 20vh; /* 占据整个视窗的高度 */  
 	  padding: 80px 100px 0;
+	  //position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
 	}  
 	.wrongcircle {
-		background-color: #ff3437;
-		border-radius: 100px;
-		width: 80px;
-		height: 80px;
+		background-color: currentColor;
+		border-radius: 200rpx;
+		width: 160rpx;
+		height: 160rpx;
 		align-items: center;
 		justify-content: center;
-		margin-top: 20rpx;
+		//margin-top: 20rpx;
+		/* 应用动画 */
+		position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
 	}
 	
 	.wrongnormal {
-		color: #fc1433;
+		color: currentColor;
 		font-size: 20px;
 		margin-top: 10px;
 	}
-// .navbar {
-//     background: linear-gradient(45deg, rgb(44, 168, 187), rgb(140, 197, 198)); /* 红色到蓝色的渐变 */
-//     /* 可根据需要调整渐变方向和颜色 */
-	
-// }
-
-
+	/*非常好代码,使我旋转*/
+		@keyframes rotate {
+		  from {  
+		    transform: rotate(0deg);  
+		  }  
+		  to {  
+		    transform: rotate(360deg);  
+		  }  
+		}  
+		  
+		.icon {  
+		  /* 应用动画 */  
+		  animation: rotate 2s linear infinite;  
+		}
 </style>
