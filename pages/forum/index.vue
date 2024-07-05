@@ -1,3 +1,4 @@
+
 <template>
 	<view>
 		<u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
@@ -50,20 +51,18 @@
 				</view>
 
 				<view v-if="showInputBox2" class="input-box">
-					<textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
-					<button @tap="submitReply2(res)">提交</button>
-					<button @tap="cancelReply">取消</button>
+					            <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
+					            <button @tap="submitReply2(res)">提交</button>
+					            <button @tap="cancelReply">取消</button>
+					        
 				</view>
-				
-				<view v-if="showInputBox4" class="scroll-top" @click="scrollToTop" >
+				    <view v-if="showInputBox4" @click="addforum" class="floating-icon">
+				    	<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+				    </view>
+				<view v-if="showInputBox3" @click="addup" class="floating-icon2">
 					<u-icon name="arrow-up" size="40" color="#c7ddff"></u-icon>
 				</view>
-
-				<view v-if="showInputBox3" @click="addforum" class="floating-icon">
-					<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
-				</view>
-
-
+			
 			</view>
 		</view>
 		<view v-else>
@@ -72,7 +71,9 @@
 					<u-icon name="close-circle" size="162" color="#ff9c4a"></u-icon>
 				</view>
 				<text class="wrongnormal">请先登录</text>
+				
 			</view>
+				
 		</view>
 	</view>
 </template>
@@ -95,11 +96,9 @@ export default {
 			showInputBox3:true,
 			showInputBox4:true,
 			replyContent2:'',
+		
 			currentComment:[],
 			commentList: [],
-			background: {
-				'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(140, 189, 198))'
-			},
 			pic:[],
 			list: [{
 								name: '帖子'
@@ -174,12 +173,12 @@ onShow() {
 		  console.log("hue",this.hue);
 		},  
 		
-		scrollToTop() {
-					uni.pageScrollTo({
-						scrollTop: 0,
-						duration: 300
-					});
-				},
+		addup() {
+		      window.scrollTo({
+		        top: 0,
+		        behavior: 'smooth' // 使用平滑滚动
+		      });
+		    },
 		addforum() {
 			this.showInputBox2 = true;
 			this.showInputBox3 = false;
@@ -653,21 +652,21 @@ onShow() {
 			z-index: 1000;
 			cursor: pointer;
 		}
-.scroll-top {
-			position: fixed;
-			bottom: 150px;
-			right: 10px;
-			width: 50px;
-			height: 50px;
-			background-color: #007aff;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-			z-index: 1000;
-			cursor: pointer;
-		}
+		.floating-icon2 {
+					position: fixed;
+					bottom: 150px;
+					right: 10px;
+					width: 50px;
+					height: 50px;
+					background-color: #007aff;
+					border-radius: 50%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+					z-index: 1000;
+					cursor: pointer;
+				}
 .input-box {
     position: fixed;
     bottom: 50rpx;
