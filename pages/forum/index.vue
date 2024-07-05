@@ -170,7 +170,7 @@ onShow() {
 		updateHue() {  
 		  // 让色相值在0到360之间循环变化  
 		  this.hue = (this.hue + 1) % 360;  
-		  console.log("hue",this.hue);
+		  //console.log("hue",this.hue);
 		},  
 		
 		addup() {
