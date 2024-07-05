@@ -13,52 +13,53 @@
 		<u-card @click="click" @head-click="headClick" :title="title" :sub-title="subTitle" :thumb="thumb" :padding="padding" :border="border">
 			<view class="" slot="body"> 
 				<view class="u-body-item u-flex u-bottom-line u-row-between u-p-b-0">
-					<a href="https://mp.weixin.qq.com/s/qD8g6-D7Rv8xgxF1iCk3vQ" target="_blank">
+					<a href="https://mp.weixin.qq.com/s/Cxy-fLEHFil0vn2cjJDsnQ" target="_blank">
 						<view class="u-body-item-title u-line-2">
-							新生报到重要事项
+						萌新指南 | 虎溪校区本科新生报道攻略请查收！
 						</view>
 					</a>
-					<image src="../../static/images/freshman1.png" ></image>
+					<image src="../../static/images/Aquzhengdamen.jpg" ></image>
 				</view>
 				<view class="u-body-item u-flex u-row-between u-p-b-0">
-					<a target="_blank" href="https://mp.weixin.qq.com/s?__biz=MzI5NzA1NTU0NA==&mid=2649761510&idx=1&sn=bc6f04a8926db2c52d17ecd627c39f36&chksm=f4be62b1c3c9eba71a2e6ef2ab81e11b1773400c6500149af164a81635cc8a70ab18c9ee0dae&mpshare=1&scene=23&srcid=0901im3xDPvO0hkUGhQbs7s6&sharer_sharetime=1630555110768&sharer_shareid=afddb2a189ad1c69af7761445de86f46#rd">
+					<a target="_blank" href="https://mp.weixin.qq.com/s/6REoGvM4viPteMh7BNezww">
 						<view class="u-body-item-title u-line-2">
-							开学反诈第一课
+							虎溪校区失物招领联系方式
 						</view>
 					</a>
-					<image src="../../static/images/freshman2.jpg" ></image>
+					<image src="../../static/images/Aqudiwujiaoxuelou.jpg" ></image>
 				</view>
 				<view class="u-body-item u-flex u-row-between u-p-b-0">
-					<a target="_blank" href="https://mp.weixin.qq.com/s?__biz=MzI5NzA1NTU0NA==&mid=2649761510&idx=1&sn=bc6f04a8926db2c52d17ecd627c39f36&chksm=f4be62b1c3c9eba71a2e6ef2ab81e11b1773400c6500149af164a81635cc8a70ab18c9ee0dae&mpshare=1&scene=23&srcid=0901im3xDPvO0hkUGhQbs7s6&sharer_sharetime=1630555110768&sharer_shareid=afddb2a189ad1c69af7761445de86f46#rd">
+					<a target="_blank" href="https://mp.weixin.qq.com/s/vUTP_mo4PcSym9RknyLTjw">
 						<view class="u-body-item-title u-line-2">
-							大学四年怎么过？
+							你今天要吃什么？答案全在这里！
+		
 						</view>
 					</a>
-					<image src="../../static/images/freshman3.png" ></image>
+					<image src="../../static/images/shitang.jpg" ></image>
 				</view>
 				<view class="u-body-item u-flex u-row-between u-p-b-0">
-					<a target="_blank" href="https://mp.weixin.qq.com/s?__biz=MzA5MTU2MTcwNw==&mid=2653075216&idx=1&sn=272ae1254af40f10dfa9c9e603c24f32&chksm=8bac9c94bcdb15827906a1517ad0c489c8cbad5db968411cc09078a21364853bca588a7ef849&mpshare=1&scene=23&srcid=0709cHvvIIuMlq4Sy79csnPF&sharer_sharetime=1688870160150&sharer_shareid=5306b883ad10f322e13ece419cc5f3f5#rd">
+					<a target="_blank" href="https://mp.weixin.qq.com/s/jVXZ9xWN_CAH6jAATS0N9A">
 						<view class="u-body-item-title u-line-2">
-							新生选课大礼包
+							热辣滚烫 | 快来体验虎溪校区体育中心！
 						</view>
 					</a>
-					<image src="../../static/images/freshman4.jpg" ></image>
+					<image src="../../static/images/tiyuzhongxin.jpg" ></image>
 				</view>
 				<view class="u-body-item u-flex u-row-between u-p-b-0">
-					<a target="_blank" href="https://mp.weixin.qq.com/s?__biz=MzA5MTU2MTcwNw==&mid=2653077806&idx=1&sn=03cf12b2232424d33ce3a505a257404a&chksm=8baceaaabcdb63bc3fe33135ce2f30c139f9bb3d6d94f7b9b7940e7ac614daa30204df7b6942&mpshare=1&scene=23&srcid=0709FxFwdZDcjmFYzHG5qLzp&sharer_sharetime=1688870044301&sharer_shareid=5306b883ad10f322e13ece419cc5f3f5#rd">
+					<a target="_blank" href="https://mp.weixin.qq.com/s/5DACN6FtbPVCbSJB_0_aRw">
 						<view class="u-body-item-title u-line-2">
-							舌尖上的虎溪食堂
+							一起来看！他们丰富多彩的社会实践
 						</view>
 					</a>
-					<image src="../../static/images/freshman5.png" ></image>
+					<image src="../../static/images/shehuishijian.jpg" ></image>
 				</view>
 				<view class="u-body-item u-flex u-row-between u-p-b-0">
-					<a target="_blank" href="https://mp.weixin.qq.com/s?__biz=MzA5MTU2MTcwNw==&mid=2653083340&idx=1&sn=ba6278a80481ff0e218d1cc939b36f94&chksm=8bacfd48bcdb745e63682dadf52a0668a34c726f2afcc2073ba3793d451d490252574114f1d7&mpshare=1&scene=23&srcid=0709qSefhHWHIxhceHHFAIPl&sharer_sharetime=1688870083028&sharer_shareid=5306b883ad10f322e13ece419cc5f3f5#rd">
+					<a target="_blank" href="https://mp.weixin.qq.com/s/8-J6Yg8QiHTB4K34iRHgnA">
 						<view class="u-body-item-title u-line-2">
-							虎溪校园的体育设施
+							虎溪用“新”盼你回“家”啦！
 						</view>
 					</a>
-					<image src="../../static/images/freshman6.jpg" ></image>
+					<image src="../../static/images/yinxing.jpg" ></image>
 				</view>
 			</view>
 		</u-card>
@@ -71,7 +72,7 @@
 		data() {
 			return {
 				title: '新生入学指南',
-				subTitle: '2023-09-01',
+				subTitle: '2024-09-01',
 				thumb: '',
 				padding: 50,
 				bottomSlot: false,
@@ -86,7 +87,7 @@
 				rightSlot: false,
 				useSlot: false,
 				background: {
-					'background-image': 'linear-gradient(45deg, rgb(118, 187, 187), rgb(156, 198, 130))'
+					'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198))'
 				},
 				isBack: true,
 				search: false,
@@ -120,7 +121,7 @@
 	}
 	
 	page {
-		background-image: linear-gradient(90deg, rgb(118, 187, 187), rgb(156, 198, 130));
+		background-image: linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198));
 	}
 	
 	.u-card-wrap {

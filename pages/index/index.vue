@@ -25,7 +25,9 @@
 				:list="infoList" :moreIcon="false" :volumeIcon="true" :duration="2000" :isCircular="true">
 			</u-notice-bar>
 		</view>
-		<view 倒计时 class="center" style="background-color: #dbffe7;">
+		
+		<view 倒计时 class="center" style="background-color: #dcffe8;">
+
 			<text>\n距离报道截止还有：</text>
 			<u-count-down :timestamp="timeStamp" :separator="separator" :showDays="false"
 				:separator-color="separatorColor" :fontSize="30" :color="color" bg-color="rgb(250, 250, 250)"
@@ -33,7 +35,7 @@
 			</u-count-down>
 			<text>\n已经报道</text>
 			<u-count-to :autoplay="true" :startVal="0" :endVal="endVal" :duration="10000" :bold="true"
-				style="fontSize:110% ; color: lightgreen;"></u-count-to>
+				style="fontSize:110% ; color: #000000;"></u-count-to>
 			<text>人\n\n</text>
 		</view>
 		<view>
@@ -44,7 +46,7 @@
 		<view>
 			<u-row :justify="justify" @click="rowClick">
 				<u-col :span="span" :offset="offset" stop>
-					<u-card style="background-color: #65d1ff;" class="style1" @click="goInform()" :title="titley"
+					<u-card style="background-color: #05d7bb;" class="style1" @click="goInform()" :title="titley"
 						:thumb="thumby" :padding="paddingy" :border="bordery" :head-border-bottom="hbby"
 						:foot-border-top="fbty">
 						<view class="" slot="body">
@@ -57,7 +59,7 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #c4ff97;" class="style1" @click="goFlow()" :title="titlez"
+					<u-card style="background-color: #7ee1ff;" class="style1" @click="goFlow()" :title="titlez"
 						:thumb="thumbz" :padding="paddingz" :border="borderz" :head-border-bottom="hbbz"
 						:foot-border-top="fbtz">
 						<view class="" slot="body">
@@ -70,7 +72,7 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #ffd249;" class="style1" @click="goCollect()" :title="titlex"
+					<u-card style="background-color: #bcff89;" class="style1" @click="goCollect()" :title="titlex"
 						:thumb="thumbx" :padding="paddingx" :border="borderx" :head-border-bottom="hbbx"
 						:foot-border-top="fbtx">
 						<view class="" slot="body">
@@ -83,7 +85,7 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #ffc69c;" class="style1" @click="goReport()" :title="titlev"
+					<u-card style="background-color: #f6ffc9;" class="style1" @click="goReport()" :title="titlev"
 						:thumb="thumbv" :padding="paddingz" :border="borderz" :head-border-bottom="hbbz"
 						:foot-border-top="fbtz">
 						<view class="" slot="body">
