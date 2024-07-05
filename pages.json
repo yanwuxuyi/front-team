@@ -127,6 +127,7 @@
 			"path": "pages/forum/forum",
 			"style": {
 				"navigationBarTitleText": "生态圈"
+				
 			}
 		},
 		{
@@ -169,18 +170,22 @@
 
 			}
 		},
-		{
-			"path": "pages/service/servicemain",
+		 {
+		 	"path": "pages/service/servicemain",
 			"style": {
 				"navigationBarTitleText": "服务中心"
+				 
 			}
 		},
+		
+		
 		{
 			"path": "pages/service/samehometown",
 			"style": {
 				"navigationBarTitleText": "找同乡"
 			}
 		},
+		
 		{
 			"path": "pages/service/schoolbus",
 			"style": {
@@ -316,7 +321,7 @@
 		"color": "#7A7E83",
 		"selectedColor": "#55aaff",
 		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
+		"backgroundColor": "#eafffc",
 		"height": "50px",
 		"fontSize": "10px",
 		"iconWidth": "24px",

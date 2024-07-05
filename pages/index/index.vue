@@ -25,7 +25,7 @@
 				:list="infoList" :moreIcon="false" :volumeIcon="true" :duration="2000" :isCircular="true">
 			</u-notice-bar>
 		</view>
-		<view 倒计时 class="center" style="background-color: #fcffd3;">
+		<view 倒计时 class="center" style="background-color: #dbffe7;">
 			<text>\n距离报道截止还有：</text>
 			<u-count-down :timestamp="timeStamp" :separator="separator" :showDays="false"
 				:separator-color="separatorColor" :fontSize="30" :color="color" bg-color="rgb(250, 250, 250)"
@@ -33,7 +33,7 @@
 			</u-count-down>
 			<text>\n已经报道</text>
 			<u-count-to :autoplay="true" :startVal="0" :endVal="endVal" :duration="10000" :bold="true"
-				style="fontSize:130%"></u-count-to>
+				style="fontSize:110% ; color: lightgreen;"></u-count-to>
 			<text>人\n\n</text>
 		</view>
 		<view>
@@ -148,7 +148,7 @@
 				rightSlot: false,
 				useSlot: false,
 				background: {
-					'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(159, 198, 198))'
+					'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198))'
 				},
 				isBack: false,
 				search: false,
@@ -209,16 +209,20 @@
 				activeColor: '#fff2d7',
 				// 模块列表
 				slideshowlist: [{
-						image: '/static/images/slideshowpic/1.jpg',
-						title: '迎新大会'
+						image: '/static/images/slideshowpic/Aquyidalou.png',
+						title: 'A区一大楼'
 					},
 					{
-						image: '/static/images/slideshowpic/2.PNG',
-						title: '图书馆指南'
+						image: '/static/images/slideshowpic/tushuguan.png',
+						title: '图书馆'
 					},
 					{
-						image: '/static/images/slideshowpic/3.PNG',
-						title: '校园萌宠'
+						image: '/static/images/slideshowpic/xinxilou.png',
+						title: '信息大楼'
+					},
+					{
+						image: '/static/images/slideshowpic/zhujiaoxuelou.png',
+						title: '主教学楼'
 					}
 				],
 				titley: '报道须知',
@@ -308,7 +312,6 @@
 			})
 			this.calculateTime();
 		},
-
 		methods: {
 			initStatus() {
 				const value = uni.getStorageSync('user');
@@ -405,6 +408,7 @@
 					this.showToast()
 				}
 			},
+
 			showToast() {
 				this.$refs.uToast.show({
 					title: this.title,
