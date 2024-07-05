@@ -36,7 +36,7 @@
 			:isCircular="true">
 			</u-notice-bar>
 		</view>
-		<view 倒计时 class="center" style="background-color: #dbffe7;">
+		<view 倒计时 class="center" style="background-color: #d8ffff;">
 			<text>\n距离报道截止还有：</text>
 			<u-count-down 
 			:timestamp="timeStamp" 
@@ -45,7 +45,7 @@
 			:separator-color="separatorColor" 
 			:fontSize="30" 
 			:color="color"  
-			bg-color="rgb(224, 250, 239)"
+			bg-color="rgb(202, 248, 250)"
 			@end ="end">
 			</u-count-down>
 			<text>\n已经报道</text>
@@ -55,7 +55,7 @@
 				:endVal="endVal"
 				:duration="10000"
 				:bold="true"
-				style="fontSize:110% ; color: lightgreen;"
+				style="fontSize:110% ;"
 			></u-count-to> 
 			<text>人\n\n</text>
 		</view>
@@ -67,8 +67,9 @@
 		<view >
 			<u-row :justify="justify" @click="rowClick">
 				<u-col :span="span" :offset="offset" stop>
-					<u-card style="background-color: #c6faff;" class="style1" @click="goInform()" :title="titley" :thumb="thumby" :padding="paddingy" :border="bordery"
+					<u-card style="background:linear-gradient(to bottom, #ffe0ef, #ffffff);" class="style1" @click="goInform()" :title="titley" :thumb="thumby" :padding="paddingy" :border="bordery"
 						:head-border-bottom="hbby" :foot-border-top="fbty">
+					
 						<view  class="" slot="body">
 							<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
 								<view class="u-body-item-title u-line-2">
@@ -79,7 +80,7 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #dcfff7;" class="style1" @click="goFlow()" :title="titlez" :thumb="thumbz" :padding="paddingz" :border="borderz"
+					<u-card style="background:linear-gradient(to bottom, #d7ffdc,#ffffff);" class="style1" @click="goFlow()" :title="titlez" :thumb="thumbz" :padding="paddingz" :border="borderz"
 						:head-border-bottom="hbbz" :foot-border-top="fbtz">
 						<view class="" slot="body">
 							<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
@@ -91,7 +92,7 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #e2ffee;" class="style1" @click="goCollect()" :title="titlex" :thumb="thumbx" :padding="paddingx" :border="borderx"
+					<u-card style="background:linear-gradient( to bottom,#c6fdff,#ffffff);" class="style1" @click="goCollect()" :title="titlex" :thumb="thumbx" :padding="paddingx" :border="borderx"
 						:head-border-bottom="hbbx" :foot-border-top="fbtx">
 						<view class="" slot="body">
 							<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
@@ -103,7 +104,7 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #f7fff2;" class="style1" @click="goService()" :title="titlev" :thumb="thumbv" :padding="paddingz" :border="borderz"
+					<u-card style="background:linear-gradient(#fcffdb,#ffffff);" class="style1" @click="goService()" :title="titlev" :thumb="thumbv" :padding="paddingz" :border="borderz"
 						:head-border-bottom="hbbz" :foot-border-top="fbtz">
 						<view class="" slot="body">
 							<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
