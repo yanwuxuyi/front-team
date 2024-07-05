@@ -79,6 +79,32 @@
 					</view>
 				</navigator>
 			</view>
+			 <!-- 第四行 -->
+			        <view class="service-header">
+			          <text>小功能</text>
+			        </view>
+			        <view class="service-row">
+						<navigator url="/pages/service/dorm" class="service-item">
+							<view class="service-icon-container">
+								<image class="service-icon" src="/static/service/dorm.png" mode="aspectFit"></image>
+								<text class="service-name">换宿舍</text>
+							</view>
+						</navigator>
+
+					  
+			          <navigator url="/pages/service/leave" class="service-item">
+			            <view class="service-icon-container">
+			              <image class="service-icon" src="/static/service/leave.png" mode="aspectFit"></image>
+			              <text class="service-name">请假</text>
+			            </view>
+			          </navigator>
+			          <navigator url="/pages/service/approval" class="service-item">
+			            <view class="service-icon-container">
+			              <image class="service-icon" src="/static/service/approval.png" mode="aspectFit"></image>
+			              <text class="service-name">占个位置</text>
+			            </view>
+			          </navigator>
+			        </view>
 		</view>
 	</view>
 

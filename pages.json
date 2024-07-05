@@ -177,7 +177,13 @@
 				 
 			}
 		},
-		
+		{
+		 	"path": "pages/service/leave",
+			"style": {
+				"navigationBarTitleText": "请假申请"
+				 
+			}
+		},
 		
 		{
 			"path": "pages/service/samehometown",
@@ -305,6 +311,13 @@
 			"path": "pages/frmv/connect",
 			"style": {
 				"navigationBarTitleText": "" 
+			}
+		},
+		{
+			"path" : "pages/service/dorm",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
 			}
 		}
 	],
