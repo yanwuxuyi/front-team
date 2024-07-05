@@ -56,9 +56,11 @@
 					            <button @tap="cancelReply">取消</button>
 					        
 				</view>
-				    
-				<view v-if="showInputBox3" @click="addforum" class="floating-icon">
-					<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+				    <view v-if="showInputBox4" @click="addforum" class="floating-icon">
+				    	<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
+				    </view>
+				<view v-if="showInputBox3" @click="addup" class="floating-icon2">
+					<u-icon name="arrow-up" size="40" color="#c7ddff"></u-icon>
 				</view>
 			
 			</view>
@@ -88,6 +90,7 @@ export default {
 			showInputBox:false,
 			showInputBox2:false,
 			showInputBox3:true,
+			showInputBox4:true,
 			replyContent2:'',
 		
 			currentComment:[],
@@ -145,6 +148,12 @@ onShow() {
 
 
 	methods: {	
+		addup() {
+		      window.scrollTo({
+		        top: 0,
+		        behavior: 'smooth' // 使用平滑滚动
+		      });
+		    },
 		addforum() {
 			this.showInputBox2 = true;
 			this.showInputBox3 = false;
@@ -579,6 +588,21 @@ onShow() {
 			z-index: 1000;
 			cursor: pointer;
 		}
+		.floating-icon2 {
+					position: fixed;
+					bottom: 150px;
+					right: 10px;
+					width: 50px;
+					height: 50px;
+					background-color: #007aff;
+					border-radius: 50%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+					z-index: 1000;
+					cursor: pointer;
+				}
 .input-box {
     position: fixed;
     bottom: 50rpx;
