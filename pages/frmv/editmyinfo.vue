@@ -84,5 +84,9 @@
 </script>
 
 <style>
-
+	.wrap{
+		padding: 10rpx 50rpx;
+		width: 100%;
+		height: 100%;
+	}
 </style>

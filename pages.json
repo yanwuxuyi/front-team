@@ -148,6 +148,18 @@
 			}
 		},
 		{
+			"path": "pages/forum/others",
+			"style": {
+				"navigationBarTitleText": "好友"
+			}
+		},
+		{
+			"path": "pages/forum/changemoto",
+			"style": {
+				"navigationBarTitleText": "修改签名"
+			}
+		},
+		{
 			"path": "pages/frmv/forgotPassword",
 			"style": {
 				"navigationBarTitleText": "忘记密码"
