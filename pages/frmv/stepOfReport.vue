@@ -70,7 +70,6 @@
 		</view>
 		<!-- 上下步导航按钮 -->
 		<view class="nav-buttons">
-			<button @click="prevStep" :disabled="currentStep === 1" size="mini">上一步</button>
 			<button @click="nextStep" :disabled="currentStep === totalSteps" size="mini">下一步</button>
 		</view>
 	</view>
@@ -80,8 +79,10 @@
 	export default {
 		data() {
 			return {
+				loading: true,
 				currentStep: 1,
 				totalSteps: 5, // 总步骤数，根据实际情况调整
+				studentId: ''
 			};
 		},
 		computed: {
@@ -90,28 +91,97 @@
 			},
 		},
 		methods: {
-			nextStep() {
-				if (this.currentStep < this.totalSteps) {
-					this.currentStep++;
-				}
-			},
-			prevStep() {
-				if (this.currentStep > 1) {
-					this.currentStep--;
-				}
-			},
 			navigateToMap() {
 				// 使用uniapp的导航功能跳转到指定页面
 				uni.navigateTo({
 					url: '/pages/frmv/map',
 				});
 			},
+			async fetchStudentInfo() {
+				// 从本地存储获取学生信息  
+				const value = uni.getStorageSync('user');
+				if (value && value.studentId) {
+					this.studentId = value.studentId;
+				} else {
+					// 处理未找到学号的情况  
+					uni.showToast({
+						title: '未找到学号信息,请先登录！',
+						icon: 'none'
+					});
+					// 可能需要重定向到登录或学号输入页面  
+				}
+
+				// 获取当前注册状态（可选，根据需求决定是否每次加载都调用）  
+				await this.fetchCurrentStep();
+			},
+			async fetchCurrentStep() {
+				uni.request({
+					url: 'http://192.168.50.101:8090/personalRegister/getRegisterStatus',
+					method: 'GET',
+					data: {
+						studentid: this.studentId
+					},
+					success: (res) => {
+						if (res.data.status === true) {
+							// 解析后端返回的数据
+							this.currentStep = JSON.parse(res.data.result);
+							console.log('目前状态数据:', this.currentStep);
+						} else {
+							console.error('请求失败:', res);
+						}
+					},
+					fail: (err) => {
+						uni.showToast({
+							title: '获取当前注册状态失败',
+							icon: 'none'
+						})
+					}
+				});
+			},
+			async RegisterStatus() {
+				uni.request({
+					url: 'http://192.168.50.101:8090/personalRegister/registerStatus',
+					method: 'GET',
+					data: {
+						studentid: this.studentId,
+						registertatus: this.currentStep
+					},
+					success: (res) => {
+						if (res.data.status === true) {
+							// 解析后端返回的数据
+							this.currentStep = JSON.parse(res.data.result);
+							console.log('更新后的状态数据:', this.currentStep);
+						} else {
+							console.error('请求失败:', res);
+						}
+					},
+					fail: (err) => {
+						uni.showToast({
+							title: '更新注册状态失败',
+							icon: 'none'
+						})
+					}
+				});
+			},
+			async nextStep() {
+				if (this.currentStep < this.totalSteps) {
+					await this.RegisterStatus();
+				}
+			},
+			onLoad() {
+				this.fetchStudentInfo(); // 页面加载时获取学生信息和当前注册状态  
+			}
 		},
 	};
 </script>
 
 <style lang="scss">
 	/* 样式可以根据实际需求进行调整 */
+	.loading {
+		margin-top: 20rpx;
+		text-align: center;
+	}
+
 	.container {
 		padding: 20px;
 	}

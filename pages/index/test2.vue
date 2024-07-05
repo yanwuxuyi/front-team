@@ -51,6 +51,9 @@
 	import * as utf8 from "utf8";
 	import URL from 'url';
 
+
+  
+
 	export default {
 		data() {
 			return {
@@ -63,6 +66,7 @@
 				sparkResult: '',
 				historyTextList: [],
 				tempRes: '',
+				defaultAssistantMessage: "欢迎广大同学加入重庆大学新家庭！欢迎同学们咨询问题！",
 				list: [{
 						name: 'AI问答'
 					}, {
@@ -74,6 +78,13 @@
 				],
 				current: 0
 			}
+		},
+		mounted() {
+		  // 添加默认助手消息
+		  this.historyTextList.push({
+		    role: "assistant",
+		    content: this.defaultAssistantMessage
+		  });
 		},
 		methods: {
 			async sendToSpark() {
@@ -218,6 +229,7 @@
 		}
 	};
 	
+
 </script>
 
 
