@@ -1,10 +1,12 @@
 <template>
-	<view>
+	
+	<view >
+		
 	<view class="service-center">
 		<!-- 服务列表，每行四个 -->
 		<view class="service-list">
 			<view class="service-header">
-				<text>公共服务</text>
+				<text >公共服务</text>
 			</view>
 			<view class="service-row">
 				<a href="http://lib.cqu.edu.cn/index" class="service-linkitem">
@@ -80,6 +82,7 @@
 		</view>
 	</view>
 
+
 	</view>
 </template>
 
@@ -100,6 +103,10 @@
 		/* 假设你想让服务列表占据整个视口高度 */
 		padding: 10px;
 		/* 可选，根据需要调整 */
+	
+		
+		 
+		
 	}
 
 	.service-header text {
@@ -212,6 +219,5 @@
 		color: #333;
 		/* 文本颜色 */
 	}
-
-	/* 其他样式保持不变 */
+	
 </style>

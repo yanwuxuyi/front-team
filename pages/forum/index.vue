@@ -1,72 +1,66 @@
+
 <template>
 	<view>
-		<u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
-		<u-navbar title-color="#fff" back-icon-color="#ffffff"
-			:is-fixed="isFixed" :is-back="isBack" 
-			:background="background" 
-			:back-text-style="{color: '#fff'}" :title="title1" 
-			:back-icon-name="backIconName" :back-text="backText">
-			</u-navbar>
-			
+		<u-tabs :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
+	
+	<u-navbar title-color="#fff" back-icon-color="#ffffff" 
+	:backgroundColor="'#ff0000'"
+	:back-text-style="{color: '#fff'}">
+	</u-navbar>
+	
+	
+	
 		<view v-if="account">
 			<view v-if="this.loaded==false">
 				<view class="holecontainer">
-					<u-loading mode="circle" color="#df1215" size="80"></u-loading>
+						<u-loading mode="circle" color="#df1215" size="80"></u-loading>
 				</view>
 			</view>
 			<view v-else>
-				<view class="comment" v-for="(res, index) in commentList" :key="res.id">
-					<view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
-					<view class="right">
-						<view class="top">
-							<view class="name">{{ res.name }}</view>
-							<view class="like" :class="{ highlight: res.isLike }">
-								<view class="num">{{ res.likeNum }}</view>
-								<u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
-								<u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
-							</view>
-						</view>
-						<view class="content">{{ res.contentText }}</view>
-						<view class="reply-box">
-							<view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
-								<view class="username">{{ item.name }}</view>
-								<view class="text">{{ item.contentStr }}</view>
-							</view>
-							<view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined && res.allReply != 0">
-								共{{ res.allReply }}条回复
-								<u-icon class="more" name="arrow-right" :size="26"></u-icon>
-							</view>
-						</view>
-						<view class="bottom">
-							{{ res.date }}
-							<view class="reply" @tap="showReplyInput(res)">回复</view>
-						</view>
-					</view>
-				</view>
-				
-
-				
-				<view v-if="showInputBox" class="input-box">
-					<textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
-					<button @tap="submitReply(res)">提交</button>
-					<button @tap="cancelReply">取消</button>
-				</view>
-
+			    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
+			        <view class="left"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
+			        <view class="right">
+			            <view class="top">
+			                <view class="name">{{ res.name }}</view>
+			                <view class="like" :class="{ highlight: res.isLike }">
+			                    <view class="num">{{ res.likeNum }}</view>
+			                    <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
+			                    <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
+			                </view>
+			            </view>
+			            <view class="content">{{ res.contentText }}</view>
+			            <view class="reply-box">
+			                <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
+			                    <view class="username">{{ item.name }}</view>
+			                    <view class="text">{{ item.contentStr }}</view>
+			                </view>
+			                <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined&&res.allReply!=0">
+			                    共{{ res.allReply }}条回复
+			                    <u-icon class="more" name="arrow-right" :size="26"></u-icon>
+			                </view>
+			            </view>
+			            <view class="bottom">
+			                {{ res.date }}
+			                <view class="reply" @tap="showReplyInput(res)">回复</view>
+			            </view>
+			        </view></view>
+					<view v-if="showInputBox" class="input-box">
+					            <textarea v-model="replyContent" placeholder="请输入回复内容"></textarea>
+					            <button @tap="submitReply(res)">提交</button>
+					            <button @tap="cancelReply">取消</button>
+					        </view>
+			    
 				<view v-if="showInputBox2" class="input-box">
-					<textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
-					<button @tap="submitReply2(res)">提交</button>
-					<button @tap="cancelReply">取消</button>
+					            <textarea v-model="replyContent2" placeholder="请输入发帖内容"></textarea>
+					            <button @tap="submitReply2(res)">提交</button>
+					            <button @tap="cancelReply">取消</button>
+					        
 				</view>
-				
-				<view v-if="showInputBox4" class="scroll-top" @click="scrollToTop" >
-					<u-icon name="arrow-up" size="40" color="#c7ddff"></u-icon>
-				</view>
-
+				    
 				<view v-if="showInputBox3" @click="addforum" class="floating-icon">
 					<u-icon name="plus" size="40" color="#c7ddff"></u-icon>
 				</view>
-
-
+			
 			</view>
 		</view>
 		<view v-else>
@@ -75,7 +69,9 @@
 					<u-icon name="close-circle" size="162" color="#ff9c4a"></u-icon>
 				</view>
 				<text class="wrongnormal">请先登录</text>
+				
 			</view>
+				
 		</view>
 	</view>
 </template>
@@ -92,13 +88,10 @@ export default {
 			showInputBox:false,
 			showInputBox2:false,
 			showInputBox3:true,
-			showInputBox4:true,
 			replyContent2:'',
+		
 			currentComment:[],
 			commentList: [],
-			background: {
-				'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(140, 189, 198))'
-			},
 			pic:[],
 			list: [{
 								name: '帖子'
@@ -152,12 +145,6 @@ onShow() {
 
 
 	methods: {	
-		scrollToTop() {
-					uni.pageScrollTo({
-						scrollTop: 0,
-						duration: 300
-					});
-				},
 		addforum() {
 			this.showInputBox2 = true;
 			this.showInputBox3 = false;
@@ -592,21 +579,6 @@ onShow() {
 			z-index: 1000;
 			cursor: pointer;
 		}
-.scroll-top {
-			position: fixed;
-			bottom: 150px;
-			right: 10px;
-			width: 50px;
-			height: 50px;
-			background-color: #007aff;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-			z-index: 1000;
-			cursor: pointer;
-		}
 .input-box {
     position: fixed;
     bottom: 50rpx;
@@ -658,7 +630,11 @@ onShow() {
 		font-size: 20px;
 		margin-top: 10px;
 	}
-
+// .navbar {
+//     background: linear-gradient(45deg, rgb(44, 168, 187), rgb(140, 197, 198)); /* 红色到蓝色的渐变 */
+//     /* 可根据需要调整渐变方向和颜色 */
+	
+// }
 
 
 </style>

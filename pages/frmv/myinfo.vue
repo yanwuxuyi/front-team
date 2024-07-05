@@ -17,7 +17,7 @@
 		</view>
 		<view v-if="logined">
 			<view class="top">
-			  <view class="background" style="background-image: linear-gradient(45deg, rgb(118, 187, 187), rgb(156, 198, 130));"></view>
+			  <view class="background" style="background-image: linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198));"></view>
 			</view>
 			<view class="user-card">
 			  <view class="card">
@@ -108,7 +108,9 @@
 		</view>
 		<view v-else>
 			<view class="top">
-			  <view class="background" style="background-image: linear-gradient(45deg, rgb(118, 187, 187), rgb(156, 198, 130));"></view>
+			  <view class="background" style="background-image: linear-gradient (45deg, rgb(44, 168, 187), rgb(166, 197, 198));"></view>
+			  
+			   
 			</view>
 			<view class="user-card">
 			  <view class="card">
@@ -184,7 +186,7 @@
 				rightSlot: false,
 				useSlot: false,
 				background: {
-					'background-image': 'linear-gradient(45deg, rgb(118, 187, 187), rgb(156, 198, 130))'
+                     'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198))'
 				},
 				isBack: false,
 				search: false,
@@ -357,7 +359,7 @@
 	  height: 250rpx;
 	  position: relative;
 	  .background {
-	    background-color: #5199ff;
+	    background-color:  'linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198))';
 	    border-bottom-left-radius: 22px;
 	    border-bottom-right-radius: 22px;
 	    position: absolute;

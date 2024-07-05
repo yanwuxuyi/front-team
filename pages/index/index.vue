@@ -36,7 +36,7 @@
 			:isCircular="true">
 			</u-notice-bar>
 		</view>
-		<view 倒计时 class="center" style="background-color: #fcffd3;">
+		<view 倒计时 class="center" style="background-color: #dbffe7;">
 			<text>\n距离报道截止还有：</text>
 			<u-count-down 
 			:timestamp="timeStamp" 
@@ -45,7 +45,7 @@
 			:separator-color="separatorColor" 
 			:fontSize="30" 
 			:color="color"  
-			bg-color="rgb(250, 250, 250)"
+			bg-color="rgb(224, 250, 239)"
 			@end ="end">
 			</u-count-down>
 			<text>\n已经报道</text>
@@ -55,7 +55,7 @@
 				:endVal="endVal"
 				:duration="10000"
 				:bold="true"
-				style="fontSize:130%"
+				style="fontSize:110% ; color: lightgreen;"
 			></u-count-to> 
 			<text>人\n\n</text>
 		</view>
@@ -67,7 +67,7 @@
 		<view >
 			<u-row :justify="justify" @click="rowClick">
 				<u-col :span="span" :offset="offset" stop>
-					<u-card style="background-color: #65d1ff;" class="style1" @click="goInform()" :title="titley" :thumb="thumby" :padding="paddingy" :border="bordery"
+					<u-card style="background-color: #c6faff;" class="style1" @click="goInform()" :title="titley" :thumb="thumby" :padding="paddingy" :border="bordery"
 						:head-border-bottom="hbby" :foot-border-top="fbty">
 						<view  class="" slot="body">
 							<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
@@ -79,7 +79,7 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #c4ff97;" class="style1" @click="goFlow()" :title="titlez" :thumb="thumbz" :padding="paddingz" :border="borderz"
+					<u-card style="background-color: #dcfff7;" class="style1" @click="goFlow()" :title="titlez" :thumb="thumbz" :padding="paddingz" :border="borderz"
 						:head-border-bottom="hbbz" :foot-border-top="fbtz">
 						<view class="" slot="body">
 							<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
@@ -91,7 +91,7 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #ffd249;" class="style1" @click="goCollect()" :title="titlex" :thumb="thumbx" :padding="paddingx" :border="borderx"
+					<u-card style="background-color: #e2ffee;" class="style1" @click="goCollect()" :title="titlex" :thumb="thumbx" :padding="paddingx" :border="borderx"
 						:head-border-bottom="hbbx" :foot-border-top="fbtx">
 						<view class="" slot="body">
 							<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
@@ -103,12 +103,12 @@
 					</u-card>
 				</u-col>
 				<u-col :span="span" :offset="offset" @click="click" stop>
-					<u-card style="background-color: #ffc69c;" class="style1" @click="goReport()" :title="titlev" :thumb="thumbv" :padding="paddingz" :border="borderz"
+					<u-card style="background-color: #f7fff2;" class="style1" @click="goService()" :title="titlev" :thumb="thumbv" :padding="paddingz" :border="borderz"
 						:head-border-bottom="hbbz" :foot-border-top="fbtz">
 						<view class="" slot="body">
 							<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
 								<view class="u-body-item-title u-line-2">
-									请跟随引导完成注册流程
+									内含多个功能帮助新生适应新环境
 								</view>
 							</view>
 						</view>
@@ -140,7 +140,7 @@
 				rightSlot: false,
 				useSlot: false,
 				background: {
-					'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(159, 198, 198))'
+					'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198))'
 				},
 				isBack: false,
 				search: false,
@@ -201,16 +201,20 @@
 					activeColor: '#fff2d7',
 					// 模块列表
 				slideshowlist: [{
-						image: '/static/images/slideshowpic/1.jpg',
-						title: '迎新大会'
+						image: '/static/images/slideshowpic/Aquyidalou.png',
+						title: 'A区一大楼'
 					},
 					{
-						image: '/static/images/slideshowpic/2.PNG',
-						title: '图书馆指南'
+						image: '/static/images/slideshowpic/tushuguan.png',
+						title: '图书馆'
 					},
 					{
-						image: '/static/images/slideshowpic/3.PNG',
-						title: '校园萌宠'
+						image: '/static/images/slideshowpic/xinxilou.png',
+						title: '信息大楼'
+					},
+					{
+						image: '/static/images/slideshowpic/zhujiaoxuelou.png',
+						title: '主教学楼'
 					}
 				],
 				titley: '报道须知',
@@ -231,8 +235,8 @@
 				borderx: false,
 				hbbx: false,
 				fbtx: false,
-				titlev: '报道流程',
-				thumbv: '../../static/images/reportlogo.png',
+				titlev: '服务中心',
+				thumbv: '../../static/images/grid.png',
 				paddingx: 20,
 				borderx: false,
 				hbbx: false,
@@ -348,15 +352,14 @@
 					this.showToast()
 				}
 			},
-			goReport() {
+			goService() {
 				const value = uni.getStorageSync('user')
 				if (value) {
-					uni.navigateTo({
-						url: '../frmv/stepOfReport'
-					})
+					this.$refs.share.open()
 				}
 				else {
 					this.showToast()
+					this.$refs.share.open()
 				}
 			},
 			showToast() {
