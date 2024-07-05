@@ -87,15 +87,15 @@
 				currentSectionIndex: null, // 用于记录当前点击问题所在的节索引
 				modalBottom: '0',
 				list: [{
-						name: 'AI问答'
-					}, {
 						name: '常见问题解答'
+					}, {
+						name: 'AI问答'
 					},
 					{
 						name: '其他问题'
 					}
 				],
-				current: 1
+				current: 0
 			}
 		},
 		methods: {
@@ -118,12 +118,12 @@
 				switch (index) {
 					case 0:
 						uni.navigateTo({
-							url: '/pages/index/test2'
+							url: '/pages/service/commonquestions'
 						});
 						break;
 					case 1:
 						uni.navigateTo({
-							url: '/pages/service/commonquestions'
+							url: '/pages/index/test2'
 						});
 						break;
 					case 2:
