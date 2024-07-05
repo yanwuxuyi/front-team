@@ -69,8 +69,11 @@
 				导航前往</button>
 		</view>
 		<!-- 上下步导航按钮 -->
-		<view class="nav-buttons">
+		<view class="nav-buttons" v-if="currentStep < 5">
 			<button @click="nextStep" :disabled="currentStep === totalSteps" size="mini">下一步</button>
+		</view>
+		<view class="nav-buttons" v-if="currentStep === 5">
+			<button @click="complete" size="mini">完成</button>
 		</view>
 	</view>
 </template>
@@ -168,8 +171,40 @@
 					await this.RegisterStatus();
 				}
 			},
+			async complete() {
+				uni.request({
+					url: 'http://192.168.50.101:8090/personalRegister/endEmail',
+					method: 'GET',
+					data: {
+						studentid: this.studentId
+					},
+					success: (res) => {
+						if (res.data.status === true) {
+							uni.showToast({
+								title: '邮件发送成功',
+								icon: 'success'
+							});
+						} else {
+							uni.showToast({
+								title: '邮件发送失败',
+								icon: 'none'
+							});
+						}
+					},
+					fail: () => {
+						uni.showToast({
+							title: '请求失败',
+							icon: 'none'
+						});
+					}
+				});
+			},
 			onLoad() {
-				this.fetchStudentInfo(); // 页面加载时获取学生信息和当前注册状态  
+
+			},
+			onShow() {
+				this.fetchStudentInfo(); // 页面加载时获取学生信息和当前注册状态
+				console.info("当前学生学号",this.studentId)
 			}
 		},
 	};

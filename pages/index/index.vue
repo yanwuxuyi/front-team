@@ -22,7 +22,7 @@
 		<view 滚动通知 class="center">
 			<u-toast :type="type" ref="uToast"></u-toast>
 			<u-notice-bar :autoplay="true" :playState="play" :speed="160" :mode="horizontal" :type="warning"
-				:list="infoList" :moreIcon="false" :volumeIcon="true" :duration="2000" :isCircular="true">
+				:list="this.infoList" :moreIcon="false" :volumeIcon="true" :duration="2000" :isCircular="true">
 			</u-notice-bar>
 		</view>
 		<view 倒计时 class="center" style="background-color: #dbffe7;">
@@ -180,7 +180,7 @@
 				warning: 'warning',
 				play: 'play',
 				horizontal: 'horizontal',
-				infoList: ['欢迎广大新同学加入重庆大学的大家庭！请各位新同学注意报道截止时间，尽快完成报道，并在小程序中完成信息收集。'],
+				infoList: ['test'],
 				// 弹窗
 				popup: false,
 				mode: 'bottom',
@@ -276,6 +276,8 @@
 		},
 		onShow() {
 			this.initStatus();
+			this.fetchNotice();
+			console.info('当前通知如下', this.infoList)
 		},
 		onLoad() {
 			uni.request({
@@ -313,6 +315,29 @@
 			this.calculateTime();
 		},
 		methods: {
+			fetchNotice() {
+				uni.request({
+					url: 'http://192.168.50.101:8090/web/hannouncement', // 替换为您的后端接口URL  
+					success: (res) => {
+						if (res.data) {
+							// 假设后端返回的数据结构中有data字段包含通知列表  
+							this.infoList = [res.data.result];
+
+						} else {
+							uni.showToast({
+								title: '获取通知失败',
+								icon: 'none'
+							});
+						}
+					},
+					fail: (err) => {
+						uni.showToast({
+							title: '网络请求失败',
+							icon: 'none'
+						});
+					}
+				});
+			},
 			initStatus() {
 				const value = uni.getStorageSync('user');
 				if (value && value.studentId) {
