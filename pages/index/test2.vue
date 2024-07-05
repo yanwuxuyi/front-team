@@ -49,19 +49,7 @@
 
   export default {
 
-    data() {
-      return {
-        TEXT: '',
-        httpUrl: "https://spark-api.xf-yun.com/v3.5/chat",
-        modelDomain: 'generalv3.5',
-        APPID: '8b3366b0',
-        APISecret: 'NjI1ZWQ1ZGFkMWNlMDY5OGYwOThjNGJk',
-        APIKey: 'd2af4d921d6b7199655230ea1d83562f',
-        sparkResult: '',
-        historyTextList: [],
-        tempRes: ''
-      }
-    },
+
 
      data() {
         return {
@@ -73,10 +61,17 @@
           APIKey: 'd2af4d921d6b7199655230ea1d83562f',
           sparkResult: '',
           historyTextList: [],
-          tempRes: ''
+          tempRes: '',
+		  defaultAssistantMessage: "欢迎广大同学加入重庆大学新家庭！欢迎同学们咨询问题！"
         }
       },
-
+	mounted() {
+      // 添加默认助手消息
+      this.historyTextList.push({
+        role: "assistant",
+        content: this.defaultAssistantMessage
+      });
+    },
     methods: {
       async sendToSpark() {
         let myUrl = await this.getWebSocketUrl();

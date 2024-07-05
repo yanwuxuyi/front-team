@@ -9,99 +9,55 @@
 			:border-bottom="false" @click="goIndex()()">
 		</u-navbar>
 	</view>
-<view v-if="collected">
-	<u-table>
-			<u-tr>
-				<u-td>信息收集表单</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>姓名</u-td>
-				<u-td>{{showform.name}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>昵称</u-td>
-				<u-td>{{showform.nickName}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>性别</u-td>
-				<u-td>{{showform.gender}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>省份</u-td>
-				<u-td>{{showform.province}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>城市</u-td>
-				<u-td>{{showform.city}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>国籍</u-td>
-				<u-td>{{showform.country}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>学院专业</u-td>
-				<u-td>{{showform.education}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>爱好</u-td>
-				<u-td>{{showform.interests}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>宿舍</u-td>
-				<u-td>{{showform.dormitory}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>生日</u-td>
-				<u-td>{{showform.region}}</u-td>
-			</u-tr>
-			<u-tr>
-				<u-td>政治面貌</u-td>
-				<u-td>{{showform.political}}</u-td>
-			</u-tr>
-		</u-table>
-</view>
-<view v-else>
+
+	
 	<view class="">
 		<u-form :model="form" ref="uForm">
-			<u-form-item label="姓名" prop="name" label-width="150rpx" >
-				<u-input v-model="form.name" type="text"  />
-			</u-form-item>
-			<u-form-item label="昵称" label-width="150rpx" prop="nickName" >
+			<u-form-item label="姓名" prop="name" label-width="160rpx">
+				<!-- <u-icon src="../../static/icon/name2.png" size="20" class="form-icon"></u-icon> -->
+			<u-input v-model="form.name" type="text" />
+		  </u-form-item>
+			<u-form-item label="昵称" label-width="160rpx" prop="nickName" >
 				<u-input v-model="form.nickName" type="text" />
 			</u-form-item>
-			<u-form-item label="性别" label-width="150rpx" prop='gender' >
+			<u-form-item label="性别" label-width="160rpx" prop='gender' >
 				<u-input v-model="form.gender" type="select" border: true @click="show=true" />
 				<u-action-sheet :list="actionSheetList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
 			</u-form-item>
-			<u-form-item label="国籍" label-width="150rpx" prop="country" >
-				<u-input v-model="form.country" type="text" />
+			<u-form-item label="所在地区" prop='region' label-width="160rpx" >
+				<u-input v-model="this.region" type="select" border: true @click="showregion=true" />
+				<u-select v-model="showregion" mode="mutil-column-auto" :list="regionlist" @confirm="confirmregion"
+					@click="regionback"></u-select>
 			</u-form-item>
-			<u-form-item label="省份"label-width="150rpx"  prop="province" >
+<!-- 			<u-form-item label="国籍" label-width="160rpx" prop="country" >
+				<u-input v-model="form.country" type="text" />
+			</u-form-item> -->
+			<!-- <u-form-item label="省份"label-width="150rpx"  prop="province" >
 				<u-input v-model="form.province" type="text" />
 			</u-form-item>
 			<u-form-item label="城市" label-width="150rpx" prop="city" >
 				<u-input v-model="form.city" type="text" />
-			</u-form-item>
-			<u-form-item label="宿舍" label-width="150rpx" prop="dormitory">
+			</u-form-item> -->
+			<u-form-item label="宿舍" label-width="160rpx" prop="dormitory">
 				<u-input v-model="form.dormitory" type="text" />
 			</u-form-item>
-			<u-form-item label="出生日期" label-width="150rpx"  prop='birthday' >
+<!-- 			<u-form-item label="出生日期" label-width="150rpx"  prop='birthday' >
 			<view>
 					<u-calendar v-model="showbirthday" :mode="mode" @change="getbirthday"></u-calendar>
 					<u-input v-model="form.birthday" @click="showbirthday = true"/>
 			</view>
-			</u-form-item>
-			<u-form-item label="学院专业" label-width="150rpx" prop='education'>
-				<u-input v-model="form.education" type="select" border: true @click="showcollegemajor=true" />
+			</u-form-item> -->
+			<u-form-item label="学院专业" label-width="160rpx" prop='education'>
+				<u-input v-model="this.showedu" type="select" border: true @click="showcollegemajor=true" />
 				<u-select v-model="showcollegemajor" mode="mutil-column-auto" :list="collegemajorlist" @confirm="confirmcollegemajor"
 					@click="collegemajorback"></u-select>
 			</u-form-item>
-			<u-form-item label="政治面貌" label-width="150rpx" prop='political' >
+			<u-form-item label="政治面貌" label-width="160rpx" prop='political' >
 				<u-input v-model="form.political" type="select" border: true @click="showtraffic=true" />
 				<u-select v-model="showtraffic" mode="single-column" :list="trafficlist" @confirm="confirmtraffic"
 					@click="trafficback"></u-select>
 			</u-form-item>
-			<u-form-item label="兴趣" label-width="150rpx" left-icon="heart">
+			<u-form-item label="兴趣" label-width="160rpx" left-icon="heart">
 				<u-checkbox-group class="checkbox" @change="checkboxGroupChange">
 					<u-checkbox class="checkbox" @change="checkboxChange" v-for="(item, index) in interestslist" 
 					:key="index" :name="item.name"  v-model="item.checked">{{item.name}}</u-checkbox>
@@ -112,13 +68,15 @@
 		<div class="updatetime">信息采集时间:{{ form.reportTime }}</div>
 	</view>
 </view>
-</view>
+
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
+				showedu:'',
+				region:'',
 				// 顶部导航栏
 				title1: '信息采集',
 				backText: '首页',
@@ -143,9 +101,8 @@
 				// #endif
 				form: {
 					
-					birthday: '',
+					academy:'',
 					city: '',
-					country: '',
 					dormitory: '',
 					education: '',
 					gender: '',
@@ -201,12 +158,12 @@
 						// 可以单个或者同时写两个触发验证方式 
 						trigger: ['change', 'blur']
 					}],
-					region: [{
-						required: true,
-						message: '请选择所在地',
-						// 可以单个或者同时写两个触发验证方式 
-						trigger: ['change', 'blur']
-					}],
+					// region: [{
+					// 	required: true,
+					// 	message: '请选择所在地',
+					// 	// 可以单个或者同时写两个触发验证方式 
+					// 	trigger: ['change', 'blur']
+					// }],
 					collegemajor: [{
 						required: true,
 						message: '请选择学院专业',
@@ -241,10 +198,9 @@
 				},
 				//////////表单变量
 				form: {
-					
-					birthday: '',
 					city: '',
-					country: '',
+					//region: '',
+					academy:'',
 					dormitory: '',
 					education: '',
 					gender: '',
@@ -338,7 +294,7 @@
 					},
 					{
 					value: 5,
-					label: '软件学院',
+					label: '大数据与软件工程学院',
 					children: [
 						{
 							value: 6,
@@ -381,7 +337,7 @@
 					},
 					{
 					value: 15,
-					label: '电气工程及自动化学院',
+					label: '电气学院',
 					children: [
 						{
 							value: 16,
@@ -505,7 +461,7 @@
 
 			//////////////表单验证是否正确
 			submit() {
-				console.log(this.form.birthday)
+				//console.log(this.form.birthday)
 				this.form.interests = '';
 				const value0=uni.getStorageSync('user');
 				this.form.phone=value0.phone;
@@ -537,9 +493,11 @@
 					data: this.form,
 					method: "POST",
 					success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-					console.log(res);
+					//console.log(res);
 						if (res.data.status) { //成功注册
 							try {
+								// console.log('数据');
+								// console.log(this.form);
 								//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
 								console.log('存入后台成功')
 								console.log(this.form.reportTime)
@@ -562,6 +520,14 @@
 			///////////////专业显示
 			confirmcollegemajor(collegemajor) {
 				this.form.education = collegemajor[1].label;
+				this.form.academy = collegemajor[0].label;
+				this.showedu = collegemajor[0].label + '-' +collegemajor[1].label;
+			},
+			///////////////城市显示
+			confirmregion(region) {
+				this.form.province = region[0].label;
+				this.form.city = region[1].label;
+				this.region = region[0].label + '-' + region[1].label + '-' + region[2].label;
 			},
 			//git 
 			///////////////兴趣模块..............
@@ -580,45 +546,48 @@
 		},
 		///////////////////////////////////////////////////////表单验证规则函数
 		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
-		onReady() {
-			try { //见  https://uniapp.dcloud.net.cn/api/storage/storage.html#getstoragesync
-			const value1=uni.getStorageSync('user');
-			this.account.phone=value1.phone;
-			this.account.password='123';
-			// uni.request({
-			// 	url: 'http://192.168.1.163:8083/queryStudent',
-			// 	data: this.account,
-			// 	method: "POST",
-			// 	success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-			// 		if (res.data.status) { 
-			// 			try {
-			// 				//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
-			// 				uni.setStorageSync('student', res.data.result); //将用户对象本地存储 以便后续身份识别 权限验证等
-			// 			} catch (e) {
-			// 				this.$u.toast('身份信息格式异常')
-			// 			}
-			// 		} else {
-			// 			this.$u.toast('完善信息失败') //提示框
-			// 		}
-			// 		this.showform=uni.getStorageSync('student');
-			// 		console.log('查到了学生数据为：',this.showform)
-			// 			if (this.showform) {
-			// 				this.collected = true
-			// 				this.showform.birthday=this.showform.birthday.substring(0,9)
-			// 				if(this.showform.interests==null){
-			// 					this.showform.interests='暂无'
-			// 				}
-			// 			} else {
-			// 				this.collected = false
-			// 			}
-			// 	}
-			// });
-			
-			} catch (e) {
-				// error
-			}
-			this.$refs.uForm.setRules(this.rules);
-		},
+		onLoad() {
+		    try {
+		      const value1 = uni.getStorageSync('user');
+		      uni.request({
+		        url: `http://192.168.50.101:8090/auth/getAllById?id=${value1.id}`,
+		        success: (res) => {
+		          console.log(res);
+		          if (res.data.status) {
+		            try {
+		              uni.setStorageSync('student', res.data.result);
+		            } catch (e) {
+		              this.$u.toast('身份信息格式异常');
+		            }
+		          } else {
+		            this.$u.toast('完善信息失败');
+		          }
+		          this.showform = uni.getStorageSync('student');
+		          console.log('查到了学生数据为：', this.showform);
+		          if (this.showform) {
+		            this.form.name = this.showform.name;
+		            this.form.nickName = this.showform.nickName;
+		            this.form.gender = this.showform.gender;
+		            this.region = this.showform.province+'-'+this.showform.city;
+					this.showedu = this.showform.academy+'-'+this.showform.education;
+		            this.form.dormitory = this.showform.dormitory;
+		            this.form.birthday = this.showform.name;
+		            this.form.education = this.showform.education;
+					this.form.academy = this.showform.academy;
+		            this.form.political = this.showform.political;
+					this.interestslist.forEach(interest => {
+					        if (interest.name==this.showform.interests) {
+					          interest.checked = true;
+					        }
+					      });
+		          }
+		        }
+		      });
+		    } catch (e) {
+		      console.error("An error occurred while accessing storage:", e);
+		    }
+		    this.$refs.uForm.setRules(this.rules);
+		  },
 		created() {
 		    this.nowtimer = setInterval(this.gettime, 1000);
 		  }
@@ -640,6 +609,11 @@
 	
 	.popup-button:hover {
 	  background-color: #0056b3;
+	}
+	
+	.form-icon {
+	  margin-left: 10px;
+	  vertical-align: middle;
 	}
 
 </style>
