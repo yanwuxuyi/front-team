@@ -1,5 +1,8 @@
 <template>
 	<view class="u-wrap">
+		<view class="musk" :style="{ color: `${this.currentColor}` }">
+			
+		</view>
 		<view>
 			<u-navbar title-color="#fff" back-icon-color="#ffffff" :is-fixed="isFixed" :is-back="isBack"
 				:background="background" :back-text-style="{color: '#fff'}" :title="title1"
@@ -134,6 +137,9 @@
 						label: '医院体检'
 					}
 				],
+				//当前背景蒙版颜色
+				currentColor:"rgba(28, 207, 216, 0.2)", /* 半透明背景 */ 
+				
 				currentStep: 0, // 初始步骤  
 				studentId: '',
 				currentWeather: '',
@@ -258,20 +264,27 @@
 				console.log('选择：' + this.currentWeather);
 				switch (this.currentWeather) {
 					case '晴':
+
 						return '../../static/icon/sun.png';
 					case '大雨':
-						return '../../static/icon/bigrain.png';
+
+						return '../../static/icon/bigsrain.png';
 					case '大暴雨':
 						return '../../static/icon/bigrain.png';
 					case '雷阵雨':
+
 						return '../../static/icon/rerain.png';
 					case '中雨':
+
 						return '../../static/icon/rain.png';
 					case '小雨':
+
 						return '../../static/icon/rain.png';
 					case '多云':
+
 						return '../../static/icon/cloud.png';
 					default:
+
 						return '../../static/icon/cloud.png';
 				}
 			},
@@ -433,6 +446,18 @@
 </script>
 
 <style scoped lang="scss">
+	
+	.musk{
+		  z-index: -2;
+		  width: 100%; /* 确保横向覆盖整个屏幕 */
+		  height: 150%;
+		  //max-height: 200%;
+		  position: absolute;
+		  transition: transform 0.3s ease; /* 平滑过渡效果 */  
+		  position: absolute;  
+		  background-color: currentColor; /* 黑色半透明背景 */  
+		  opacity: 0.5; /* 假设我们想要一个半透明的蒙版 */  
+	}
 	.step-container {
 		display: flex;
 		justify-content: space-around;

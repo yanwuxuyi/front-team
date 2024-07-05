@@ -142,6 +142,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				user:{
 					
 				},
+				ip:"192.168.1.122",
 				  screenWidth: 0, // 屏幕宽度  
 				  screenHeight: 0, // 屏幕高度  
 				  aspectRatio: 0, // 宽高比  
@@ -277,7 +278,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				if(this.showpic)
 				{
 					let that=this;
-					const uploadUrl = 'http://192.168.50.101:8090/auth/uploadjingxuanpic'; // 替换为你的上传接口  
+					const uploadUrl = 'http://'+this.ip+':8090/auth/uploadjingxuanpic'; // 替换为你的上传接口  
 					console.log(this.showpic);
 					uni.uploadFile({  
 					  url: uploadUrl, // 仅为示例，非真实的接口地址  
@@ -307,7 +308,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				if(this.backpic)
 				{
 					let that=this;
-					const uploadUrl = 'http://192.168.50.101:8090/auth/uploadbackground'; // 替换为你的上传接口  
+					const uploadUrl = 'http://'+this.ip+':8090/auth/uploadbackground'; // 替换为你的上传接口  
 					console.log('背景');
 					uni.uploadFile({  
 					  url: uploadUrl, // 仅为示例，非真实的接口地址  
@@ -376,7 +377,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				return new Promise((resolve, reject) => {  
 					let vm=this;
 					//获取头像
-					let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
+					let url = `http://${this.ip}:8090/auth/getImageById?id=${userId}`;  
 					uni.request({  
 						url: url,  
 						method: 'GET',  
@@ -406,7 +407,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 					});  
 					//请求点赞数
 					uni.request({
-						url:`http://192.168.50.101:8090/auth/getUserFavor?id=${userId}`,
+						url:`http://${this.ip}:8090/auth/getUserFavor?id=${userId}`,
 						method:"GET",
 						success: (res) => {  
 							console.log("likes",res);
@@ -421,7 +422,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 					})
 					//请求精选图片
 					uni.request({
-						url:`http://192.168.50.101:8090/auth/getjingxuanpic?id=${userId}`,
+						url:`http://${this.ip}:8090/auth/getjingxuanpic?id=${userId}`,
 						method:"GET",
 						responseType: 'arraybuffer',
 						success: (res) => {  
@@ -448,7 +449,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 					})
 					//请求背景图片
 					uni.request({
-						url:`http://192.168.50.101:8090/auth/getbackground?id=${userId}`,
+						url:`http://${this.ip}:8090/auth/getbackground?id=${userId}`,
 						method:"GET",
 						responseType: 'arraybuffer',
 						success: (res) => {  
@@ -475,9 +476,9 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 							
 						}  
 					})
-					//
+					//获取qq签名
 					uni.request({
-						url:`http://192.168.50.101:8090/auth/getqqsign?id=${userId}`,
+						url:`http://${this.ip}:8090/auth/getqqsign?id=${userId}`,
 						method:"GET",
 
 						success: (res) => {  
@@ -498,6 +499,31 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 							reject(err); // 网络错误或请求失败时拒绝Promise  
 							
 						}  
+					})
+					//获取发帖信息
+					uni.request({
+						url:`http://${this.ip}:8090/chat/getText?id=${userId}`,
+						method:"GET",
+						success(res) {
+							console.log("发帖信息",res);
+							if(res.statusCode==200)
+							{
+								vm.topiccounts=res.data.result;
+							}
+						}
+					})
+					
+					//获取回复信息
+					uni.request({
+						url:`http://${this.ip}:8090/chat/getComment?id=${userId}`,
+						method:'GET',
+						success(res) {
+							console.log("回复信息",res);
+							if(res.statusCode==200)
+							{
+								vm.commentcounts=res.data.result;
+							}
+						}
 					})
 				});  
 			},

@@ -474,7 +474,7 @@ export default {
 	  position: absolute;  
 	  width: 100%;
 	  height: 235%;
-	  background-color: rgba(0, 0, 0, 0.8); /* 黑色半透明背景 */  
+ background-color: rgba(141, 141, 141, 0.5); /* 黑色半透明背景 */  
 	  opacity: 0.5; /* 假设我们想要一个半透明的蒙版 */  
 	  z-index: 4; /* 确保蒙版位于输入框和按钮下方 */ 
 	   width: 100%; /* 确保横向覆盖整个屏幕 */

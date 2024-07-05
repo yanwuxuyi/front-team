@@ -62,7 +62,6 @@
 							</view>
 						</view>
 					</view>
-					
 				</view>
 			</view>
 			
@@ -82,6 +81,9 @@ import { use } from 'echarts';
 
 		data() {
 			return {
+				
+				ip:"192.168.1.122",
+				
 				likes:111,
 				loaded:false,
 				user:{
@@ -98,8 +100,8 @@ import { use } from 'echarts';
 				//点赞图标
 				likeicon:"thumb-up",
 				//默认背景图片和精选图片
-				backpic:"../../static/images/victin.jpeg",
-				showpic:"../../static/service/xiaoxun.jpg",
+				backpic:"../../static/images/图片3.png",
+				showpic:"../../static/images/图片4.png",
 				//帖子和评论数量
 				topiccounts:0,
 				commentcounts:0,
@@ -184,7 +186,7 @@ import { use } from 'echarts';
 			{
 				if(this.moto)
 				{
-					let url = `http://192.168.50.101:8090/auth/upqqsign?id=${userId}&qqsign=${this.moto}`;  
+					let url = `http://${this.ip}:8090/auth/upqqsign?id=${userId}&qqsign=${this.moto}`;  
 					uni.request({  
 						url: url,  
 						method: 'GET',  
@@ -209,7 +211,7 @@ import { use } from 'echarts';
 				return new Promise((resolve, reject) => {  
 					let vm=this;
 					//获取头像
-					let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
+					let url = `http://${this.ip}:8090/auth/getImageById?id=${userId}`;  
 					uni.request({  
 						url: url,  
 						method: 'GET',  
@@ -239,7 +241,7 @@ import { use } from 'echarts';
 					});  
 					//请求点赞数
 					uni.request({
-						url:`http://192.168.50.101:8090/auth/getUserFavor?id=${userId}`,
+						url:`http://${this.ip}:8090/auth/getUserFavor?id=${userId}`,
 						method:"GET",
 						success: (res) => {  
 							console.log("likes",res);
@@ -254,7 +256,7 @@ import { use } from 'echarts';
 					})
 					//请求精选图片
 					uni.request({
-						url:`http://192.168.50.101:8090/auth/getjingxuanpic?id=${userId}`,
+						url:`http://${this.ip}:8090/auth/getjingxuanpic?id=${userId}`,
 						method:"GET",
 						responseType: 'arraybuffer',
 						success: (res) => {  
@@ -281,7 +283,7 @@ import { use } from 'echarts';
 					})
 					//请求背景图片
 					uni.request({
-						url:`http://192.168.50.101:8090/auth/getbackground?id=${userId}`,
+						url:`http://${this.ip}:8090/auth/getbackground?id=${userId}`,
 						method:"GET",
 						responseType: 'arraybuffer',
 						success: (res) => {  
@@ -310,7 +312,7 @@ import { use } from 'echarts';
 					})
 					//
 					uni.request({
-						url:`http://192.168.50.101:8090/auth/getqqsign?id=${userId}`,
+						url:`http://${this.ip}:8090/auth/getqqsign?id=${userId}`,
 						method:"GET",
 
 						success: (res) => {  
@@ -331,6 +333,31 @@ import { use } from 'echarts';
 							reject(err); // 网络错误或请求失败时拒绝Promise  
 							
 						}  
+					})
+					//获取发帖信息
+					uni.request({
+						url:`http://${this.ip}:8090/chat/getText?id=${userId}`,
+						method:"GET",
+						success(res) {
+							console.log("发帖信息",res);
+							if(res.statusCode==200)
+							{
+								vm.topiccounts=res.data.result;
+							}
+						}
+					})
+					
+					//获取回复信息
+					uni.request({
+						url:`http://${this.ip}:8090/chat/getComment?id=${userId}`,
+						method:'GET',
+						success(res) {
+							console.log("回复信息",res);
+							if(res.statusCode==200)
+							{
+								vm.commentcounts=res.data.result;
+							}
+						}
 					})
 				});  
 			},
