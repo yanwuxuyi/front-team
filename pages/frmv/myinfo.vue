@@ -29,8 +29,8 @@
 			    </view>
 			    <view class="bottom">
 			      <view class="left">
-					<view class="user-text">{{yonghu.nickname}}</view>  
-			        <view class="user-phone">点赞数：{{yonghu.likes}}</view>
+					<view class="user-text">{{yonghu.name}}</view>  
+			        <view class="user-phone">学号：{{yonghu.studentId}}</view>
 			      </view>
 			    </view>
 			  </view>
@@ -49,19 +49,7 @@
 			      </view>
 			    </view>
 			  </view>
-			  <view class="card">
-			    <view class="item item-bottom-solid">
-			      <view class="left flex-center">
-			        <u-icon class="icon" name="account"></u-icon>
-			      </view>
-			      <view class="center">
-			        <text>查看个人信息</text>
-			      </view>
-			      <view class="right flex-center">
-			        <u-icon class="icon" name="arrow-right" @click="goCollect()"></u-icon>
-			      </view>
-			    </view>
-			  </view>
+			
 			  <view class="card">
 			    <view class="item">
 			      <view class="left flex-center">
@@ -161,13 +149,18 @@
 	export default {
 		data() {
 			return {
+				//访问的ip
+				ip:"192.168.1.122",
+								
 				//初始
 				logined: false,
 				
 				pic:'',
 				yonghu: {
+					name:"游客",
 					nickname: "游客",
 					likes:0,
+					studentId:"",
 				} ,
 				usre:{},
 				gender: 'man',
@@ -193,12 +186,6 @@
 				custom: true,
 				isFixed: true,
 				keyword: '',
-				// #ifdef MP
-				slotRight: false,
-				// #endif
-				// #ifndef MP
-				slotRight: true,
-				// #endif
 				// 评分
 				activeColor: '#ffc800',
 				inactiveColor: '#b2b2b2',
@@ -223,7 +210,14 @@
 			{
 				this.yonghu.nickname=value5.nickName;
 			}
-
+			if(value5.studentId)
+			{
+				this.yonghu.studentId=value5.studentId;
+			}
+			if(value5.studentId)
+			{
+				this.yonghu.name=value5.name;
+			}
 			if(value5.id)
 			{
 				this.getlikes(value5.id);
@@ -236,7 +230,7 @@
 							return;  
 						}  
 				  
-						let url = `http://192.168.50.101:8090/auth/getImage?studentId=${userId}`;  
+						let url = `http://${this.ip}:8090/auth/getImage?studentId=${userId}`;  
 
 						uni.request({  
 							url: url,  
@@ -275,13 +269,13 @@
 			{
 				console.log(userId);
 				let vm=this;
-				let url = `http://192.168.50.101:8090/auth/getUserFavor?id=${userId}`;  
+				let url = `http://${this.ip}:8090/auth/getUserFavor?id=${userId}`;  
 				uni.request({
 					url: url,  
 					method: 'GET',  
 					success: (res) => {
 						console.log(res);
-						vm.yonghu.likes=res.data;
+						vm.yonghu.likes=res.data.result;
 						
 					}
 					  
@@ -410,9 +404,10 @@
 	        }
 	        .user-phone {
 	          color: #96a1ae;
-	          padding-left: 400rpx;
+	          padding-left: 80%;
+			  margin-top: -20rpx;
 	          height: 50%;
-	          width: 100%;
+	          width: 120%;
 	          font-size: 1em;
 	        }
 	      }

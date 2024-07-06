@@ -68,15 +68,15 @@
 				tempRes: '',
 				defaultAssistantMessage: "欢迎广大同学加入重庆大学新家庭！欢迎同学们咨询问题！",
 				list: [{
-						name: 'AI问答'
-					}, {
 						name: '常见问题解答'
+					}, {
+						name: 'AI问答'
 					},
 					{
 						name: '其他问题'
 					}
 				],
-				current: 0
+				current: 1
 			}
 		},
 		mounted() {
@@ -207,12 +207,12 @@
 				switch (index) {
 					case 0:
 						uni.navigateTo({
-							url: '/pages/index/test2'
+							url: '/pages/service/commonquestions'
 						});
 						break;
 					case 1:
 						uni.navigateTo({
-							url: '/pages/service/commonquestions'
+							url: '/pages/index/test2'
 						});
 						break;
 					case 2:

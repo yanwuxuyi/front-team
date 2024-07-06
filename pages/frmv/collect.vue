@@ -41,6 +41,9 @@
 			<u-form-item label="宿舍" label-width="160rpx" prop="dormitory">
 				<u-input v-model="form.dormitory" type="text" />
 			</u-form-item>
+			<u-form-item label="邮箱" label-width="160rpx" prop="email">
+				<u-input v-model="form.email" type="text" />
+			</u-form-item>
 <!-- 			<u-form-item label="出生日期" label-width="150rpx"  prop='birthday' >
 			<view>
 					<u-calendar v-model="showbirthday" :mode="mode" @change="getbirthday"></u-calendar>
@@ -100,7 +103,7 @@
 				slotRight: true,
 				// #endif
 				form: {
-					
+					email:'',
 					academy:'',
 					city: '',
 					dormitory: '',
@@ -209,7 +212,8 @@
 					nickName: '',
 					phone:'',
 					political: '',
-					province: ''
+					province: '',
+					email:''
 				},
 				account:{
 					phone:'',
@@ -448,9 +452,9 @@
 		
 		///////////////////////////////////////////////////
 		methods: {
-			gettime() {
-			      this.form.reportTime = new Date().toLocaleString();
-			    },
+			// gettime() {
+			//       //this.form.reportTime = new Date().toLocaleString();
+			//     },
 			////////////性别显示
 			actionSheetCallback(index) {
 				this.form.gender = this.actionSheetList[index].text;
@@ -493,7 +497,7 @@
 					data: this.form,
 					method: "POST",
 					success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
-					//console.log(res);
+					console.log(res);
 						if (res.data.status) { //成功注册
 							try {
 								// console.log('数据');
@@ -538,9 +542,9 @@
 			checkboxGroupChange(e) {},
 			
 			////////////出生日期
-			getbirthday(e) {
-				this.form.birthday = e.result;
-			}
+			// getbirthday(e) {
+			// 	this.form.birthday = e.result;
+			// }
 			/////////////
 			
 		},
@@ -571,9 +575,10 @@
 		            this.region = this.showform.province+'-'+this.showform.city;
 					this.showedu = this.showform.academy+'-'+this.showform.education;
 		            this.form.dormitory = this.showform.dormitory;
-		            this.form.birthday = this.showform.name;
+		            this.form.name = this.showform.name;
 		            this.form.education = this.showform.education;
 					this.form.academy = this.showform.academy;
+					this.form.email = this.showform.email;
 		            this.form.political = this.showform.political;
 					this.interestslist.forEach(interest => {
 					        if (interest.name==this.showform.interests) {

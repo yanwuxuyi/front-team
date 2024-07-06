@@ -149,6 +149,18 @@
 			}
 		},
 		{
+			"path": "pages/forum/others",
+			"style": {
+				"navigationBarTitleText": "好友"
+			}
+		},
+		{
+			"path": "pages/forum/changemoto",
+			"style": {
+				"navigationBarTitleText": "修改签名"
+			}
+		},
+		{
 			"path": "pages/frmv/forgotPassword",
 			"style": {
 				"navigationBarTitleText": "忘记密码"
@@ -177,7 +189,13 @@
 				 
 			}
 		},
-		
+		{
+		 	"path": "pages/service/leave",
+			"style": {
+				"navigationBarTitleText": "请假申请"
+				 
+			}
+		},
 		
 		{
 			"path": "pages/service/samehometown",
@@ -305,6 +323,13 @@
 			"path": "pages/frmv/connect",
 			"style": {
 				"navigationBarTitleText": "" 
+			}
+		},
+		{
+			"path" : "pages/service/dorm",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
 			}
 		}
 	],

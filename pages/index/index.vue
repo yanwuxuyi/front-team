@@ -1,5 +1,8 @@
 <template>
 	<view class="u-wrap">
+		<view class="musk" :style="{ color: `${this.currentColor}` }">
+			
+		</view>
 		<view>
 			<u-navbar title-color="#fff" back-icon-color="#ffffff" :is-fixed="isFixed" :is-back="isBack"
 				:background="background" :back-text-style="{color: '#fff'}" :title="title1"
@@ -22,7 +25,7 @@
 		<view 滚动通知 class="center">
 			<u-toast :type="type" ref="uToast"></u-toast>
 			<u-notice-bar :autoplay="true" :playState="play" :speed="160" :mode="horizontal" :type="warning"
-				:list="infoList" :moreIcon="false" :volumeIcon="true" :duration="2000" :isCircular="true">
+				:list="this.infoList" :moreIcon="false" :volumeIcon="true" :duration="2000" :isCircular="true">
 			</u-notice-bar>
 		</view>
 		
@@ -145,6 +148,9 @@
 						label: '医院体检'
 					}
 				],
+				//当前背景蒙版颜色
+				currentColor:"rgba(28, 207, 216, 0.2)", /* 半透明背景 */ 
+				
 				currentStep: 0, // 初始步骤  
 				studentId: '',
 				currentWeather: '',
@@ -193,7 +199,7 @@
 				warning: 'warning',
 				play: 'play',
 				horizontal: 'horizontal',
-				infoList: ['欢迎广大新同学加入重庆大学的大家庭！请各位新同学注意报道截止时间，尽快完成报道，并在小程序中完成信息收集。'],
+				infoList: ['test'],
 				// 弹窗
 				popup: false,
 				mode: 'bottom',
@@ -269,26 +275,35 @@
 				console.log('选择：' + this.currentWeather);
 				switch (this.currentWeather) {
 					case '晴':
+
 						return '../../static/icon/sun.png';
 					case '大雨':
-						return '../../static/icon/bigrain.png';
+
+						return '../../static/icon/bigsrain.png';
 					case '大暴雨':
 						return '../../static/icon/bigrain.png';
 					case '雷阵雨':
+
 						return '../../static/icon/rerain.png';
 					case '中雨':
+
 						return '../../static/icon/rain.png';
 					case '小雨':
+
 						return '../../static/icon/rain.png';
 					case '多云':
+
 						return '../../static/icon/cloud.png';
 					default:
+
 						return '../../static/icon/cloud.png';
 				}
 			},
 		},
 		onShow() {
 			this.initStatus();
+			this.fetchNotice();
+			console.info('当前通知如下', this.infoList)
 		},
 		onLoad() {
 			uni.request({
@@ -326,6 +341,29 @@
 			this.calculateTime();
 		},
 		methods: {
+			fetchNotice() {
+				uni.request({
+					url: 'http://192.168.50.101:8090/web/hannouncement', // 替换为您的后端接口URL  
+					success: (res) => {
+						if (res.data) {
+							// 假设后端返回的数据结构中有data字段包含通知列表  
+							this.infoList = [res.data.result];
+
+						} else {
+							uni.showToast({
+								title: '获取通知失败',
+								icon: 'none'
+							});
+						}
+					},
+					fail: (err) => {
+						uni.showToast({
+							title: '网络请求失败',
+							icon: 'none'
+						});
+					}
+				});
+			},
 			initStatus() {
 				const value = uni.getStorageSync('user');
 				if (value && value.studentId) {
@@ -444,6 +482,18 @@
 </script>
 
 <style scoped lang="scss">
+	
+	.musk{
+		  z-index: -2;
+		  width: 100%; /* 确保横向覆盖整个屏幕 */
+		  height: 150%;
+		  //max-height: 200%;
+		  position: absolute;
+		  transition: transform 0.3s ease; /* 平滑过渡效果 */  
+		  position: absolute;  
+		  background-color: currentColor; /* 黑色半透明背景 */  
+		  opacity: 0.5; /* 假设我们想要一个半透明的蒙版 */  
+	}
 	.step-container {
 		display: flex;
 		justify-content: space-around;
