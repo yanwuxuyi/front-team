@@ -149,7 +149,28 @@ export default {
 
 
 	methods: {
-		
+		onSearch(){
+		  this.getComment();
+		  uni.request({
+		    url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
+		    success: (res) => {
+		      console.log(res);
+		      console.log(this.searchQuery);
+		      
+		      uni.navigateTo({
+		        url: '/pages/forum/searchresult',
+		        events: {
+		          acceptsearchQueryData: (data) => {
+		            console.log('Data received in searchresult page:', data);
+		          }
+		        },
+		        success: (res) => {
+		          res.eventChannel.emit('acceptsearchQueryData', { data: this.searchQuery });
+		        }
+		      });
+		    }
+		  })
+		},
 		// 更新颜色的方法
 		    startColorCycle() {  
 				this.hue=0;
