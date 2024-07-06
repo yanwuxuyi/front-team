@@ -1,11 +1,11 @@
 <template>
-		<view>
+	<view>
 	<view>
 	  <u-tabs :list="list" :is-scroll="false" :current="current" @change="change"></u-tabs>
 	</view>
   <view class="container">
 
-    <view class="form-title">请假在线申请表</view>
+    <view class="form-title">车辆出入申请表</view>
     <form @submit.prevent="submitForm">
       <view class="form-group">
         <label for="name">姓名</label>
@@ -27,21 +27,30 @@
 	            </view>
 	          </picker>
 	        </view>
+			
      <view class="form-group">
-       <label for="days">请假时长</label>
-       <textarea id="days" v-model="form.days" required class="small-textarea"></textarea>
+       <label for="license">车牌号</label>
+       <textarea id="license" v-model="form.license" required class="small-textarea"></textarea>
      </view>
+<!-- 	 <view class="form-group">
+	   <label for="time">来校时间</label>
+	   <textarea id="time" v-model="form.time" required class="small-textarea"></textarea>
+	 </view> -->
+	 <u-form-item label="来校时间" label-width="150rpx"  prop='time' >
+	 			<view>
+	 					<u-calendar v-model="showbirthday" :mode="mode" @change="getbirthday"></u-calendar>
+	 					<u-input v-model="form.time" @click="showbirthday = true"/>
+	 			</view>
+	 			</u-form-item> -->
       <view class="form-group">
-        <label for="reason">申请原因</label>
+        <label for="reason">申请事由</label>
         <textarea id="reason" v-model="form.reason" required class="large-textarea"></textarea>
       </view>
       <view class="form-group">
         <button type="submit" @click="submitForm">提交申请</button>
       </view>
-	  
-    </form>
-	<div class="updatetime">信息采集时间:{{ this.currentTime }}</div>
-  </view></view>
+	  </form>
+</view></view>
 </template>
 
 <script>
@@ -50,44 +59,48 @@ export default {
     return {
 		current: 0,
 		list: [
-		  { name: '请假申请', index: 0 },
+		  { name: '车辆进入申请', index: 0 },
 		  { name: '历史申请', index: 1 }
 		],
 		majorOptions:['计算机学院', '大数据与软件工程学院', '微电子与通信学院', '电气学院','机械工程及自动化学院'],
-		currentTime:'',
+		showbirthday: false,
       form: {
 		major:'',
         name: '',
         studentid: '',
-		days:'',
-        reason: ''
+		license:'',
+        reason: '',
+		time:''
 //currentTime:''
       }
     };
   },
   onShow() {
-	  this.gettime();
+	  //this.gettime();
 
   },
 	  
   methods: {
-	  change(index) {
-	    console.log(index);
-	    this.current = index; // 更新当前选中的标签索引
-	    switch (index) {
-	      case 0:
-	        uni.navigateTo({
-	          url: '/pages/service/leave'
-	        });
-	        break;
-	      case 1:
-	        uni.navigateTo({
-	          url: '/pages/service/historyleave'
-	        });
-	        break;
-	      default:
-	        break;
-	    }
+ change(index) {
+      console.log(index);
+      this.current = index; // 更新当前选中的标签索引
+      switch (index) {
+        case 0:
+          uni.navigateTo({
+            url: '/pages/service/car'
+          });
+          break;
+        case 1:
+          uni.navigateTo({
+            url: '/pages/service/historycar'
+          });
+          break;
+        default:
+          break;
+      }
+    },
+	  getbirthday(e) {
+	  	this.form.time = e.result;
 	  },
 	  gettime() {
 	        this.currentTime = new Date().toLocaleString();
@@ -97,9 +110,8 @@ export default {
 		  },
     submitForm() {
 		this.gettime();
-		console.log(this.form);
       uni.request({
-        url: 'http://192.168.50.101:8090/auth/askforleace',
+        url: 'http://192.168.50.101:8090/auth/vehicleAccess',
         data: this.form,
         method: "POST",
         success: (res) => {

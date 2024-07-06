@@ -1,6 +1,12 @@
 <template>
     <view>
+		
 		<u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
+		<!-- 搜索框 -->
+		<view class="search-box">
+		  <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." @input="onSearchInput" />
+		  <button @click="onSearch">搜索</button>
+		</view>
 		<view v-if="account">
 			<view v-if="this.loaded==false" class="musk">
 					<view class="holecontainer">
@@ -479,6 +485,30 @@ export default {
 	  z-index: 4; /* 确保蒙版位于输入框和按钮下方 */ 
 	   width: 100%; /* 确保横向覆盖整个屏幕 */
 	}  
+	.search-box {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  padding: 10px;
+	}
+	
+	.search-box input {
+	  flex: 1;
+	  padding: 5px;
+	  border: 1px solid #ccc;
+	  border-radius: 4px;
+	}
+	
+.search-box button {
+  margin-left: 10px;
+  padding: 9.5px 10px; /* 调整顶部和底部的 padding 使按钮变矮 */
+  line-height: 1; /* 调整 line-height */
+  border: none;
+  background-color: #007aff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .comment {
     display: flex;
     padding: 30rpx;

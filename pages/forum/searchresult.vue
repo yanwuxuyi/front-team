@@ -106,14 +106,14 @@ onShow() {
 		//搜索功能
 		onSearch(){
 			this.getComment();
-			// uni.request({
-			// 	url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
-			// 	success: (res) => {
-			// 		console.log(res);
-			// 		console.log(this.searchQuery);
+			uni.request({
+				url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
+				success: (res) => {
+					console.log(res);
+					console.log(this.searchQuery);
 					
-			// 	}
-			// })
+				}
+			})
 		},
 		onSearchInput(){
 			// uni.request({
@@ -395,7 +395,8 @@ onShow() {
 
 .search-box button {
   margin-left: 10px;
-  padding: 5px 10px;
+  padding: 9.5px 10px; /* 调整顶部和底部的 padding 使按钮变矮 */
+  line-height: 1; /* 调整 line-height */
   border: none;
   background-color: #007aff;
   color: white;
