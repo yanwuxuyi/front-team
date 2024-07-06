@@ -207,6 +207,7 @@
 			let vm=this;
 			const value5 = uni.getStorageSync('user');
 			console.log(value5);
+			this.gender = value5.gender;
 			if(value5.nickName)
 			{
 				this.yonghu.nickname=value5.nickName;

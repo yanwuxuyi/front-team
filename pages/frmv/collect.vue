@@ -505,7 +505,8 @@
 								//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
 								console.log('存入后台成功')
 								console.log(this.form.reportTime)
-								uni.setStorageSync('form', res.data.result); //将用户对象本地存储 以便后续身份识别 权限验证等
+								uni.setStorageSync('form', res.data.result);
+								 uni.setStorageSync('user', res.data.result);//将用户对象本地存储 以便后续身份识别 权限验证等
 								uni.navigateBack()//注册成功返回登陆界面 
 							} catch (e) {
 								this.$u.toast('身份信息格式异常')
