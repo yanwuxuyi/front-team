@@ -4,7 +4,7 @@
 		<u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
 		<!-- 搜索框 -->
 		<view class="search-box">
-		  <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." @input="onSearchInput" />
+		  <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." />
 		  <button @click="onSearch">搜索</button>
 		</view>
 		<view v-if="account">
@@ -89,6 +89,7 @@ export default {
 			//本地登录信息
 			account:'',
 			//
+			searchQuery:"",
 			showInputBox:false,
 			showInputBox2:false,
 			showInputBox3:true,
@@ -133,6 +134,7 @@ export default {
 			},
 			
 		onShow() {
+
 			this.account='';
 			const value10 = uni.getStorageSync('user');
 			if(value10.id)

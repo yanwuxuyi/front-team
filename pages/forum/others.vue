@@ -19,7 +19,7 @@
 								<text class="virtulname">{{this.name}}</text>
 								<view class="baseinfor">
 									<view class="baseitem1">{{this.user.gender}}</view>
-									<view class="baseitem2">{{this.user.province}}</view>
+									<view class="baseitem2" v-if="this.user.province">{{this.user.province}}</view>
 								</view>
 							</view>
 							<!-- 点赞和svg五角星背景-->
@@ -442,8 +442,8 @@ import { use } from 'echarts';
 		  
 	}
 	.likes{
-		padding-left: 150rpx;
-		position: relative;
+		right: 5%;
+		position: absolute;
 	}
 	.like-container {  
 	    position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */  

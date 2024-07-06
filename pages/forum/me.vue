@@ -9,9 +9,6 @@
 				<!-- 可滑动蒙版-->
 					<view class="musk">
 						<!-- 头像和昵称-->	
-									<u-sticky offset-top="0" enable="true">
-										
-									</u-sticky>
 						<view class="content">
 							<view class="head">
 								<view class='leftheadpic'>
@@ -91,7 +88,7 @@
 					quality="0.5"
 					cropperType="ratio"
 					:ratio="4 / 3"
-					fileType="jpeg"
+					fileType="png"
 					imgSrc=""
 					@getImg="getImg"
 				></gmy-img-cropper>
@@ -102,7 +99,7 @@
 					quality="0.5"
 					cropperType="ratio"
 					:ratio="aspectRatio"
-					fileType="jpeg"
+					fileType="png"
 					imgSrc=""
 					@getImg="getImg1"
 				></gmy-img-cropper>
@@ -610,8 +607,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 		  
 	}
 	.likes{
-		//margin-right: 10rpx;
-		right: 10rpx;
+		right: 5%;
 		position: absolute;
 	}
 	.like-container {  

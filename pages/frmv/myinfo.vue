@@ -167,6 +167,7 @@
 				show: false,
 				zoom: false,
 				contentSlot: false,
+				content:"",
 				showTitle: false,
 				asyncClose: false,
 				// 顶部导航栏
