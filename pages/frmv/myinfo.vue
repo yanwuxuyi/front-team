@@ -36,34 +36,21 @@
 			  </view>
 			</view>
 			<view class="list-card">
-			  <view class="card">
+			  <view class="card"@click="editit()">
 			    <view class="item item-bottom-solid">
 			      <view class="left flex-center">
 			        <u-icon class="icon" name="setting"></u-icon>
 			      </view>
 			      <view class="center" >
-			        <text>修改账号信息</text>
+			        <text>我的个人信息</text>
 			      </view>
 			      <view class="right flex-center">
-			        <u-icon class="icon" name="arrow-right" @click="editit()"></u-icon>
+			        <u-icon class="icon" name="arrow-right"></u-icon>
 			      </view>
 			    </view>
 			  </view>
-			  <view class="card">
-			    <view class="item item-bottom-solid">
-			      <view class="left flex-center">
-			        <u-icon class="icon" name="account"></u-icon>
-			      </view>
-			      <view class="center">
-			        <text>查看个人信息</text>
-			      </view>
-			      <view class="right flex-center">
-			        <u-icon class="icon" name="arrow-right" @click="goCollect()"></u-icon>
-			      </view>
-			    </view>
-			  </view>
-			  <view class="card">
-			    <view class="item">
+			  <view class="card" >
+			    <view class="item" @click="goXiumi()">
 			      <view class="left flex-center">
 			        <u-icon class="icon" name="gift"></u-icon>
 			      </view>
@@ -71,10 +58,10 @@
 			        <text>收获一份校园介绍</text>
 			      </view>
 			      <view class="right flex-center">
-			        <u-icon class="icon" name="arrow-right" @click="goXiumi()"></u-icon>
+			        <u-icon class="icon" name="arrow-right" ></u-icon>
 			      </view>
 			    </view>
-				<view class="item">
+				<view class="item" @click="connect()" >
 				  <view class="left flex-center">
 				    <u-icon class="icon" name="chat"></u-icon>
 				  </view>
@@ -82,11 +69,11 @@
 				    <text>联系我们</text>
 				  </view>
 				  <view class="right flex-center">
-				    <u-icon class="icon" name="arrow-right" @click="connect()"></u-icon>
+				    <u-icon class="icon" name="arrow-right" ></u-icon>
 				  </view>
 				</view>
 			  </view>
-			  <view class="card">
+			  <view class="card" @click="showModal()">
 			    <view class="item item-bottom-solid">
 			      <view class="left flex-center">
 			        <u-icon class="icon" name="star"></u-icon>
@@ -95,7 +82,7 @@
 			        <text>点评一下</text>
 			      </view>
 			      <view class="right flex-center">
-					<u-icon class="icon" name="arrow-right" @click="showModal()"></u-icon>
+					<u-icon class="icon" name="arrow-right" ></u-icon>
 			      </view>
 			    </view>
 			  </view>
@@ -162,7 +149,7 @@
 		data() {
 			return {
 				//访问的ip
-				ip:"192.168.1.122",
+				ip:"192.168.50.101",
 								
 				//初始
 				logined: false,
@@ -180,6 +167,7 @@
 				show: false,
 				zoom: false,
 				contentSlot: false,
+				content:"",
 				showTitle: false,
 				asyncClose: false,
 				// 顶部导航栏
@@ -216,6 +204,8 @@
 			}
 		},
 		onShow() {
+			this.loading=true;
+			let vm=this;
 			const value5 = uni.getStorageSync('user');
 			console.log(value5);
 			if(value5.nickName)
@@ -261,9 +251,11 @@
 								} else {  
 									uni.showToast({ title: '服务器返回错误状态码', icon: 'none' });  
 								}  
+								vm.loading=false;
 							},  
 							fail: (err) => {  
-								// 处理请求失败的情况  
+								// 处理请求失败的情况 
+								 vm.loading=false;
 								console.error("请求失败:", err);  
 								uni.showToast({ title: '网络错误或服务器未响应', icon: 'none' });  
 							}  

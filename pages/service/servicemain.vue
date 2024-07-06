@@ -95,13 +95,13 @@
 			          <navigator url="/pages/service/leave" class="service-item">
 			            <view class="service-icon-container">
 			              <image class="service-icon" src="/static/service/leave.png" mode="aspectFit"></image>
-			              <text class="service-name">请假</text>
+			              <text class="service-name">写假条</text>
 			            </view>
 			          </navigator>
-			          <navigator url="/pages/service/approval" class="service-item">
+			          <navigator url="/pages/service/car" class="service-item">
 			            <view class="service-icon-container">
-			              <image class="service-icon" src="/static/service/approval.png" mode="aspectFit"></image>
-			              <text class="service-name">占个位置</text>
+			              <image class="service-icon" src="/static/service/car.png" mode="aspectFit"></image>
+			              <text class="service-name">车辆进</text>
 			            </view>
 			          </navigator>
 			        </view>

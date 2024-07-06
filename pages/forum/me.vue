@@ -9,9 +9,6 @@
 				<!-- 可滑动蒙版-->
 					<view class="musk">
 						<!-- 头像和昵称-->	
-									<u-sticky offset-top="0" enable="true">
-										
-									</u-sticky>
 						<view class="content">
 							<view class="head">
 								<view class='leftheadpic'>
@@ -91,7 +88,7 @@
 					quality="0.5"
 					cropperType="ratio"
 					:ratio="4 / 3"
-					fileType="jpeg"
+					fileType="png"
 					imgSrc=""
 					@getImg="getImg"
 				></gmy-img-cropper>
@@ -102,7 +99,7 @@
 					quality="0.5"
 					cropperType="ratio"
 					:ratio="aspectRatio"
-					fileType="jpeg"
+					fileType="png"
 					imgSrc=""
 					@getImg="getImg1"
 				></gmy-img-cropper>
@@ -142,7 +139,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				user:{
 					
 				},
-				ip:"192.168.1.122",
+				ip:"192.168.50.101",
 				  screenWidth: 0, // 屏幕宽度  
 				  screenHeight: 0, // 屏幕高度  
 				  aspectRatio: 0, // 宽高比  
@@ -543,7 +540,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 	  justify-content: center; /* 水平居中 */  
 	  align-items: center; /* 垂直居中 */  
 	  height: 20vh; /* 占据整个视窗的高度 */  
-	  padding: 80px 100px 0;
+	  padding: 20% 20% 0;
 	}  
 	.containerhole{
 		width: 100%; /* 确保横向覆盖整个屏幕 */
@@ -610,8 +607,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 		  
 	}
 	.likes{
-		//margin-right: 10rpx;
-		right: 10rpx;
+		right: 5%;
 		position: absolute;
 	}
 	.like-container {  

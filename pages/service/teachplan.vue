@@ -61,30 +61,34 @@ export default {
     // 获取学生ID
     const value = uni.getStorageSync('user');
     const studentId = value.studentId;
-
-    // 根据学生ID请求后端数据
-    uni.request({
-      url: 'http://192.168.50.101:8090/major/getCourseByName', 
-      method: 'GET',
-      data: {
-        studentid: studentId
-      },
-      success: (res) => {
-        if (res.data.status === true) {
-          // 解析后端返回的数据
-          this.program = JSON.parse(res.data.result);
-          console.log('培养方案数据:', this.program);
-        } else {
-          console.error('请求失败:', res);
-        }
-      },
-      fail: (err) => {
-        console.error('请求失败:', err);
-      },
-      complete: () => {
-        this.loading = false; // 请求完成，隐藏加载提示
-      }
-    });
+	console.log(studentId);
+	if(studentId>0)
+	{
+		// 根据学生ID请求后端数据
+		uni.request({
+		  url: 'http://192.168.50.101:8090/major/getCourseByName', 
+		  method: 'GET',
+		  data: {
+		    studentid: studentId
+		  },
+		  success: (res) => {
+		    if (res.data.status === true) {
+		      // 解析后端返回的数据
+		      this.program = JSON.parse(res.data.result);
+		      console.log('培养方案数据:', this.program);
+		    } else {
+		      console.error('请求失败:', res);
+		    }
+		  },
+		  fail: (err) => {
+		    console.error('请求失败:', err);
+		  },
+		  complete: () => {
+		    this.loading = false; // 请求完成，隐藏加载提示
+		  }
+		});
+	}
+   
   }
 };
 </script>

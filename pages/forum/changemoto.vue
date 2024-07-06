@@ -198,6 +198,7 @@
 	  position: absolute;  
 	  width: 100%;
 	  height: 100%;
+/* 	  background-color: rgba(28, 207, 216, 0.1); /* 黑色半透明背景 */  
 	  opacity: 0.5; /* 假设我们想要一个半透明的蒙版 */  
 	  z-index: 1; /* 确保蒙版位于输入框和按钮下方 */  
 	}  
