@@ -19,7 +19,7 @@
 			</view>
 		</u-card>
 		<view class="headLine"> 目的地导航 </view>
-		<view class="upView" style="background-image: linear-gradient(90deg, rgb(118, 187, 187), rgb(156, 198, 130));">
+		<view class="upView" style="background-image: linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198));">
 		
 			<cc-nineMenuBtn class="nineV" @click="yishitang()" myText='一食堂' imgSrc='../../static/images/mappic/shitang1.png'></cc-nineMenuBtn>
 			<cc-nineMenuBtn class="nineV" @click="ershitang()" myText='二食堂' imgSrc='../../static/images/mappic/shitang2.png'></cc-nineMenuBtn>
@@ -54,7 +54,7 @@
 				rightSlot: false,
 				useSlot: false,
 				background: {
-					'background-image': 'linear-gradient(90deg, rgb(118, 187, 187), rgb(156, 198, 130))'
+					'background-image': 'linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198))'
 				},
 				isBack: true,
 				search: false,
@@ -300,7 +300,7 @@
 
 <style scoped lang="scss">
 	page {
-		background-image: linear-gradient(90deg, rgb(118, 187, 187), rgb(156, 198, 130));
+		background-image: linear-gradient(45deg, rgb(44, 168, 187), rgb(166, 197, 198));
 	}
 	.u-card-wrap {
 		background-color: $u-bg-color;

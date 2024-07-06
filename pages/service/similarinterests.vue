@@ -47,7 +47,7 @@
 				loaded:false,
 				// 顶部导航栏
 				title1: '找同好',
-				backText: '服务中心',
+				backText: '',
 				backIconName: 'nav-back',
 				right: false,
 				showAction: false,
