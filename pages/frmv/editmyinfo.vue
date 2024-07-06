@@ -9,7 +9,25 @@
 				<u-input :password-icon="true" :border="border" type="text" v-model="user.phone"
 					placeholder="请输入电话"></u-input>
 			</u-form-item>
+			<u-form-item label-width="140" label-position="left" label="专业" prop="education">
+				<u-input :border="border" type="select" :select-open="eduactionSheetShow" v-model="education" placeholder="请选择作业" @click="eduactionSheetShow = true"></u-input>
+			</u-form-item>
+			<u-form-item :label-position="labelPosition" label="性别" prop="sex">
+				<u-input :border="border" type="select" :select-open="actionSheetShow" v-model="sex" placeholder="请选择性别" @click="actionSheetShow = true"></u-input>
+			</u-form-item>
+			<u-form-item :label-position="labelPosition" label="地区" prop="region" label-width="150">
+				<u-input :border="border" type="select" :select-open="pickerShow" v-model="region" placeholder="请选择地区" @click="pickerShow = true"></u-input>
+			</u-form-item>
+			<u-form-item label-width="140" label-position="left" label="专业" prop="education">
+				<u-input :border="border" placeholder="请输入专业" v-model="user.education" type="text"></u-input>
+			</u-form-item>
+			<u-form-item label-width="140" label-position="left" label="专业" prop="education">
+				<u-input :border="border" placeholder="请输入专业" v-model="user.education" type="text"></u-input>
+			</u-form-item>
 		</u-form>
+				<u-action-sheet :list="actionSheetList" v-model="actionSheetShow" @click="actionSheetCallback"></u-action-sheet>
+				<u-action-sheet :list="eduactionSheetList" v-model="eduactionSheetShow" @click="eduactionSheetCallback"></u-action-sheet>
+			<u-picker mode="region" v-model="pickerShow" @confirm="regionConfirm"></u-picker>
 		<u-button @click="goChangepassword()">修改密码</u-button>
 		<u-button @click="submit">提交</u-button>
 	</view>
@@ -19,22 +37,32 @@
 	export default {
 		data() {
 			return {
+				region: '',
 				border: true,
 				user: { 
-				 "birthday": "",
+				  "name": "",
+				  "studentID": ""	,
+				  
 				  "city": "",
 				  "country": "",
+				  
 				  "dormitory": "",
 				  "education": "",
+				  
 				  "gender": "",
 				  "interests": "",
-				  "name": "",
+				  "political": "",		
+				  "province": "",	
+										  
 				  "nickName": "",
 				  "phone": "",
-				  "political": "",
-				  "province": "",
-				  "studentID": ""
-				} 
+				  
+
+
+
+				},
+				pickerShow: false,
+				selectShow: false,
 			}
 		},
 		
@@ -42,11 +70,33 @@
 			    const value = uni.getStorageSync('user')
 				this.user.nickname=value.nickname
 				console.log('查到储存的user值为：',value)
-				this.user.phone=value.phone
-				this.user.oldPhone=value.phone
-				this.user.password=value.password
+				this.user.phone=value.phone;
+				this.user.oldPhone=value.phone;
+				this.user.password=value.password;
+				this.user.nickName=value.nickName;
+				this.user.interests=value.interests;
+				this.user.education=value.education;
 				},
-		
+		rules:{
+			region: [
+				{
+					required: true,
+					message: '请选择地区',
+					trigger: 'change',
+				}
+			],
+		},
+		actionSheetList: [
+			{
+				text: '男'
+			},
+			{
+				text: '女'
+			},
+			{
+				text: '保密'
+			}
+		],
 		methods: {
 			submit() {
 								uni.request({
@@ -78,7 +128,10 @@
 				uni.navigateTo({
 					url:'/pages/frmv/changepassword'
 				})
-			}
+			},
+			regionConfirm(e) {
+				this.region = e.province.label + '-' + e.city.label + '-' + e.area.label;
+			},
 		}
 	}
 </script>

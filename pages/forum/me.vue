@@ -142,7 +142,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				user:{
 					
 				},
-				ip:"192.168.1.122",
+				ip:"192.168.50.101",
 				  screenWidth: 0, // 屏幕宽度  
 				  screenHeight: 0, // 屏幕高度  
 				  aspectRatio: 0, // 宽高比  
@@ -543,7 +543,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 	  justify-content: center; /* 水平居中 */  
 	  align-items: center; /* 垂直居中 */  
 	  height: 20vh; /* 占据整个视窗的高度 */  
-	  padding: 80px 100px 0;
+	  padding: 20% 20% 0;
 	}  
 	.containerhole{
 		width: 100%; /* 确保横向覆盖整个屏幕 */
