@@ -253,7 +253,11 @@
 						label: '中共党员'
 					}
 				],
-				actionSheetList: [{
+				actionSheetList: [
+
+
+					{
+
 						text: '男'
 					},
 					{

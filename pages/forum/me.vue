@@ -373,35 +373,6 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				console.log(userId);
 				return new Promise((resolve, reject) => {  
 					let vm=this;
-					//获取头像
-					let url = `http://${this.ip}:8090/auth/getImageById?id=${userId}`;  
-					uni.request({  
-						url: url,  
-						method: 'GET',  
-						responseType: 'arraybuffer', 
-						success: (res) => {  
-							console.log(res);
-							if (res.statusCode === 200) {  
-								const base64 = uni.arrayBufferToBase64(res.data);  
-								const imageUrl = `data:image/png;base64,${base64}`; 
-								vm.pic = imageUrl; 
-								console.log('get:',userId);
-								// 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
-								// 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
-								resolve(imageUrl); // 解析Promise，传递图片URL  
-							} else {  
-								console.log('获取失败',userId)
-								//resolve(imageUrl); // 解析Promise，传递图片URL  
-								//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
-							}  
-						},  
-						fail: (err) => {  
-							console.log('网络失败：头像',userId)
-							//resolve(imageUrl);
-							reject(err); // 网络错误或请求失败时拒绝Promise  
-							
-						}  
-					});  
 					//请求点赞数
 					uni.request({
 						url:`http://${this.ip}:8090/auth/getUserFavor?id=${userId}`,
@@ -441,7 +412,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 						},  
 						fail: (err) => {  
 							console.log('网络失败:背景图片',userId)
-							reject(err); // 网络错误或请求失败时拒绝Promise  
+							//reject(err); // 网络错误或请求失败时拒绝Promise  
 						}  
 					})
 					//请求背景图片
@@ -472,7 +443,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 							reject(err); // 网络错误或请求失败时拒绝Promise  
 							
 						}  
-					})
+					});
 					//获取qq签名
 					uni.request({
 						url:`http://${this.ip}:8090/auth/getqqsign?id=${userId}`,
@@ -496,7 +467,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 							reject(err); // 网络错误或请求失败时拒绝Promise  
 							
 						}  
-					})
+					});
 					//获取发帖信息
 					uni.request({
 						url:`http://${this.ip}:8090/chat/getText?id=${userId}`,
@@ -508,7 +479,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 								vm.topiccounts=res.data.result;
 							}
 						}
-					})
+					});
 					
 					//获取回复信息
 					uni.request({
@@ -521,7 +492,34 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 								vm.commentcounts=res.data.result;
 							}
 						}
-					})
+					});
+					//获取头像
+					let url = `http://${this.ip}:8090/auth/getImageById?id=${userId}`;  
+					uni.request({  
+						url: url,  
+						method: 'GET',  
+						responseType: 'arraybuffer', 
+						success: (res) => {  
+							console.log(res);
+							if (res.statusCode === 200) {  
+								const base64 = uni.arrayBufferToBase64(res.data);  
+								const imageUrl = `data:image/png;base64,${base64}`; 
+								vm.pic = imageUrl; 
+								console.log('get:',userId);
+							} else {  
+								console.log('获取失败',userId);
+								vm.loaded=true;
+								//resolve(imageUrl); // 解析Promise，传递图片URL  
+								//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
+							}  
+						},  
+						fail: (err) => {  
+							console.log('网络失败：头像',userId);
+							//resolve(imageUrl);
+							//reject(err); // 网络错误或请求失败时拒绝Promise  
+							
+						}  
+					});  
 				});  
 			},
 			next()
@@ -667,7 +665,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 		background-color: rgba(255, 255, 255, 0.5); /* 白色半透明背景 */  
 		border-radius: 5px; /* 可选，圆角边框 */  
 		/*避免换行*/
-		  width: 70rpx;
+		  width: 75rpx;
 		  overflow: hidden;  
 		  white-space: nowrap;  
 		  text-overflow: ellipsis;  
