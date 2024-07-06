@@ -82,7 +82,7 @@ import { use } from 'echarts';
 		data() {
 			return {
 				
-				ip:"192.168.1.122",
+				ip:"192.168.50.101",
 				
 				likes:111,
 				loaded:false,
