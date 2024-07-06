@@ -99,12 +99,6 @@
 				custom: true,
 				isFixed: true,
 				keyword: '',
-				// #ifdef MP
-				slotRight: false,
-				// #endif
-				// #ifndef MP
-				slotRight: true,
-				// #endif
 				form: {
 					email:'',
 					academy:'',
@@ -271,7 +265,12 @@
 				],
 				actionSheetList: [
 
+
                    {
+
+/* <<<<<<< HEAD */
+					{
+>>>>>>> de24459412ec86e18d3d009bcd1d0ade417f0916
 						text: '男'
 					},
 					{
@@ -472,32 +471,32 @@
 			   submit() {
 				   const Value=uni.getStorageSync('user');
 				   this.form.studentID = Value.studentId;
-			                                uni.request({
-			                                    url: 'http://192.168.50.101:8090/auth/update',  
-			                                    data: this.form,
-  method:"POST",
+								uni.request({
+									url: 'http://192.168.50.101:8090/auth/update',  
+									data: this.form,
+									method:"POST",
                                     success: (res) => {//返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中
 									
                                     console.log(res.data)
 									console.log(this.form)
                                        if(res.data.status){//成功 
-                                       /********更新存储的user信息*/
-                                           const value = uni.getStorageSync('form')
-                                           value.nickname=this.user.nickname
-                                        value.phone=this.user.phone
-										value.gender=this.user.gender
-										value.city=this.user.city
-										value.province=this.user.province
-										value.dormitory=this.user.dormitory
-										value.email=this.user.email
-										value.academy=this.user.academy
-										value.interests=this.user.interests
-                                        value.political=this.user.political
-										value.interests=this.user.interests
-                                           uni.setStorageSync('form',value)
+                                       /********更新存储的form信息*/
+                                           const value = uni.getStorageSync('user')
+                                           value.nickName=this.form.nickName
+                                        value.phone=this.form.phone
+										value.gender=this.form.gender
+										value.city=this.form.city
+										value.province=this.form.province
+										value.dormitory=this.form.dormitory
+										value.email=this.form.email
+										value.academy=this.form.academy
+										value.interests=this.form.interests
+                                        value.political=this.form.political
+										value.interests=this.form.interests
+                                        uni.setStorageSync('user',value)
                                        /*******/
                                        ////1.https://uniapp.dcloud.net.cn/api/router.html#event-channel 
-                                         uni.navigateBack() //返回                            
+                                        uni.navigateBack() //返回                            
                                        }else{
                                            this.$u.toast('修改失败')  //提示框
                                        }
@@ -506,9 +505,9 @@
             },
             cancel()
             {
-                this.user={...this.originalUser}
+                this.form={...this.originalform}
             },
-   goChangepassword(){
+				goChangepassword(){
                 uni.navigateTo({
                     url:'/pages/frmv/changepassword'
                 })
@@ -621,4 +620,13 @@
 	  vertical-align: middle;
 	}
 
+<<<<<<< HEAD
+=======
+	.wrap{
+		padding: 10rpx 50rpx;
+		width: 100%;
+		height: 100%;
+	}
+
+>>>>>>> de24459412ec86e18d3d009bcd1d0ade417f0916
 </style>

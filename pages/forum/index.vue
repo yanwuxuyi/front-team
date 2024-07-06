@@ -13,7 +13,7 @@
 					</view>
 			</view>
 			<view v-else>
-				<view class="comment" v-for="(res, index) in commentList" :key="res.id">
+				<view class="comment" v-for="(res, index) in currentList" :key="res.id">
 					<view class="left" @click="clickpic(res.pid)"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
 					<view class="right">
 						<view class="top">
@@ -101,14 +101,24 @@ export default {
 			commentList: [],
 			pic:[],
 			list: [{
-								name: '帖子'
-							}, {
-								name: '热点'
-							}, {
-								name: '我的',
-								count: 5
-							}],
-							current: 0
+						name: '帖子'
+					}, {
+						name: '热点'
+					}, {
+						name: '我的',
+					//	count: 5,
+					}],
+				current: 0,
+				
+				//
+				updating:false,
+				sending:false,
+				currentList:[],
+				viewportHeight:0,
+				itemheight:0,
+				threshold:5,
+				currentId:-1,
+				maxID:0,
 		};
 	},
 	onLoad() {
@@ -124,6 +134,8 @@ export default {
 			},
 		})
 		this.getComment();
+	},
+	onReady() {
 	},
 	mounted(){
 
@@ -143,13 +155,46 @@ onShow() {
 	{
 		this.account=value11.id;
 	}
-	this.getComment();
 	uni.onSocketMessage(function (res) {
     console.log('收到服务器内容：' + res.data);
-    //this.getComment();
+	console.log("maxID",vm.maxID);
   }.bind(this)); // 使用 bind 绑定 this 上下文
 },
-
+		    onPageScroll(e) {  
+		      const scrollTop = e.scrollTop; // 滚动条距离顶部的距离  
+			  const allHeight =this.currentList.length;
+			  
+			  if(this.viewportHeight==0)
+			  {
+				  this.viewportHeight = uni.getSystemInfoSync().windowHeight; // 获取视图窗口高度
+				  // 使用uni.createSelectorQuery()创建一个选择器查询对象
+				  const query = uni.createSelectorQuery().in(this); // 注意：这里的.in(this)可能不是必需的，取决于你的查询范围  
+				  	
+				  // 选择页面上class为my-component的元素，并获取其边界信息  
+				  query.select('.comment').boundingClientRect(rect => {  
+				    // rect是一个对象，包含了所选元素的尺寸信息，如width、height、top、right、bottom、left等  
+				    this.itemheigh=rect.height;
+				    console.log('组件的高度为：', rect.height);  
+				  }).exec(); // 执行查询  
+			  }
+			  //console.log(scrollTop);
+		      // 计算是否已经滚动到第8条数据的位置  
+		      // 注意：这里假设页面没有其他内容影响滚动条位置，且所有数据高度一致  
+		      if (allHeight*this.itemheigh -scrollTop - this.viewportHeight < this.threshold*this.itemheigh) {  
+				if(!this.sending)
+				{
+					this.sending=true;
+					this.getComment();	
+				}
+				console.log(this.currentList[this.currentList.length-1].id)
+		        console.log(this.currentId);
+		      }
+			  if(!this.updating)
+			  {
+					this.updating=true;
+				  	this.updateNewTopic();
+			  }
+		    },  
 
 	methods: {	
 		
@@ -216,7 +261,6 @@ onShow() {
 		getallpic()
 		{ 	
 			let vm=this;
-			vm.loaded=false;
 			this.startColorCycle();
 			//console.log(vm.commentList);
 			console.log(vm.commentList.length,'头像');
@@ -227,69 +271,54 @@ onShow() {
 				  return vm.getpic(comment.pid);  
 				});  
 				Promise.all(promises).then(() => {  
+					
 				  console.log("所有图片都已加载完成");
-				  vm.startColorCycle();
-				  vm.loaded=true;
+				  vm.stopColorCycle();
+				  
+				  
+				  this.loaded=true;
+				  this.updating=false;
 				}).catch(error => {  
 				  console.error('加载图片时发生错误:', error);  
 				  
 				});
 		},
-		//根据id获得头像
-/* 		getpic(userId)
-		{
-			let vm=this;
-			let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;
-			uni.request({  
-				url: url,  
-				method: 'GET',  
-				responseType: 'arraybuffer',  
-				success: (res) => {  
-					// 注意：uni.request的success回调中的res是一个包含data、statusCode等属性的对象  
-					if (res.statusCode === 200) {  
-						const base64 = uni.arrayBufferToBase64(res.data);  
-						// 创建一个数据URL  
-						vm.pic[userId] = `data:image/png;base64,${base64}`; 
-						console.log('get:',userId);
-					} else {  
-						console.log(res);
-						uni.showToast({ title: '服务器返回错误状态码', icon: 'none' });  
-					}  
-				},  
-				fail: (err) => {  
-					console.error("请求失败:", err);  
-					uni.showToast({ title: '网络错误或服务器未响应', icon: 'none' });  
-				}  
-			});
-		}, */
 		getpic(userId) {  
-			console.log(userId);
+			
 		    return new Promise((resolve, reject) => {  
-				let vm=this;
-		        let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
-		        uni.request({  
-		            url: url,  
-		            method: 'GET',  
-		            responseType: 'arraybuffer', 
-		            success: (res) => {  
-		                if (res.statusCode === 200) {  
-		                    const base64 = uni.arrayBufferToBase64(res.data);  
-		                    const imageUrl = `data:image/png;base64,${base64}`; 
-							vm.pic[userId] = imageUrl; 
-							console.log('get:',userId);
-		                    // 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
-		                    // 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
-		                    resolve(imageUrl); // 解析Promise，传递图片URL  
-		                } else {  
-		                    console.log('获取失败',userId)
-							//resolve(imageUrl); // 解析Promise，传递图片URL  
-							//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
-		                }  
-		            },  
-		            fail: (err) => {  
-		                reject(err); // 网络错误或请求失败时拒绝Promise  
-		            }  
-		        });  
+					let vm=this;
+					let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
+					if(vm.pic[userId])
+					{
+					}
+					else{
+						// /console.log(userId);
+						uni.request({
+						    url: url,  
+						    method: 'GET',  
+						    responseType: 'arraybuffer', 
+						    success: (res) => {  
+						        if (res.statusCode === 200) {  
+						            const base64 = uni.arrayBufferToBase64(res.data);  
+						            const imageUrl = `data:image/png;base64,${base64}`; 
+									vm.pic[userId] = imageUrl; 
+									console.log('get:',userId);
+						            // 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
+						            // 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
+						            resolve(imageUrl); // 解析Promise，传递图片URL  
+						        } else {  
+						            console.log('获取失败',userId)
+									//resolve(imageUrl); // 解析Promise，传递图片URL  
+									//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
+						        }  
+						    },  
+						    fail: (err) => {  
+						        reject(err); // 网络错误或请求失败时拒绝Promise  
+						    }  
+						});  
+					}
+					
+			
 		    });  
 		},
 		
@@ -356,6 +385,41 @@ onShow() {
 			    }
 			});
         },
+		updateNewTopic()
+		{
+			let vm=this;
+			console.log("maxID",vm.maxID);
+			//发送当前最前面的帖子id，从后端拿取大于 这uid的所有帖子数据
+			uni.request({
+				url:`http://192.168.50.101:8090/chat/updatecomment1?uid=${vm.maxID}`,
+				method:"GET",
+				success: (res) => {
+					if(res.statusCode==200)
+					{
+						const data = res.data;
+						this.commentList = data.map(item => ({
+							id: item.uid,
+							pid:item.id,
+							name: item.nickname,
+							date: item.createTime,
+							contentText: item.message,
+							url: item.fileData,
+							allReply: item.countcomment || 0,
+							likeNum: item.favor || 0,
+							isLike: false,
+							replyList:[]
+						}));
+						vm.getallpic();
+						vm.maxID=vm.commentList[0].id;
+						vm.currentList=[ ...vm.commentList,...vm.currentList];
+						console.log("maxID",vm.maxID);
+					}
+				},
+			})
+
+			
+		},
+		
 		//发新的帖子
 		submitReply2(comment) {
 			const value11 = uni.getStorageSync('user');
@@ -368,15 +432,16 @@ onShow() {
 				method:"POST",
 			    success: (res) => {
 			        console.log(res);
-			        
 			            // 成功后的处理逻辑
 						//console.log(this.replyContent.trim());
 						if (this.replyContent2.trim()) {
 							this.showInputBox2 = false;
 							console.log(this.showInputBox2);
 							this.showInputBox3 = true;
+							this.updateNewTopic();
 							this.$forceUpdate();  // 强制更新视图
-							this.getComment();
+							//this.getComment();
+
 						} else {
 						    uni.showToast({
 						        title: '回复内容不能为空',
@@ -488,10 +553,11 @@ onShow() {
 		},
 		// 评论列表
 		getComment() {
+			let vm=this;
 			uni.request({
-				url:'http://192.168.50.101:8090/chat/getmessage',  
+				url:`http://192.168.50.101:8090/chat/getmessage?uid=${this.currentId}`,  
 				 success: (res) => {
-//					console.log(res);
+					console.log(res);
 				if(res.statusCode == 200){
 				const data = res.data;
 				this.commentList = data.map(item => ({
@@ -506,7 +572,10 @@ onShow() {
 					isLike: false,
 					replyList:[]
 				}));
-				this.getallpic();
+				vm.maxID=vm.commentList[0].id;
+				vm.currentList=[...vm.currentList, ...vm.commentList];
+				vm.currentId=vm.commentList[5].id-1;
+				vm.sending=false;
 				 try {
 					  uni.setStorageSync('commentList', this.commentList);
 //					  console.log(this.commentList);
@@ -526,6 +595,7 @@ onShow() {
 						success: (res) => {
 //							console.log(res);
 							if(res.statusCode == 200){
+								
 //								console.log(this.commentList);
 								this.commentList.forEach(comment => {
 									res.data.forEach(temp => {
@@ -534,7 +604,10 @@ onShow() {
 										}
 									})
 								});
+								this.getallpic();
+								
 							}
+							
 						}
 						})
 				 }
