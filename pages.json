@@ -68,25 +68,6 @@
 				"enablePullDownRefresh": false
 			}
 
-		},
-		{
-			"path": "pages/frmv/natives",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom", // 隐藏系统导航栏
-				"navigationBarTextStyle": "white" // 状态栏字体为白色
-			}
-
-		}, {
-			"path": "pages/frmv/similarinterests",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom", // 隐藏系统导航栏
-				"navigationBarTextStyle": "white" // 状态栏字体为白色
-			}
-
 		}, {
 			"path": "pages/frmv/webView",
 			"style": {
@@ -203,13 +184,7 @@
 				"navigationBarTitleText": "找同乡"
 			}
 		},
-		
-		{
-			"path": "pages/service/schoolbus",
-			"style": {
-				"navigationBarTitleText": "校车时刻"
-			}
-		},
+
 		{
 			"path": "pages/service/schoolinfo",
 			"style": {
@@ -226,12 +201,7 @@
 			}
 
 		},
-		{
-			"path": "pages/service/phonenumber",
-			"style": {
-				"navigationBarTitleText": "电话簿"
-			}
-		},
+
 		{
 			"path": "pages/service/map",
 			"style": {
@@ -252,18 +222,6 @@
 			}
 		},
 		{
-			"path": "pages/service/schoolinfoxiaoxun",
-			"style": {
-				"navigationBarTitleText": "校训校风学风"
-			}
-		},
-		{
-			"path": "pages/service/schoolinfophone",
-			"style": {
-				"navigationBarTitleText": "各部门电话"
-			}
-		},
-		{
 			"path": "uview-ui/components/u-avatar-cropper/u-avatar-cropper",
 			"style": {
 				"navigationBarTitleText": "头像裁剪",
@@ -276,12 +234,6 @@
 				"navigationBarTitleText": "图片裁剪"
 			}
 
-		},
-		{
-			"path": "pages/frmv/webrouterspecial",
-			"style": {
-				"navigationBarTitleText": ""
-			}
 		},
 		{
 			"path": "pages/index/weather",
@@ -310,7 +262,7 @@
 		{
 			"path": "pages/service/otherquestion",
 			"style": {
-				"navigationBarTitleText": "其他问题"
+				"navigationBarTitleText": "在线咨询"
 			}
 		},
 		{
@@ -322,42 +274,42 @@
 		{
 			"path": "pages/frmv/connect",
 			"style": {
-				"navigationBarTitleText": "" 
+				"navigationBarTitleText": "联系我们" 
 			}
 		},
 		{
 			"path" : "pages/service/dorm",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "寝室申请"
 			}
 		},
 		{
 			"path" : "pages/service/car",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "车辆预约"
 			}
 		},
 		{
 			"path" : "pages/service/historydorm",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "历史申请"
 			}
 		},
 		{
 			"path" : "pages/service/historyleave",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "历史申请"
 			}
 		},
 		{
 			"path" : "pages/service/historycar",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "历史申请"
 			}
 		}
 	],

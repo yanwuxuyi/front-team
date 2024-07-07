@@ -41,6 +41,14 @@
 				style="fontSize:110% ; color: #000000;"></u-count-to>
 			<text>人\n\n</text>
 		</view>
+		<view class="step-container">
+			<view v-for="(step, index) in steps" :key="index" class="step-item"
+				:class="{'active': index === currentStep - 1, 'completed': index < currentStep-1}">
+				<text>{{ step.label }}</text>
+				<view v-if="index === currentStep-1" class="step-dot active"></view>
+				<view v-else class="step-dot"></view>
+			</view>
+		</view>
 		<view>
 			<uni-popup ref="share" type="share" safeArea backgroundColor="#fff">
 				<uni-popup-share title="小功能"></uni-popup-share>
@@ -102,27 +110,9 @@
 				</u-col>
 			</u-row>
 		</view>
-		
-		
-	<view @click="goAnotherPage" class="floating-icon">
-		<u-icon name="chat" size="40" color="#f4fffc"></u-icon>
-	</view>
-	<view class="step-container">
-		<view v-for="(step, index) in steps" :key="index" class="step-item"
-			:class="{'active': index === currentStep - 1, 'completed': index < currentStep-1}">
-			<text>{{ step.label }}</text>
-			<view v-if="index === currentStep-1" class="step-dot active"></view>
-			<view v-else class="step-dot"></view>
+		<view @click="goAnotherPage" class="floating-icon">
+			<u-icon name="chat" size="40" color="#c7ddff"></u-icon>
 		</view>
-	</view>
-			
-		</view>
-		
-		
-		
-		
-		
-		
 		
 	</view>
 
@@ -388,7 +378,6 @@
 							// 解析后端返回的数据
 							this.currentStep = JSON.parse(res.data.result);
 							console.log('目前状态数据:', this.currentStep);
-							return res.data.result;
 						} else {
 							console.error('请求失败:', res);
 						}
@@ -400,6 +389,7 @@
 						})
 					}
 				});
+				return res.data.result;
 			},
 			showWeather() {
 				uni.navigateTo({

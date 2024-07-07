@@ -101,7 +101,7 @@
 			          <navigator url="/pages/service/car" class="service-item">
 			            <view class="service-icon-container">
 			              <image class="service-icon" src="/static/service/car.png" mode="aspectFit"></image>
-			              <text class="service-name">车辆进</text>
+			              <text class="service-name">车预约</text>
 			            </view>
 			          </navigator>
 			        </view>
