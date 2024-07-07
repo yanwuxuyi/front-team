@@ -1,10 +1,10 @@
 <template>
 	<view >	
 			<u-navbar title-color="#fff" back-icon-color="#ffffff"
-				is-fixed=true is-back=false 
+				is-fixed 
 				:background="background"  title="好友" 
 				back-icon-name="nav-back" back-text=""
-				border-bottom="false" custom-back="goIndex">
+				:border-bottom="false" >
 			</u-navbar>
 		<view class="containerhole">
 			
@@ -89,7 +89,7 @@ import { use } from 'echarts';
 			return {
 				
 				ip:"192.168.50.101",
-				
+				false:false,
 				likes:111,
 				loaded:false,
 				user:{
@@ -427,11 +427,10 @@ import { use } from 'echarts';
 	.leftheadpic
 	{
 		  z-index: 1;
-		  width: 100px;  
-		  height:100px; 
-		  z-index: 1;
+		  width: 180rpx;  
+		  height:180rpx; 
 		  padding-top: 10rpx;
-		  padding-left: 10rpx;
+		  //padding-left: 10rpx;
 		  border-radius: 50%;  
 		  margin-left: 10px;  
 		  background-color: aliceblue;
