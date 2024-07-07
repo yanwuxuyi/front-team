@@ -98,13 +98,13 @@ export default {
 				
 			},
 		})
-		const eventChannel = this.getOpenerEventChannel();
-		eventChannel.on('acceptsearchQueryData', (data) => {
-		  this.searchQuery = data.data;
-		});
-		
 		let vm=this;
-		this.getComment();
+		let data=uni.getStorageSync("search");
+		console.log(data);
+		this.searchQuery = data;
+		
+		vm.onSearch();
+		//this.getComment();
 		//console.log(this.showInputBox3);
 		
 	},
@@ -127,6 +127,7 @@ onShow() {
 	methods: {
 		//搜索功能
 		onSearch(){
+			console.log(this.searchQuery);
 			this.getComment();
 			uni.request({
 				url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
@@ -187,6 +188,13 @@ onShow() {
 		                    resolve(imageUrl); // 解析Promise，传递图片URL  
 		                } else {  
 		                    
+							const base64 = uni.arrayBufferToBase64(res.data);
+							const imageUrl = `data:image/png;base64,${base64}`; 
+							//vm.pic[userId] = imageUrl; 
+							console.log('获取失败:',userId);
+							// 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
+							// 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
+							resolve(imageUrl);
 							//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
 		                }  
 		            },  
