@@ -36,8 +36,9 @@
 			  </view>
 			</view>
 			<view class="list-card">
-			  <view class="card"@click="editit()">
-			    <view class="item item-bottom-solid">
+				
+			  <view class="card">
+			    <view class="item " @click="editit()">
 			      <view class="left flex-center">
 			        <u-icon class="icon" name="setting"></u-icon>
 			      </view>
@@ -49,8 +50,9 @@
 			      </view>
 			    </view>
 			  </view>
+			  
 			  <view class="card" >
-			    <view class="item" @click="goXiumi()">
+			    <view class="item " @click="goXiumi()">
 			      <view class="left flex-center">
 			        <u-icon class="icon" name="gift"></u-icon>
 			      </view>
@@ -61,7 +63,10 @@
 			        <u-icon class="icon" name="arrow-right" ></u-icon>
 			      </view>
 			    </view>
-				<view class="item" @click="connect()" >
+				</view>
+				
+				<view class="card" >
+				<view class="item " @click="connect()" >
 				  <view class="left flex-center">
 				    <u-icon class="icon" name="chat"></u-icon>
 				  </view>
@@ -74,7 +79,7 @@
 				</view>
 			  </view>
 			  <view class="card" @click="showModal()">
-			    <view class="item item-bottom-solid">
+			    <view class="item ">
 			      <view class="left flex-center">
 			        <u-icon class="icon" name="star"></u-icon>
 			      </view>
