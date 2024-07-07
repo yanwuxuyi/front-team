@@ -248,7 +248,7 @@ export default {
 		getAllPic()
 		{ 	
 			let vm=this;
-			vm.loaded=false;
+			//vm.loaded=false;
 			//console.log(vm.commentList);
 			console.log(vm.commentList.length,'头像');
 			 //    vm.commentList.forEach(comment => {  
@@ -294,7 +294,13 @@ export default {
 					            // 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
 					            resolve(imageUrl); // 解析Promise，传递图片URL  
 					        } else {  
-					            
+					            const base64 = uni.arrayBufferToBase64(res.data);
+					            const imageUrl = `data:image/png;base64,${base64}`; 
+					            vm.pic[userId] = imageUrl; 
+					            console.log('获取失败:',userId);
+					            // 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
+					            // 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
+					            resolve(imageUrl); 
 								//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
 					        }  
 					    },  
@@ -348,7 +354,7 @@ export default {
 							console.log(res);
 							if(res.statusCode == 200){
 								//放在这里获取头像，避免后续渲染失败
-								vm.getPic(vm.comment.uid);
+								vm.getPic(vm.comment.uid)
 								this.getAllPic();
 								//console.log("获取点赞后的输出："+this.commentList);
 								this.commentList.forEach(comment => {
@@ -387,7 +393,7 @@ export default {
 								}
 							}
 						})
-						this.loaded=true;
+						//this.loaded=true;
 					 }
 					 else{
 						this.$u.toast('帖子信息获取失败')  //提示框

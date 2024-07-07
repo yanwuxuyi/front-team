@@ -21,7 +21,7 @@
 						<text >网络错误</text>
 					</view>
 			</view>
-			<view v-else>
+			<view v-else class="totalComment">
 				<view class="comment" v-for="(res, index) in currentList" :key="res.id">
 					<view class="left" @click="clickpic(res.pid)"><u-avatar :src="pic[res.pid]" shape="circle" size=80></u-avatar></view>
 					<view class="right">
@@ -121,6 +121,7 @@ export default {
 				current: 0,
 				
 				//
+				items:0,
 				updating:false,
 				sending:false,
 				currentList:[],
@@ -135,6 +136,8 @@ export default {
 		};
 	},
 	onLoad() {
+		this.sending=true;
+		this.updating=true;
 		//this.restorePaginationState(); // 页面创建时尝试恢复分页状态
 		this.webSocketTask = uni.connectSocket({
 			url: "ws://192.168.50.101:8090/ws/3",
@@ -173,6 +176,8 @@ onShow() {
 /* 	this.addup();
 	this.currentId=-1;
 	this.getComment(); */
+	this.sending=true;
+	this.updating=true;
 	this.account='';
 	const value11 = uni.getStorageSync('user');
 	if(value11.id)
@@ -193,8 +198,10 @@ onShow() {
 		      const scrollTop = e.scrollTop; // 滚动条距离顶部的距离  
 			  const allHeight =this.currentList.length;
 			  
-			  if(this.viewportHeight==0|| this.itemheigh==0)
+			  //获取页面数据和item数据
+			  if(this.itemheight==0||this.itemheight==undefined)
 			  {
+				  
 				  this.viewportHeight = uni.getSystemInfoSync().windowHeight; // 获取视图窗口高度
 				  
 				  
@@ -202,16 +209,29 @@ onShow() {
 				        query1.select('.comment').fields({ size: true }, res => {  
 				          // 当查询结果返回时，res.width 和 res.height 将包含.comment元素的宽度和高度  
 				          if (res && res.width && res.height) {  
-				            this.itemheigh = res.height; // 更新组件数据  
-				            console.log('组件的高度为：', this.itemheigh); // 打印高度  
+				            this.itemheight = res.height; // 更新组件数据  
+				            console.log('组件的高度为：', this.itemheight); // 打印高度  
 				          } else {  
 				            console.log('未获取到.comment元素的尺寸');  
+							console.log(this.itemheight);
 				          }  
 				        }).exec(); // 执行查询  
 				  
 			  }
-
-		      if (allHeight*this.itemheigh -scrollTop - this.viewportHeight < this.threshold*this.itemheigh) {  
+			  //更新全页面信息
+		      const query2 = uni.createSelectorQuery().in(this); // 创建选择器查询对象，并指定当前组件的上下文
+		      query2.select('.totalComment').fields({ size: true }, res => {  
+		        // 当查询结果返回时，res.width 和 res.height 将包含.comment元素的宽度和高度  
+		        if (res && res.width && res.height) {  
+		          this.items = res.height; // 更新组件数据  
+		          console.log('评论集组件的高度为：', this.items); // 打印高度  
+		        } else {  
+		          console.log('未获取到评论集元素的尺寸');  
+		        }  
+		      }).exec(); // 执行查询  
+			  
+			  if(this.items -scrollTop - this.viewportHeight < this.threshold*this.itemheight){
+			  //if (allHeight*this.itemheigh -scrollTop - this.viewportHeight < this.threshold*this.itemheigh) {  
 				if(!this.sending&&this.currentList[this.currentList.length-1].id==this.currentId+1)
 				{
 					
@@ -358,7 +378,11 @@ onShow() {
 						            resolve(imageUrl); // 解析Promise，传递图片URL  
 						        } else {  
 						            console.log('获取失败',userId)
-									//resolve(imageUrl); // 解析Promise，传递图片URL  
+									const base64 = uni.arrayBufferToBase64(res.data);
+									const imageUrl = `data:image/png;base64,${base64}`; 
+									vm.pic[userId] = imageUrl; 
+									//this.loaded=true;
+									resolve(imageUrl); // 解析Promise，传递图片URL  
 									//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
 						        }  
 						    },  
@@ -803,6 +827,9 @@ onShow() {
             }
         }
     }
+}
+.totalComment{
+	
 }
 .floating-icon {
 			position: fixed;

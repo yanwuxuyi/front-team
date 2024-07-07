@@ -168,17 +168,9 @@ export default {
 		    success: (res) => {
 		      console.log(res);
 		      console.log(this.searchQuery);
-		      
+		      uni.setStorageSync("search",this.searchQuery);
 		      uni.navigateTo({
 		        url: '/pages/forum/searchresult',
-		        events: {
-		          acceptsearchQueryData: (data) => {
-		            console.log('Data received in searchresult page:', data);
-		          }
-		        },
-		        success: (res) => {
-		          res.eventChannel.emit('acceptsearchQueryData', { data: this.searchQuery });
-		        }
 		      });
 		    }
 		  })
@@ -288,7 +280,7 @@ export default {
 			
 							
 			uni.request({
-			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=1&rid=${value10.id}&uid=${this.currentComment.id}&favor=0`,
+			    url: `http://192.168.50.101:8090/chat/sendcommentall?comment=${this.replyContent}&rcid=-1&rid=${value10.id}&uid=${this.currentComment.id}&favor=0`,
 				method:"POST",
 			    success: (res) => {
 			        console.log(res);
