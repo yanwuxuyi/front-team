@@ -23,7 +23,7 @@
 			  <view class="card">
 			    <view class="top">
 			      <view class="userImage">
-					  <u-avatar v-if="gender==='男'" :src="'/static/images/headpic/'+picid+'.PNG'" size="140" :showSex="true"  sexIcon="man" mode="circle" sexBgColor="#71d5a1" @click="goSelectheadpic()"></u-avatar>
+					  <u-avatar v-if="gender==='男'" :src="pic" size="140" :showSex="true"  sexIcon="man" mode="circle" sexBgColor="#71d5a1" @click="goSelectheadpic()"></u-avatar>
 					  <u-avatar v-else :src="pic" size="140" :showSex="true"  sexIcon="woman" mode="circle" sexBgColor="#fab6b6" @click="goSelectheadpic()"></u-avatar>
 			      </view>
 			    </view>

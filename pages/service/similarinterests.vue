@@ -11,7 +11,9 @@
 			</u-navbar>
 		</view>
 		<view v-if="loaded==false">
-			<u-loading-page loading-text="loading..."></u-loading-page>
+			<view class="holecontainer">
+					<u-loading mode="circle" color="#df1215" size="80"></u-loading>
+			</view>
 		</view>
 		<view v-if="loaded==true">
 				<u-popup  v-model="show" mode="center" class="popup-container">
@@ -181,6 +183,15 @@
 </script>
 
 <style lang="scss" scoped>
+	.holecontainer {
+		flex-direction: column;
+	  display: flex;  
+	  justify-content: center; /* 水平居中 */  
+	  align-items: center; /* 垂直居中 */  
+	  height: 20vh; /* 占据整个视窗的高度 */  
+	  padding: 80px 100px 0;
+	  //position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
+	}  
 	.item {
 		display: flex;
 		padding: 20rpx;
