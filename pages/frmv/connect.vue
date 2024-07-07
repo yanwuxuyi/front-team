@@ -19,13 +19,32 @@
 		<h2>代码开源</h2>
 		<p>前端：<a href="https://github.com/yanwuxuyi/front-team" target="_blank">https://github.com/yanwuxuyi/front-team</a></p>
 		<p>后端：<a href="https://github.com/qingfengduzui/--backend" target="_blank">https://github.com/qingfengduzui/--backend</a></p>
+		<h2>评分 : {{this.value}}</h2>
 	</view>
 </template>
 
 <script>
 	export default {
 		data() {
-			return {};
+			return {
+				ip:"192.168.50.101",
+				value:0,
+			};
+		},
+		onLoad() {
+			let url = `http://${this.ip}:8090/auth/getAverageScore`;
+			
+			uni.request({  
+				url: url,  
+				method: 'GET',  
+				success: (res) => {  
+					console.log(res);
+					this.value=res.data.result;
+					console.log(this.value);
+				},  
+				fail: (err) => {  
+				}  
+			});
 		},
 		methods: {}
 	}
