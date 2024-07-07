@@ -466,6 +466,7 @@ onShow() {
 						if(vm.commentList.length!=0)
 						{
 							vm.getallpic();
+							//vm.getpic(this.commentList[0].id);
 							vm.maxID=vm.commentList[0].id;
 							vm.currentList=[ ...vm.commentList,...vm.currentList];
 							console.log("maxID",vm.maxID);

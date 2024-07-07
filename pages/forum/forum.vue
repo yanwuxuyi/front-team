@@ -112,7 +112,7 @@ export default {
 								name: '热点'
 							}, {
 								name: '我的',
-								count: 5
+								//count: 5
 							}],
 							current: 0
 		};
