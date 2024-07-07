@@ -1,7 +1,7 @@
 <template>
 	<view >	
 		<view v-if="this.user.id" class="containerhole">
-			<view v-if="this.loaded==true" class="containerhole">
+			<view v-if="loaded==true" class="containerhole">
 				<!-- 背景图片 点击可更换-->
 				<image class="backpic" :src="backpic" mode="aspectFill" >
 					
@@ -506,6 +506,8 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 								const imageUrl = `data:image/png;base64,${base64}`; 
 								vm.pic = imageUrl; 
 								console.log('get:',userId);
+								//vm.loaded=true;
+								resolve(imageUrl); 
 							} else {  
 								console.log('获取失败',userId);
 								vm.loaded=true;
@@ -516,7 +518,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 						fail: (err) => {  
 							console.log('网络失败：头像',userId);
 							//resolve(imageUrl);
-							//reject(err); // 网络错误或请求失败时拒绝Promise  
+							reject(err); // 网络错误或请求失败时拒绝Promise  
 							
 						}  
 					});  
