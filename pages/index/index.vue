@@ -388,6 +388,7 @@
 							// 解析后端返回的数据
 							this.currentStep = JSON.parse(res.data.result);
 							console.log('目前状态数据:', this.currentStep);
+							return res.data.result;
 						} else {
 							console.error('请求失败:', res);
 						}
@@ -399,7 +400,6 @@
 						})
 					}
 				});
-				return res.data.result;
 			},
 			showWeather() {
 				uni.navigateTo({

@@ -264,7 +264,7 @@ export default {
 				{
 					return;
 				}
-				else{
+				else if(userId>0){
 					let vm=this;
 					let url = `http://192.168.50.101:8090/auth/getImageById?id=${userId}`;  
 					uni.request({  
@@ -294,96 +294,98 @@ export default {
 		},
 		// 回复列表
 		getReply() {
-			
-			//const storedCommentList = uni.getStorageSync('commentList');
-			this.uid = this.comment.id;
-			let vm=this;
-			console.log("uid  "+this.uid);
-			uni.request({
-				url:`http://192.168.50.101:8090/chat/gettextmessage?uid=${this.uid}`,  
-				success: (res) => {
-				console.log("你好");
-				console.log(res);
-				if(res.statusCode == 200){
-				const data = res.data;
-				console.log(data);
-				this.commentList = data.map(item => ({
-					rcid: item.rcid,
-					uid: item.uid,
-					rid: item.rid,
-					cid: item.cid,
-					name: item.nickname,
-					date: item.createTime,
-					contentText: item.comment,
-					url: item.fileData,
-					likeNum: item.favor || 0,
-					isLike: false,
-					reply:  []
-				}));
-				
-				const value12 = uni.getStorageSync('user');
-				// console.log(value12.id);
-				// console.log(this.uid);
+			if(this.uid>0)
+			{
+				//const storedCommentList = uni.getStorageSync('commentList');
+				this.uid = this.comment.id;
+				let vm=this;
+				console.log("uid  "+this.uid);
 				uni.request({
-					url:"http://192.168.50.101:8090/chat/getcommentfavor",
-					data:{
-						id: value12.id,
-						uid: this.uid
-					},
-					method:'POST',
+					url:`http://192.168.50.101:8090/chat/gettextmessage?uid=${this.uid}`,  
 					success: (res) => {
-						console.log(res);
-						if(res.statusCode == 200){
-							//放在这里获取头像，避免后续渲染失败
-							vm.getPic(vm.comment.uid);
-							this.getAllPic();
-							//console.log("获取点赞后的输出："+this.commentList);
-							this.commentList.forEach(comment => {
-								res.data.forEach(temp => {
-									if(comment.cid == temp.cid){
-										comment.isLike = true;
-									}
-								})
-							});
-							
-							//console.log("这里1");
-							this.commentList.forEach(item =>{
-								if(item.rcid != -1) {
-									//console.log("这里23");
-									this.commentList.forEach(commenttemp =>{
-										// console.log("这里4");
-										// console.log(commenttemp.cid);
-										// console.log(item.rcid);
-										if(commenttemp.cid == item.rcid) {
-											// console.log("这里2");
-											// console.log(commenttemp.rid);
-											item.reply = {
-												name: commenttemp.name,
-												contentStr: commenttemp.contentText
-											};
-												}	
-											})
+					console.log("你好");
+					console.log(res);
+					if(res.statusCode == 200){
+					const data = res.data;
+					console.log(data);
+					this.commentList = data.map(item => ({
+						rcid: item.rcid,
+						uid: item.uid,
+						rid: item.rid,
+						cid: item.cid,
+						name: item.nickname,
+						date: item.createTime,
+						contentText: item.comment,
+						url: item.fileData,
+						likeNum: item.favor || 0,
+						isLike: false,
+						reply:  []
+					}));
+					
+					const value12 = uni.getStorageSync('user');
+					// console.log(value12.id);
+					// console.log(this.uid);
+					uni.request({
+						url:"http://192.168.50.101:8090/chat/getcommentfavor",
+						data:{
+							id: value12.id,
+							uid: this.uid
+						},
+						method:'POST',
+						success: (res) => {
+							console.log(res);
+							if(res.statusCode == 200){
+								//放在这里获取头像，避免后续渲染失败
+								vm.getPic(vm.comment.uid);
+								this.getAllPic();
+								//console.log("获取点赞后的输出："+this.commentList);
+								this.commentList.forEach(comment => {
+									res.data.forEach(temp => {
+										if(comment.cid == temp.cid){
+											comment.isLike = true;
 										}
-										else{
-											item.reply = null;
+									})
+								});
+								
+								//console.log("这里1");
+								this.commentList.forEach(item =>{
+									if(item.rcid != -1) {
+										//console.log("这里23");
+										this.commentList.forEach(commenttemp =>{
+											// console.log("这里4");
+											// console.log(commenttemp.cid);
+											// console.log(item.rcid);
+											if(commenttemp.cid == item.rcid) {
+												// console.log("这里2");
+												// console.log(commenttemp.rid);
+												item.reply = {
+													name: commenttemp.name,
+													contentStr: commenttemp.contentText
+												};
+													}	
+												})
+											}
+											else{
+												item.reply = null;
+											}
+											//console.log(item.reply);
 										}
-										//console.log(item.reply);
-									}
-								);
-							
+									);
+								
+								}
 							}
-						}
-					})
-					this.loaded=true;
-				 }
-				 else{
-					this.$u.toast('帖子信息获取失败')  //提示框
-					this.loaded=true;
-					this.wrong=true;
-				 }
-				 }
-				 
-			})
+						})
+						this.loaded=true;
+					 }
+					 else{
+						this.$u.toast('帖子信息获取失败')  //提示框
+						this.loaded=true;
+						this.wrong=true;
+					 }
+					 }
+					 
+				})
+			}
 		}
 	}
 };

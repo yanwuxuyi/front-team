@@ -4,38 +4,60 @@
 
     <u-tabs :list="list" :is-scroll="false" :current="1" @change="change"></u-tabs>
     <!-- 搜索框 -->
-    <view class="search-box">
-      <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." @input="onSearchInput" />
-      <button @click="onSearch">搜索</button>
-    </view>
-    <view class="comment" v-for="(res, index) in commentList" :key="res.id">
-      <view class="left"><image :src="res.url" mode="aspectFill"></image></view>
-      <view class="right">
-        <view class="top">
-          <view class="name">{{ res.name }}</view>
-          <view class="like" :class="{ highlight: res.isLike }">
-            <view class="num">{{ res.likeNum }}</view>
-            <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
-            <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
-          </view>
-        </view>
-        <view class="content">{{ res.contentText }}</view>
-        <view class="reply-box">
-          <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
-            <view class="username">{{ item.name }}</view>
-            <view class="text">{{ item.contentStr }}</view>
-          </view>
-          <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined">
-            共{{ res.allReply }}条回复
-            <u-icon class="more" name="arrow-right" :size="26"></u-icon>
-          </view>
-        </view>
-        <view class="bottom">
-          {{ res.date }}
-          <view class="reply" @tap="showReplyInput(res)">回复</view>
-        </view>
-      </view>
-    </view>
+	<view v-if="loaded">
+		<view class="search-box">
+		  <input type="text" v-model="searchQuery" placeholder="搜索你感兴趣的帖子..." @input="onSearchInput" />
+		  <button @click="onSearch">搜索</button>
+		</view>
+		<view v-if="this.commentList.length!=0">
+			<view class="comment" v-for="(res, index) in commentList" :key="res.id">
+			  <view class="left"><image :src="pic[res.pid]" mode="aspectFill"></image></view>
+			  <view class="right">
+			    <view class="top">
+			      <view class="name">{{ res.name }}</view>
+			      <view class="like" :class="{ highlight: res.isLike }">
+			        <view class="num">{{ res.likeNum }}</view>
+			        <u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
+			        <u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
+			      </view>
+			    </view>
+			    <view class="content">{{ res.contentText }}</view>
+			    <view class="reply-box">
+			      <view class="item" v-for="(item, replyIndex) in res.replyList" :key="replyIndex">
+			        <view class="username">{{ item.name }}</view>
+			        <view class="text">{{ item.contentStr }}</view>
+			      </view>
+			      <view class="all-reply" @tap="toAllReply(res)" v-if="res.replyList != undefined">
+			        共{{ res.allReply }}条回复
+			        <u-icon class="more" name="arrow-right" :size="26"></u-icon>
+			      </view>
+			    </view>
+			    <view class="bottom">
+			      {{ res.date }}
+			      <view class="reply" @tap="showReplyInput(res)">回复</view>
+			    </view>
+			  </view>
+			</view>
+		</view>
+		<view v-else>
+			<view class="holecontainer1">
+				<view class="wrongcircle1">
+					<u-icon name="question-circle-fill" size="162" color="black"></u-icon>
+					
+				</view>
+				<text class="wrongnormal1" >404 NOT FOUND</text>
+			</view>
+		</view>
+	</view>
+	<view v-else class="musk">
+			<view class="holecontainer">
+				<view class="wrongcircle">
+					<u-icon class="icon" name="chrome-circle-fill" size="162" color="black"></u-icon>
+					
+				</view>
+				<text class="wrongnormal" >正在加载</text>
+			</view>
+	</view>
 
   </view>
 </template>
@@ -316,6 +338,7 @@ onShow() {
 		},
 		// 评论列表
 		getComment() {
+			this.loaded=false;
 			uni.request({
 				url: `http://192.168.50.101:8090/chat/search?keyword=${this.searchQuery}`,
 				 success: (res) => {
@@ -521,4 +544,79 @@ onShow() {
         margin-bottom: 10rpx;
     }
 }
+	.musk {
+	  position: absolute;  
+	  width: 100%;
+	  height: 235%;
+	  background-color: rgba(0, 0, 0, 0.8); /* 黑色半透明背景 */  
+	  opacity: 0.5; /* 假设我们想要一个半透明的蒙版 */  
+	  z-index: 4; /* 确保蒙版位于输入框和按钮下方 */ 
+	   width: 100%; /* 确保横向覆盖整个屏幕 */
+	}  
+	.holecontainer{
+		flex-direction: column;
+		 display: flex;  
+		 justify-content: center; /* 水平居中 */  
+		 align-items: center; /* 垂直居中 */  
+		 //height: 20vh; /* 占据整个视窗的高度 */  
+		 padding-top: 50%;
+		 z-index: 5;
+	}
+	.wrongcircle {
+		background-color: rgba(75, 255, 195, 0.8);
+		border-radius: 200rpx;
+		width: 160rpx;
+		height: 160rpx;
+		align-items: center;
+		justify-content: center;
+		//margin-top: 20rpx;
+		/* 应用动画 */
+		position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
+	}
+	
+	.wrongnormal {
+		color: rgba(75, 255, 195, 0.8);
+		font-size: 20px;
+		margin-top: 10px;
+	}
+	/*非常好代码,使我旋转*/
+		@keyframes rotate {
+		  from {  
+		    transform: rotate(0deg);  
+		  }  
+		  to {  
+		    transform: rotate(360deg);  
+		  }  
+		}  
+		  
+		.icon {  
+		  /* 应用动画 */  
+		  animation: rotate 2s linear infinite;  
+		}
+		.holecontainer1{
+			flex-direction: column;
+			 display: flex;  
+			 justify-content: center; /* 水平居中 */  
+			 align-items: center; /* 垂直居中 */  
+			 //height: 20vh; /* 占据整个视窗的高度 */  
+			 padding-top: 30%;
+			 z-index: 5;
+		}
+		.wrongcircle1 {
+			background-color: rgba(70, 82, 255, 0.8);
+			border-radius: 200rpx;
+			width: 160rpx;
+			height: 160rpx;
+			align-items: center;
+			justify-content: center;
+			//margin-top: 20rpx;
+			/* 应用动画 */
+			position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
+		}
+		
+		.wrongnormal1 {
+			color: rgba(138, 43, 255, 0.8);
+			font-size: 20px;
+			margin-top: 10px;
+		}
 </style>
