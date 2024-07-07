@@ -3,18 +3,27 @@
 		<view>
 			<u-tabs :list="list" :is-scroll="false" :current="current" @change="change"></u-tabs>
 		</view>
+		<view class="reminder">如有仍有问题无法解决，可在线咨询管理人员</view>
 		<view class="container">
-			<view class="chat-history">
-				<view v-for="(message, index) in messages" :key="index" class="message-bubble"
-					:class="{ 'mine': message.mine }">
-					{{ message.text }}
+			<scroll-view scroll-y class="chat-container" refresher-enabled>
+				<view v-for="(message, index) in messages" :key="index" class="message-item">
+					<view class="avatar" :class="message.status === 'teacher' ? 'teacher-avatar' : 'student-avatar'">
+						<image :src="message.status === 'teacher' ? teacherAvatar : studentAvatar"  class="avatar-img"/>
+					</view>
+					<view class="message-bubble"
+						:class="message.status === 'teacher' ? 'teacher-bubble' : 'student-bubble'">
+						<text v-if="message.status === 'teacher'">{{ message.answer}}</text>
+						<text v-else>{{ message.question}}</text>
+					</view>
 				</view>
-			</view>
-			<view class="input-area">
-				<input type="text" v-model="newMessage" placeholder="输入你的问题" />
-				<button @click="sendMessage">发送</button>
+			</scroll-view>
+
+			<view class="input-container">
+				<input class="input-message" type="text" placeholder="输入消息..." v-model="inputMessage" />
+				<button class="send-button" @click="sendMessage">发送</button>
 			</view>
 		</view>
+
 
 	</view>
 </template>
@@ -33,9 +42,10 @@
 					}
 				],
 				current: 2,
-				newMessage: '',
 				messages: [],
-				userId: '123456' // 假设的用户ID  
+				inputMessage: '',
+				studentAvatar: '/static/images/student.png',
+				teacherAvatar: '/static/images/teacher.png'
 			}
 		},
 		methods: {
@@ -50,7 +60,7 @@
 						break;
 					case 1:
 						uni.navigateTo({
-							url: '/pages/index/text2'
+							url: '/pages/index/test2'
 						});
 						break;
 					case 2:
@@ -64,43 +74,72 @@
 						break;
 				}
 			},
-			async sendMessage() {
-				if (!this.newMessage.trim()) return;
+			sendMessage() {
+				const studentId = uni.getStorageSync('user').studentId;
 
-				const messageId = Date.now(); // 生成消息ID  
-				const newMessageObj = {
-					text: this.newMessage,
-					userId: this.userId,
-					messageId
+				const newMessage = {
+					content: this.inputMessage,
+					status: 'student', // or 'teacher' based on who sends the message
 				};
-				// 假设sendMessageToServer是发送消息到服务器的函数  
-				await this.sendMessageToServer(newMessageObj);
+				// this.messages.push(newMessage);
 
-				// 假设接收服务器回复的消息会调用addMessage  
-				this.addMessage({
-					...newMessageObj,
-					mine: true
+				// Clear input field after sending
+				this.inputMessage = '';
+
+				uni.request({
+				  url: 'http://192.168.50.101:8090/auth/sendQuestion',
+				  method: 'GET',
+				  data: {
+				    studentid: studentId,
+				    question: newMessage.content
+				  },
+				  success: (res) => {
+				    console.log('Question sent successfully:', res);
+					this.fetchMessages();
+				  },
+				  fail: (err) => {
+				    console.error('Failed to send question:', err);
+				  }
+				});
+				
+			},
+			fetchMessages() {
+				const studentId = uni.getStorageSync('user').studentId;
+
+				uni.request({
+				  url: 'http://192.168.50.101:8090/auth/getqa',
+				  method: 'GET',
+				  data: {
+				    studentid: studentId
+				  },
+				  success: (res) => {
+				    this.messages = res.data; // Assuming messages are returned as an array
+				  console.info("历史消息记录：",res.data);
+				  },
+				  fail: (err) => {
+				    console.error('Failed to fetch messages:', err);
+				  }
 				});
 
-				this.newMessage = ''; // 清空输入框  
-			},
-			addMessage(message) {
-				this.messages.push(message);
-			},
-			async sendMessageToServer(message) {
-				// 这里使用fetch API发送消息到服务器  
-				try {
-					await fetch('https://yourserver.com/api/messages', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify(message)
-					});
-				} catch (error) {
-					console.error('Error sending message:', error);
-				}
+				// Mock data for demonstration:
+				// this.messages = [{
+				// 		content: 'Hello!',
+				// 		type: 'teacher'
+				// 	},
+				// 	{
+				// 		content: 'Hi there!',
+				// 		type: 'student'
+				// 	},
+				// 	{
+				// 		content: 'How can I help you today?',
+				// 		type: 'teacher'
+				// 	}
+				// ];
 			}
+		},
+		mounted() {
+			// Fetch initial set of messages when component is mounted
+			this.fetchMessages();
 		}
 
 	}
@@ -110,42 +149,95 @@
 	.container {
 		display: flex;
 		flex-direction: column;
-		height: 100%;
+		height: 86vh;
+		background-color: #f2f2f2;
+		padding: 10px;
 	}
 
-	.chat-history {
-		flex: 1;
-		overflow-y: auto;
+	.reminder {
+		background-color: #f2f2f2;
 		padding: 10px;
+		text-align: center;
+	}
+
+	.chat-container {
+		flex: 1;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		overflow-y: scroll;
+	}
+
+	.message-item {
+		display: flex;
+		align-items: flex-end;
+		margin-bottom: 15px;
 	}
 
 	.message-bubble {
 		padding: 10px;
-		margin: 5px 0;
 		border-radius: 10px;
-		max-width: 80%;
+		max-width: 70%;
 	}
 
-	.mine {
+	.student-bubble {
 		align-self: flex-end;
-		background-color: #007aff;
-		color: white;
+		background-color: #3498db;
+		color: #ffffff;
 	}
 
-	.input-area {
+	.teacher-bubble {
+		align-self: flex-start;
+		background-color: #FFFFFF;
+		color: #000000;
+	}
+
+	.avatar {
+		width: 40px;
+		height: 40px;
+		margin: 0 5px;
 		display: flex;
-		justify-content: space-between;
-		padding: 10px;
-		background-color: #f5f5f5;
+		justify-content: center;
+		align-items: center;
 	}
 
-	input {
+	.avatar-img {
+		max-width: 100%;
+		max-height: 100%;
+		border-radius: 50%;
+	}
+
+	.student-avatar {
+		align-self: flex-end;
+	}
+
+	.teacher-avatar {
+		align-self: flex-start;
+	}
+
+	.input-container {
+		display: flex;
+		align-items: center;
+		padding: 10px;
+		background-color: #f2f2f2;
+		margin-top: 10px;
+	}
+
+	.input-message {
 		flex: 1;
 		padding: 10px;
 		margin-right: 10px;
+		border-radius: 20px;
+		border: 1px solid #3498db;
+		outline: none;
 	}
 
-	button {
+	.send-button {
 		padding: 10px 20px;
+		border-radius: 20px;
+		background-color: #3498db;
+		color: #FFFFFF;
+		border: none;
+		outline: none;
+		cursor: pointer;
 	}
 </style>
