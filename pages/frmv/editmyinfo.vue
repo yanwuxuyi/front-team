@@ -256,6 +256,7 @@
 				actionSheetList: [
 
 
+
 					{
 
 						text: '男'
@@ -11272,6 +11273,10 @@
 		font-size: 16px;
 	}
 
+
+
+	.wrap{
+
 	.popup-button:hover {
 		background-color: #0056b3;
 	}
@@ -11282,8 +11287,10 @@
 	}
 
 	.wrap {
+
 		padding: 10rpx 50rpx;
 		width: 100%;
 		height: 100%;
 	}
+
 </style>
