@@ -79,7 +79,7 @@
 					</view>
 				</navigator>
 			</view>
-			 <!-- 第四行 -->
+					 <!-- 第四行 -->
 			        <view class="service-header">
 			          <text>小功能</text>
 			        </view>
@@ -105,6 +105,33 @@
 			            </view>
 			          </navigator>
 			        </view>
+			 <!-- 第五行 -->
+			        <view class="service-header">
+			          <text>猜你想</text>
+			        </view>
+			        <view class="service-row">
+						<navigator url="/pages/service/eat" class="service-item">
+							<view class="service-icon-container">
+								<image class="service-icon" src="/static/service/food.png" mode="aspectFit"></image>
+								<text class="service-name">你想吃</text>
+							</view>
+						</navigator>
+
+					  
+			          <navigator url="/pages/service/play" class="service-item">
+			            <view class="service-icon-container">
+			              <image class="service-icon" src="/static/service/play.png" mode="aspectFit"></image>
+			              <text class="service-name">你想玩</text>
+			            </view>
+			          </navigator>
+			          <navigator url="/pages/service/book" class="service-item">
+			            <view class="service-icon-container">
+			              <image class="service-icon" src="/static/service/book.png" mode="aspectFit"></image>
+			              <text class="service-name">你想读</text>
+			            </view>
+			          </navigator>
+			        </view>
+					
 		</view>
 	</view>
 
@@ -125,7 +152,7 @@
 		/* 垂直居中（如果只有一个行项目时有效） */
 		flex-direction: column;
 		/* 如果需要垂直堆叠多个服务列表（例如，分页时）*/
-		height: 100vh;
+		height: 120vh;
 		/* 假设你想让服务列表占据整个视口高度 */
 		padding: 10px;
 		/* 可选，根据需要调整 */

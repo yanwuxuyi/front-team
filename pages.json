@@ -373,6 +373,20 @@
 			"path" : "pages/service/eat",
 			"style" : 
 			{
+				"navigationBarTitleText" : "猜你想吃"
+			}
+		},
+		{
+			"path" : "pages/service/play",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/service/book",
+			"style" : 
+			{
 				"navigationBarTitleText" : ""
 			}
 		}
