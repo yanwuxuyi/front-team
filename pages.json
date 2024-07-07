@@ -332,14 +332,14 @@
 			"path" : "pages/service/play",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "猜你想玩"
 			}
 		},
 		{
 			"path" : "pages/service/book",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "猜你想看"
 			}
 		}
 	],
