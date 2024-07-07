@@ -368,6 +368,13 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/service/eat",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 
