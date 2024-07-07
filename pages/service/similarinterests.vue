@@ -3,11 +3,10 @@
 <view>
 		<view>
 			<u-navbar title-color="#fff" back-icon-color="#ffffff"
-				:is-fixed="isFixed" :is-back="isBack" 
-				:background="background" 
-				:back-text-style="{color: '#fff'}" :title="title1" 
-				:back-icon-name="backIconName" :back-text="backText"
-				:border-bottom="false" @click="goIndex()">
+				is-fixed=true is-back=false 
+				:background="background"  title="找同好" 
+				back-icon-name="nav-back" back-text=""
+				border-bottom="false" custom-back="goIndex">
 			</u-navbar>
 		</view>
 		<view v-if="loaded==false">
@@ -48,8 +47,6 @@
 				pic:[],
 				loaded:false,
 				// 顶部导航栏
-				title1: '找同好',
-				backText: '',
 				backIconName: 'nav-back',
 				right: false,
 				showAction: false,
@@ -58,10 +55,8 @@
 				background: {
 					'background-image': 'linear-gradient(45deg, rgb(118, 187, 187), rgb(156, 198, 130))'
 				},
-				isBack: true,
 				search: false,
 				custom: true,
-				isFixed: true,
 				keyword: '',
 
 				list: [{
@@ -87,6 +82,7 @@
 		methods: {
 			goIndex()
 			{
+				console.log("gogo");
 				uni.navigateTo({
 				  url: '/pages/service/servicemain'
 				});

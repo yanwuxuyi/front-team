@@ -1,5 +1,11 @@
 <template>
 	<view >	
+			<u-navbar title-color="#fff" back-icon-color="#ffffff"
+				is-fixed=true is-back=false 
+				:background="background"  title="好友" 
+				back-icon-name="nav-back" back-text=""
+				border-bottom="false" custom-back="goIndex">
+			</u-navbar>
 		<view class="containerhole">
 			
 			<view v-if="this.loaded==true" class="containerhole">
@@ -88,6 +94,9 @@ import { use } from 'echarts';
 				loaded:false,
 				user:{
 					
+				},
+				background: {
+					'background-image': 'linear-gradient(45deg, rgb(118, 187, 187), rgb(156, 198, 130))'
 				},
 				  //账户编码
 				  id:0,

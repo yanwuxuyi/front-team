@@ -582,8 +582,10 @@ onShow() {
 		// 跳转到全部回复
 		toAllReply(comment) {
             console.log(comment);
+			uni.setStorageSync("commentReply",comment);
             uni.navigateTo({
                 url: '/pages/forum/reply',
+				
                 success: (res) => {
                     // 通过eventChannel向新页面传递数据
                     res.eventChannel.emit('acceptCommentData', { data: comment });

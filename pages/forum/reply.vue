@@ -22,7 +22,7 @@
 			<view class="comment">
 				<view class="top">
 					<view class="left">
-						<view class="heart-photo"><image :src="pic[comment.pid]" mode=""></image></view>
+						<view class="heart-photo" @click="clickpic(comment.pid)"><u-avatar :src="pic[comment.pid]" shape="circle" size=80></u-avatar></view>
 						<view class="user-info">
 							<view class="name">{{ comment.name }}</view>
 							<view class="date">06-25 13:58</view>
@@ -42,7 +42,7 @@
 					<view class="comment">
 						<view class="top">
 							<view class="left">
-								<view class="heart-photo" @click="clickpic(item.rid)"><u-avatar :src="pic[item.rid]" shape="circle" size=80></u-avatar></image></view>
+								<view class="heart-photo" @click="clickpic(item.rid)"><u-avatar :src="pic[item.rid]" shape="circle" size=80></u-avatar></view>
 								<view class="user-info">
 									<view class="name">{{ item.name }}</view>
 									<view class="date">{{ item.date }}</view>
@@ -86,9 +86,11 @@ export default {
 			uid:1,
 			pic:[],
 			wrong:false,
+			ids:[],
 		};
 	},
 	onLoad() {
+		this.loaded=false;
 		this.webSocketTask = uni.connectSocket({
 			url: "ws://192.168.50.101:8090/ws/3",
 			header: {
@@ -99,16 +101,19 @@ export default {
 				
 			},
 		})
+		//this.comment=uni.getStorageSync("commentReply");
 		const eventChannel = this.getOpenerEventChannel();
 		eventChannel.on('acceptCommentData', (data) => {
 			console.log(data.data);
 		    this.comment = data.data;
 		});
+		
 		console.log(this.comment);
 		this.getReply();
 	},
 	onShow() {
-		this.loaded=false;
+		//this.comment=uni.getStorageSync("commentReply");
+		//this.loaded=false;
 		this.wrong=false;
 	  uni.onSocketMessage(function (res) {
 	    console.log('收到服务器内容：' + res.data);
@@ -136,7 +141,9 @@ export default {
 					else{
 						uni.setStorageSync("others",value);
 						uni.navigateTo({
-						  url: '/pages/forum/others'
+						  url: '/pages/forum/others',
+						  
+						  
 						});
 					}
 				}
@@ -247,9 +254,15 @@ export default {
 			 //    vm.commentList.forEach(comment => {  
 				// 		vm.getpic(comment.pid);
 				// })
+				let promise1=vm.getPic(vm.comment.pid);
+				
 				let promises = vm.commentList.map(comment => {  
+					
 				  return vm.getPic(comment.rid);  
 				});  
+				
+				//合并
+				promises.unshift(promise1);
 				Promise.all(promises).then(() => {  
 				  console.log("所有图片都已加载完成");
 				  vm.loaded=true;
@@ -321,7 +334,6 @@ export default {
 						isLike: false,
 						reply:  []
 					}));
-					
 					const value12 = uni.getStorageSync('user');
 					// console.log(value12.id);
 					// console.log(this.uid);
