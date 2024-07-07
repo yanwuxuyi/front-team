@@ -38,7 +38,7 @@
 						name: 'AI问答'
 					},
 					{
-						name: '其他问题'
+						name: '在线咨询'
 					}
 				],
 				current: 2,
@@ -137,9 +137,30 @@
 				// ];
 			}
 		},
+		onLoad(){
+			this.webSocketTask = uni.connectSocket({
+				url: "ws://192.168.50.101:8090/ws/3",
+				header: {
+				    'content-type': 'application/json'
+				},
+				success(res) {
+					console.log('成功', res);
+					
+					
+				},
+			})
+			this.fetchMessages();
+		},
 		mounted() {
 			// Fetch initial set of messages when component is mounted
 			this.fetchMessages();
+		},
+		onUnload(){
+			uni.closeSocket({
+				success:() => {
+					console.info("退出成功")
+				},
+			})
 		}
 
 	}

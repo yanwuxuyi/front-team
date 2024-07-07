@@ -73,7 +73,7 @@
 						name: 'AI问答'
 					},
 					{
-						name: '其他问题'
+						name: '在线咨询'
 					}
 				],
 				current: 1

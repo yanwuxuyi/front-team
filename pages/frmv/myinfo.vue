@@ -133,7 +133,7 @@
 			<view>
 				<u-modal ref="uModal" v-model="show" :show-cancel-button="true" 
 					:show-title="showTitle" :async-close="asyncClose"
-					@confirm="confirm" :content="content"
+					@confirm="confirm(yonghu.studentId)" :content="content"
 				>
 					<view style="margin: 60rpx; display: flex; justify-content: center;">
 						<u-rate v-model="value" :count="5" :active-color="activeColor" :inaction-color="inactiveColor" :colors="colors" :icons="icons" :size="60"></u-rate>
@@ -201,9 +201,13 @@
 				duration: 2000,
 				false:false,
 				true:true,
+				//
+				confirm:false,
 			}
 		},
 		onShow() {
+			
+			
 			this.loading=true;
 			let vm=this;
 			const value5 = uni.getStorageSync('user');
@@ -216,6 +220,7 @@
 			if(value5.studentId)
 			{
 				this.yonghu.studentId=value5.studentId;
+				this.getConfirm(value5.studentId);
 			}
 			if(value5.studentId)
 			{
@@ -265,6 +270,7 @@
 			
 		},
 		methods: {
+
 			connect() {
 				uni.navigateTo({
 					url: '/pages/frmv/connect'
@@ -279,8 +285,12 @@
 					url: url,  
 					method: 'GET',  
 					success: (res) => {
-						console.log(res);
-						vm.yonghu.likes=res.data.result;
+						if(res.data.result>0)
+						{
+							console.log(res);
+							vm.yonghu.likes=res.data.result;
+							this.confirm=true;
+						}
 						
 					}
 					  
@@ -326,6 +336,43 @@
 					icon: this.icon,
 					url: this.url,
 					duration: this.duration,
+				});
+			},
+			    confirm(userId) {  
+					if(this.confirm!=true)
+					{
+						// 在这里编写你希望执行的操作
+						  console.log('确认按钮被点击了');  
+						let url = `http://${this.ip}:8090/auth/evaluate?score=${this.value}&&studentid=${userId}`;
+						
+						uni.request({  
+							url: url,  
+							method: 'GET',  
+							success: (res) => {  
+								console.log(res);
+							console.log(this.value);
+							},  
+							fail: (err) => {  
+							}  
+						});
+					}
+					else{
+					}
+			},  
+			getConfirm(userId)
+			{
+				let url = `http://${this.ip}:8090/auth/getevaluate?score=${this.value}&&studentid=${userId}`;
+				
+				uni.request({  
+					url: url,  
+					method: 'GET',  
+					success: (res) => {  
+						console.log(res);
+						this.value=res.data.result;
+						console.log(this.value);
+					},  
+					fail: (err) => {  
+					}  
 				});
 			},
 			showModal() {
