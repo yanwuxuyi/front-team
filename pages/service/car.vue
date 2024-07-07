@@ -21,7 +21,7 @@
 	  </view> -->
 	  <view class="form-group">
 	          <label for="major">学院</label>
-	          <picker mode="selector" :range="majorOptions" @change="handlemajorChange" class="picker">
+	          <picker model="selector" :range="majorOptions" @change="handlemajorChange" class="picker">
 	            <view class="picker-inner">
 	              {{ form.major ? form.major : '请选择学院...' }}
 	            </view>
@@ -38,7 +38,7 @@
 	 </view> -->
 	 <u-form-item label="来校时间" label-width="150rpx"  prop='time' >
 	 			<view>
-	 					<u-calendar v-model="showbirthday" :mode="mode" @change="getbirthday"></u-calendar>
+	 					<u-calendar v-model="showbirthday"  @change="getbirthday"></u-calendar>
 	 					<u-input v-model="form.time" @click="showbirthday = true"/>
 	 			</view>
 	 			</u-form-item> -->
