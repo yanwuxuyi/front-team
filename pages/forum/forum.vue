@@ -8,13 +8,22 @@
 		  <button @click="onSearch">搜索</button>
 		</view>
 		<view v-if="account">
-			<view v-if="this.loaded==false" class="musk">
+			<view v-if="this.loaded==false&&this.connect==true" class="musk">
 					<view class="holecontainer">
 						<view class="wrongcircle"  :style="{ backgroundColor: `hsl(${hue}, 100%, 50%)` }">
 							<u-icon class="icon" name="chrome-circle-fill" size="162" color="black"></u-icon>
 							
 						</view>
 						<text class="wrongnormal" :style="{ color: `hsl(${hue}, 100%, 50%)` }">正在加载</text>
+					</view>
+			</view>
+			<view v-else-if="this.connect==false" class="musk">
+					<view class="holecontainer">
+						<view  >
+							<u-icon name="wifi-off" size="162" color="black"></u-icon>
+							
+						</view>
+						<text >网络错误</text>
 					</view>
 			</view>
 			<view v-else>
@@ -82,7 +91,7 @@ export default {
 		return {
 			//变色定时器
 			hue:0,
-			
+			connect:true,
 			intervalId:null,
 			//加载完成
 			loaded:false,
@@ -119,6 +128,7 @@ export default {
 				
 			},
 		})
+		
 		
 		let vm=this;
 		this.getComment();
@@ -489,6 +499,10 @@ export default {
 				 else{
 				this.$u.toast('帖子信息获取失败')  //提示框
 				 }
+				 },
+				 fail:err=>{
+					 vm.connect=false;
+					 console.log("网络错误，加载失败");
 				 }
 			})
 			

@@ -3,13 +3,22 @@
 	<view>
 		<u-tabs  :list="list" :is-scroll="false" :current="0" @change="change"></u-tabs>
 		<view v-if="account">
-			<view v-if="this.loaded==false" class="musk">
+			<view v-if="this.loaded==false&&this.connect==true" class="musk">
 					<view class="holecontainer">
-						<view class="wrongcircle"  :style="{ backgroundColor: `hsl(${hue}, 100%, 50%)` }">
+						<view class="wrongcircle" >
 							<u-icon class="icon" name="chrome-circle-fill" size="162" color="black"></u-icon>
 							
 						</view>
-						<text class="wrongnormal" :style="{ color: `hsl(${hue}, 100%, 50%)` }">正在加载</text>
+						<text class="wrongnormal" >正在加载</text>
+					</view>
+			</view>
+			<view v-else-if="this.connect==false" class="musk">
+					<view class="holecontainer">
+						<view  >
+							<u-icon name="wifi-off" size="162" color="black"></u-icon>
+							
+						</view>
+						<text >网络错误</text>
 					</view>
 			</view>
 			<view v-else>
@@ -80,12 +89,13 @@
 
 
 <script>
+import { connect } from 'echarts';
 export default {
 	data() {
 		return {
 			//变色定时器
 			hue:0,
-			
+			connect:true,
 			intervalId:1,
 			//加载完成
 			loaded:false,
@@ -136,6 +146,9 @@ export default {
 				
 				
 			},
+			fail(err) {
+				this.connect=false;
+			}
 		})
 		this.addup();
 		this.getComment();
@@ -307,6 +320,10 @@ onShow() {
 				  this.loaded=true;
 				  this.updating=false;
 				}).catch(error => {  
+					if(vm.currentList.length<11)
+					{
+						vm.connect=false;
+					}
 				  console.error('加载图片时发生错误:', error);  
 				  
 				});
@@ -342,6 +359,10 @@ onShow() {
 						        }  
 						    },  
 						    fail: (err) => {  
+								if(vm.currentList.length<11)
+								{
+									vm.connect=false;
+								}
 						        reject(err); // 网络错误或请求失败时拒绝Promise  
 						    }  
 						});  
@@ -649,10 +670,22 @@ onShow() {
 						})
 				 }
 				 else{
-				this.$u.toast('帖子信息获取失败')  //提示框
+					 if(vm.currentList.length<11)
+					 {
+					 	vm.connect=false;
+						console.log("网络错误，加载失败");
+					 }
+				this.$u.toast('网络错误，帖子信息获取失败')  //提示框
 				 }
-				 }
-			})
+			},
+			fail: (err) => {
+				if(vm.currentList.length<11)
+				{
+					vm.connect=false;
+					console.log("网络错误，加载失败");
+				}
+			}
+		})
 			
 
 		}
@@ -815,7 +848,7 @@ onShow() {
 	  //position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
 	}  
 	.wrongcircle {
-		background-color: currentColor;
+		background-color: rgba(14, 248, 221, 0.8);
 		border-radius: 200rpx;
 		width: 160rpx;
 		height: 160rpx;
@@ -827,7 +860,7 @@ onShow() {
 	}
 	
 	.wrongnormal {
-		color: currentColor;
+		color: rgba(1, 195, 248, 1.0);
 		font-size: 20px;
 		margin-top: 10px;
 	}
