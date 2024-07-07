@@ -110,22 +110,10 @@
 				</u-col>
 			</u-row>
 		</view>
-		
-		
-	<view @click="goAnotherPage" class="floating-icon">
-		<u-icon name="chat" size="40" color="#f4fffc"></u-icon>
-	</view>
-
-			
+		<view @click="goAnotherPage" class="floating-icon">
+			<u-icon name="chat" size="40" color="#c7ddff"></u-icon>
 		</view>
-		
-		
-		
-		
-		
-		
-		
-	</view>
+</view>
 
 </template>
 
@@ -389,7 +377,6 @@
 							// 解析后端返回的数据
 							this.currentStep = JSON.parse(res.data.result);
 							console.log('目前状态数据:', this.currentStep);
-							return res.data.result;
 						} else {
 							console.error('请求失败:', res);
 						}
@@ -401,6 +388,7 @@
 						})
 					}
 				});
+				return res.data.result;
 			},
 			showWeather() {
 				uni.navigateTo({
