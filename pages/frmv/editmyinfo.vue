@@ -266,11 +266,9 @@
 				actionSheetList: [
 
 
-                   {
 
-/* <<<<<<< HEAD */
 					{
->>>>>>> de24459412ec86e18d3d009bcd1d0ade417f0916
+
 						text: '男'
 					},
 					{
@@ -620,13 +618,12 @@
 	  vertical-align: middle;
 	}
 
-<<<<<<< HEAD
-=======
+
 	.wrap{
 		padding: 10rpx 50rpx;
 		width: 100%;
 		height: 100%;
 	}
 
->>>>>>> de24459412ec86e18d3d009bcd1d0ade417f0916
+
 </style>
