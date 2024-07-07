@@ -1,7 +1,7 @@
 <template>
 	<view >	
 		<view v-if="this.user.id" class="containerhole">
-			<view v-if="this.loaded==true" class="containerhole">
+			<view v-if="loaded==true" class="containerhole">
 				<!-- 背景图片 点击可更换-->
 				<image class="backpic" :src="backpic" mode="aspectFill" >
 					
@@ -104,6 +104,14 @@
 					@getImg="getImg1"
 				></gmy-img-cropper>
 			</view>
+			<view v-else-if="connect==false">
+				<view class="holecontainer">
+					<view class="wrongcircle">
+						<u-icon name="wifi-off" size="160" color="#ff9c4a"></u-icon>
+					</view>
+					<text class="wrongnormal">网络错误</text>
+				</view>
+			</view>
 			<view v-else>
 				<view class="holecontainer">
 						<u-loading mode="circle" color="#df1215" size="80"></u-loading>
@@ -139,6 +147,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				user:{
 					
 				},
+				connect:true,
 				ip:"192.168.50.101",
 				  screenWidth: 0, // 屏幕宽度  
 				  screenHeight: 0, // 屏幕高度  
@@ -206,6 +215,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 		},
 		onShow()
 		{
+			this.connect=true;
 			this.loaded=false;
 			this.user.id='';
 			const value10 = uni.getStorageSync('user');
@@ -229,6 +239,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				  console.log("所有图片都已加载完成");
 				  this.loaded=true;
 				}).catch(error => {  
+					this.connect=false;
 				  console.error('加载图片时发生错误:', error);  
 				});
 			}
@@ -384,6 +395,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 						fail: (err) => {  
 							console.log('网络失败:点赞数',userId)
 							//resolve(imageUrl);
+							vm.connect=false;
 							reject(err); // 网络错误或请求失败时拒绝Promise  
 							
 						}  
@@ -411,6 +423,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 							}  
 						},  
 						fail: (err) => {  
+							vm.connect=false;
 							console.log('网络失败:背景图片',userId)
 							//reject(err); // 网络错误或请求失败时拒绝Promise  
 						}  
@@ -439,6 +452,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 							}  
 						},  
 						fail: (err) => {  
+							vm.connect=false;
 							console.log('网络失败:背景图片',userId)
 							reject(err); // 网络错误或请求失败时拒绝Promise  
 							
@@ -465,7 +479,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 						fail: (err) => {  
 							console.log('网络失败:moto',userId)
 							reject(err); // 网络错误或请求失败时拒绝Promise  
-							
+							vm.connect=false;
 						}  
 					});
 					//获取发帖信息
@@ -506,6 +520,8 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 								const imageUrl = `data:image/png;base64,${base64}`; 
 								vm.pic = imageUrl; 
 								console.log('get:',userId);
+								//vm.loaded=true;
+								resolve(imageUrl); 
 							} else {  
 								console.log('获取失败',userId);
 								vm.loaded=true;
@@ -516,7 +532,8 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 						fail: (err) => {  
 							console.log('网络失败：头像',userId);
 							//resolve(imageUrl);
-							//reject(err); // 网络错误或请求失败时拒绝Promise  
+							vm.connect=false;
+							reject(err); // 网络错误或请求失败时拒绝Promise  
 							
 						}  
 					});  
@@ -708,14 +725,14 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 	}
 	.wrongcircle {
 		background-color: #ff3437;
-		border-radius: 200rpx;
+		border-radius: 50%;
 		width: 160rpx;
 		height: 160rpx;
 		align-items: center;
 		justify-content: center;
-		margin-top: 20rpx;
+		margin-top: 15rpx;
 		/* 应用动画 */
-		animation: rotate 2s linear infinite;  
+
 		position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
 	}
 	

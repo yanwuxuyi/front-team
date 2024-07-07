@@ -132,7 +132,10 @@
 		{
 			"path": "pages/forum/others",
 			"style": {
-				"navigationBarTitleText": "好友"
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "white" // 状态栏字体为白色
 			}
 		},
 		{
@@ -150,7 +153,10 @@
 		{
 			"path": "pages/service/dormmate",
 			"style": {
-				"navigationBarTitleText": "找室友"
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "white" // 状态栏字体为白色
 			}
 		},
 		{
@@ -181,7 +187,10 @@
 		{
 			"path": "pages/service/samehometown",
 			"style": {
-				"navigationBarTitleText": "找同乡"
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "white" // 状态栏字体为白色
 			}
 		},
 
@@ -310,6 +319,13 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "历史申请"
+			}
+		},
+		{
+			"path" : "pages/service/eat",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
 			}
 		}
 	],

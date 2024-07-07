@@ -29,27 +29,12 @@
 				<u-select v-model="showregion" mode="mutil-column-auto" :list="regionlist" @confirm="confirmregion"
 					@click="regionback"></u-select>
 			</u-form-item>
-<!-- 			<u-form-item label="国籍" label-width="160rpx" prop="country" >
-				<u-input v-model="form.country" type="text" />
-			</u-form-item> -->
-			<!-- <u-form-item label="省份"label-width="150rpx"  prop="province" >
-				<u-input v-model="form.province" type="text" />
-			</u-form-item>
-			<u-form-item label="城市" label-width="150rpx" prop="city" >
-				<u-input v-model="form.city" type="text" />
-			</u-form-item> -->
 			<u-form-item label="宿舍" label-width="160rpx" prop="dormitory">
 				<u-input v-model="form.dormitory" type="text" />
 			</u-form-item>
 			<u-form-item label="邮箱" label-width="160rpx" prop="email">
 				<u-input v-model="form.email" type="text" />
 			</u-form-item>
-<!-- 			<u-form-item label="出生日期" label-width="150rpx"  prop='birthday' >
-			<view>
-					<u-calendar v-model="showbirthday" :mode="mode" @change="getbirthday"></u-calendar>
-					<u-input v-model="form.birthday" @click="showbirthday = true"/>
-			</view>
-			</u-form-item> -->
 			<u-form-item label="学院专业" label-width="160rpx" prop='education'>
 				<u-input v-model="this.showedu" type="select" border: true @click="showcollegemajor=true" />
 				<u-select v-model="showcollegemajor" mode="mutil-column-auto" :list="collegemajorlist" @confirm="confirmcollegemajor"
@@ -96,26 +81,7 @@
 				custom: true,
 				isFixed: true,
 				keyword: '',
-				// #ifdef MP
-				slotRight: false,
-				// #endif
-				// #ifndef MP
-				slotRight: true,
-				// #endif
-				form: {
-					email:'',
-					academy:'',
-					city: '',
-					dormitory: '',
-					education: '',
-					gender: '',
-					interests: '',
-					name: '',
-					nickName: '',
-					phone:'',
-					political: '',
-					province: ''
-				},
+				
 				collegemajor: "",
 				collected: false,
 			    nowtimer: "",
@@ -207,7 +173,7 @@
 					dormitory: '',
 					education: '',
 					gender: '',
-					interests: '',
+					interests: [],
 					name: '',
 					nickName: '',
 					phone:'',
@@ -476,9 +442,7 @@
 						this.form.interests += (item + ',')
 					}
 				}
-				// this.form.college=this.collegemajor.split('-')[0]
-				// this.form.major=this.collegemajor.split('-')[1]
-				//this.form.education = this.
+
 				this.form.interests = this.form.interests.substring(0, this.form.interests.length-1)
 				
 				this.$refs.uForm.validate(valid => {
@@ -492,6 +456,7 @@
 				this.form.studentID = Value.studentId;
 				//this.form.password = '123';
 				console.log(this.form);
+				uni.setStorageSync('form', this.form);
 				uni.request({
 					url: 'http://192.168.50.101:8090/auth/update',
 					data: this.form,
@@ -503,10 +468,20 @@
 								// console.log('数据');
 								// console.log(this.form);
 								//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync
-								console.log('存入后台成功')
-								console.log(this.form.reportTime)
-								uni.setStorageSync('form', res.data.result); //将用户对象本地存储 以便后续身份识别 权限验证等
-								uni.navigateBack()//注册成功返回登陆界面 
+								console.log('存入后台成功');
+								console.log(this.form.reportTime);
+								//uni.setStorageSync('form', res.data.result);
+								// uni.setStorageSync('user', res.data.result);//将用户对象本地存储 以便后续身份识别 权限验证等
+								//uni.navigateBack()//注册成功返回登陆界面 
+								uni.switchTab({
+								                      url: '/pages/index/index',
+								                      success: function (res) {
+								                       //console.log("跳转成功");
+								                      },
+								                      fail: function (err) {
+								                        //console.error("跳转失败", err);
+								                      }
+								                    });
 							} catch (e) {
 								this.$u.toast('身份信息格式异常')
 							}
@@ -529,6 +504,8 @@
 			},
 			///////////////城市显示
 			confirmregion(region) {
+				console.log(region[0]);
+				console.log(region[1]);
 				this.form.province = region[0].label;
 				this.form.city = region[1].label;
 				this.region = region[0].label + '-' + region[1].label + '-' + region[2].label;
@@ -539,7 +516,8 @@
 			checkboxChange(e) {
 				this.interests[e.name] = e.value;
 			},
-			checkboxGroupChange(e) {},
+			checkboxGroupChange(e) {
+			},
 			
 			////////////出生日期
 			// getbirthday(e) {
@@ -550,9 +528,11 @@
 		},
 		///////////////////////////////////////////////////////表单验证规则函数
 		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
-		onLoad() {
+		onReady() {
 		    try {
 		      const value1 = uni.getStorageSync('user');
+			  console.log("用来请求的数据");
+			  console.log(value1);
 		      uni.request({
 		        url: `http://192.168.50.101:8090/auth/getAllById?id=${value1.id}`,
 		        success: (res) => {
@@ -573,6 +553,8 @@
 		            this.form.nickName = this.showform.nickName;
 		            this.form.gender = this.showform.gender;
 		            this.region = this.showform.province+'-'+this.showform.city;
+					this.form.province = this.showform.province;
+					this.form.city = this.showform.city;
 					this.showedu = this.showform.academy+'-'+this.showform.education;
 		            this.form.dormitory = this.showform.dormitory;
 		            this.form.name = this.showform.name;
@@ -580,9 +562,11 @@
 					this.form.academy = this.showform.academy;
 					this.form.email = this.showform.email;
 		            this.form.political = this.showform.political;
+					this.form.interests = this.showform.interests;
 					this.interestslist.forEach(interest => {
 					        if (interest.name==this.showform.interests) {
 					          interest.checked = true;
+							  //this.form.interests = this.showform.interests;
 					        }
 					      });
 		          }

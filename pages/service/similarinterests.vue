@@ -3,15 +3,16 @@
 <view>
 		<view>
 			<u-navbar title-color="#fff" back-icon-color="#ffffff"
-				:is-fixed="isFixed" :is-back="isBack" 
-				:background="background" 
-				:back-text-style="{color: '#fff'}" :title="title1" 
-				:back-icon-name="backIconName" :back-text="backText"
-				:border-bottom="false" @click="goIndex()">
+				is-fixed=true is-back=false 
+				:background="background"  title="找同好" 
+				back-icon-name="nav-back" back-text=""
+				border-bottom="false" custom-back="goIndex">
 			</u-navbar>
 		</view>
 		<view v-if="loaded==false">
-			<u-loading-page loading-text="loading..."></u-loading-page>
+			<view class="holecontainer">
+					<u-loading mode="circle" color="#df1215" size="80"></u-loading>
+			</view>
 		</view>
 		<view v-if="loaded==true">
 				<u-popup  v-model="show" mode="center" class="popup-container">
@@ -46,8 +47,6 @@
 				pic:[],
 				loaded:false,
 				// 顶部导航栏
-				title1: '找同好',
-				backText: '',
 				backIconName: 'nav-back',
 				right: false,
 				showAction: false,
@@ -56,10 +55,8 @@
 				background: {
 					'background-image': 'linear-gradient(45deg, rgb(118, 187, 187), rgb(156, 198, 130))'
 				},
-				isBack: true,
 				search: false,
 				custom: true,
-				isFixed: true,
 				keyword: '',
 
 				list: [{
@@ -85,6 +82,7 @@
 		methods: {
 			goIndex()
 			{
+				console.log("gogo");
 				uni.navigateTo({
 				  url: '/pages/service/servicemain'
 				});
@@ -181,6 +179,15 @@
 </script>
 
 <style lang="scss" scoped>
+	.holecontainer {
+		flex-direction: column;
+	  display: flex;  
+	  justify-content: center; /* 水平居中 */  
+	  align-items: center; /* 垂直居中 */  
+	  height: 20vh; /* 占据整个视窗的高度 */  
+	  padding: 80px 100px 0;
+	  //position: relative; /* 设置为相对定位，以便子元素可以使用绝对定位 */
+	}  
 	.item {
 		display: flex;
 		padding: 20rpx;

@@ -113,8 +113,7 @@
 		<view @click="goAnotherPage" class="floating-icon">
 			<u-icon name="chat" size="40" color="#c7ddff"></u-icon>
 		</view>
-		
-	</view>
+</view>
 
 </template>
 
@@ -461,7 +460,9 @@
 				});
 			},
 			calculateTime() {
-				var targetTimestamp = 1689070000000;
+				const targetDate = new Date('2024-09-01T00:00:00'); // 2024年9月1日的日期对象
+				//const targetTimestamp = targetDate.getTime(); // 获取时间戳（毫秒）
+				var targetTimestamp =  targetDate.getTime();
 				var currentDate = new Date(); // 获取当前日期
 				var currentTimestamp = currentDate.getTime()
 				var timeDiff = targetTimestamp - currentTimestamp; // 计算目标日期和当前日期的时间差（毫秒）
