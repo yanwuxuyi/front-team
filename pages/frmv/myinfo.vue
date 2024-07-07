@@ -36,61 +36,70 @@
 				</view>
 			</view>
 			<view class="list-card">
-				<view class="card" @click="editit()">
-					<view class="item item-bottom-solid">
-						<view class="left flex-center">
-							<u-icon class="icon" name="setting"></u-icon>
-						</view>
-						<view class="center">
-							<text>我的个人信息</text>
-						</view>
-						<view class="right flex-center">
-							<u-icon class="icon" name="arrow-right"></u-icon>
-						</view>
-					</view>
+
+				
+			  <view class="card">
+			    <view class="item " @click="editit()">
+			      <view class="left flex-center">
+			        <u-icon class="icon" name="setting"></u-icon>
+			      </view>
+			      <view class="center" >
+			        <text>我的个人信息</text>
+			      </view>
+			      <view class="right flex-center">
+			        <u-icon class="icon" name="arrow-right"></u-icon>
+			      </view>
+			    </view>
+			  </view>
+			  
+			  <view class="card" >
+			    <view class="item " @click="goXiumi()">
+			      <view class="left flex-center">
+			        <u-icon class="icon" name="gift"></u-icon>
+			      </view>
+			      <view class="center">
+			        <text>收获一份校园介绍</text>
+			      </view>
+			      <view class="right flex-center">
+			        <u-icon class="icon" name="arrow-right" ></u-icon>
+			      </view>
+			    </view>
 				</view>
-				<view class="card">
-					<view class="item" @click="goXiumi()">
-						<view class="left flex-center">
-							<u-icon class="icon" name="gift"></u-icon>
-						</view>
-						<view class="center">
-							<text>收获一份校园介绍</text>
-						</view>
-						<view class="right flex-center">
-							<u-icon class="icon" name="arrow-right"></u-icon>
-						</view>
-					</view>
-					<view class="item" @click="connect()">
-						<view class="left flex-center">
-							<u-icon class="icon" name="chat"></u-icon>
-						</view>
-						<view class="center">
-							<text>联系我们</text>
-						</view>
-						<view class="right flex-center">
-							<u-icon class="icon" name="arrow-right"></u-icon>
-						</view>
-					</view>
+				
+				<view class="card" >
+				<view class="item " @click="connect()" >
+				  <view class="left flex-center">
+				    <u-icon class="icon" name="chat"></u-icon>
+				  </view>
+				  <view class="center">
+				    <text>联系我们</text>
+				  </view>
+				  <view class="right flex-center">
+				    <u-icon class="icon" name="arrow-right" ></u-icon>
+				  </view>
 				</view>
-				<view class="card" @click="showModal()">
-					<view class="item item-bottom-solid">
-						<view class="left flex-center">
-							<u-icon class="icon" name="star"></u-icon>
-						</view>
-						<view class="center">
-							<text>点评一下</text>
-						</view>
-						<view class="right flex-center">
-							<u-icon class="icon" name="arrow-right"></u-icon>
-						</view>
-					</view>
-				</view>
+			  </view>
+			  <view class="card" @click="showModal()">
+			    <view class="item ">
+			      <view class="left flex-center">
+			        <u-icon class="icon" name="star"></u-icon>
+			      </view>
+			      <view class="center" >
+			        <text>点评一下</text>
+			      </view>
+			      <view class="right flex-center">
+					<u-icon class="icon" name="arrow-right" ></u-icon>
+			      </view>
+			    </view>
+			  </view>
+
+
 			</view>
 			<view class="quit flex-center">
 				<view class="btn flex-center" @click="quit()">
 					退出登录
 				</view>
+
 			</view>
 		</view>
 		<view v-else>
