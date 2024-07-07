@@ -109,7 +109,7 @@
 			        <view class="service-header">
 			          <text>猜你想</text>
 			        </view>
-			        <view class="service-row">
+			        <view class="service-row-bottom ">
 						<navigator url="/pages/service/eat" class="service-item">
 							<view class="service-icon-container">
 								<image class="service-icon" src="/static/service/food.png" mode="aspectFit"></image>
@@ -216,6 +216,11 @@
 	.service-row {
 		display: flex;
 		margin-bottom: 10px;
+		/* 模块之间的间距 */
+	}
+	.service-row-bottom {
+		display: flex;
+		margin-bottom: 20%;
 		/* 模块之间的间距 */
 	}
 
