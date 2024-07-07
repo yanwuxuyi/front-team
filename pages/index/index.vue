@@ -41,6 +41,14 @@
 				style="fontSize:110% ; color: #000000;"></u-count-to>
 			<text>人\n\n</text>
 		</view>
+		<view class="step-container">
+			<view v-for="(step, index) in steps" :key="index" class="step-item"
+				:class="{'active': index === currentStep - 1, 'completed': index < currentStep-1}">
+				<text>{{ step.label }}</text>
+				<view v-if="index === currentStep-1" class="step-dot active"></view>
+				<view v-else class="step-dot"></view>
+			</view>
+		</view>
 		<view>
 			<uni-popup ref="share" type="share" safeArea backgroundColor="#fff">
 				<uni-popup-share title="小功能"></uni-popup-share>
@@ -107,14 +115,7 @@
 	<view @click="goAnotherPage" class="floating-icon">
 		<u-icon name="chat" size="40" color="#f4fffc"></u-icon>
 	</view>
-	<view class="step-container">
-		<view v-for="(step, index) in steps" :key="index" class="step-item"
-			:class="{'active': index === currentStep - 1, 'completed': index < currentStep-1}">
-			<text>{{ step.label }}</text>
-			<view v-if="index === currentStep-1" class="step-dot active"></view>
-			<view v-else class="step-dot"></view>
-		</view>
-	</view>
+
 			
 		</view>
 		
@@ -471,7 +472,9 @@
 				});
 			},
 			calculateTime() {
-				var targetTimestamp = 1689070000000;
+				const targetDate = new Date('2024-09-01T00:00:00'); // 2024年9月1日的日期对象
+				//const targetTimestamp = targetDate.getTime(); // 获取时间戳（毫秒）
+				var targetTimestamp =  targetDate.getTime();
 				var currentDate = new Date(); // 获取当前日期
 				var currentTimestamp = currentDate.getTime()
 				var timeDiff = targetTimestamp - currentTimestamp; // 计算目标日期和当前日期的时间差（毫秒）

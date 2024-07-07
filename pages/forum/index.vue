@@ -182,7 +182,11 @@ onShow() {
 	//getallpic();
 	uni.onSocketMessage(function (res) {
     console.log('收到服务器内容：' + res.data);
+
+	//console.log("maxID",vm.maxID);
+
 	console.log("maxID",this.maxID);
+
   }.bind(this)); // 使用 bind 绑定 this 上下文
 },
 		    onPageScroll(e) {  
@@ -476,10 +480,27 @@ onShow() {
 		//发新的帖子
 		submitReply2(comment) {
 			const value11 = uni.getStorageSync('user');
-			console.log(value11.id);
+			console.log(value11);
 			console.log(this.replyContent2);
 			
-							
+			uni.request({
+				url:`http://192.168.50.101:8090/utils/getSentimentScore?text=${this.replyContent2}`,
+				success: (res) => {
+					console.log("情感分析");
+				    console.log(res.data);
+				        //成功后的处理逻辑
+					uni.request({
+						url:`http://192.168.50.101:8090/auth/calculateScore?score=${res.data}&studentid=${String(value11.studentId)}`,
+						success: (res) =>{
+							console.log(res);
+						},fail: (err) => {
+			        console.log(err);
+			    }
+					});
+						},fail: (err) => {
+			        console.log(err);
+			    }
+			});				
 			uni.request({
 			    url: `http://192.168.50.101:8090/chat/sendtextall?message=${this.replyContent2}&id=${String(value11.id)}`,
 				method:"POST",
