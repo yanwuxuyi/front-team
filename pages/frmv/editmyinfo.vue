@@ -11273,10 +11273,10 @@
 		font-size: 16px;
 	}
 
-<<<<<<< HEAD
+
 
 	.wrap{
-=======
+
 	.popup-button:hover {
 		background-color: #0056b3;
 	}
@@ -11287,14 +11287,10 @@
 	}
 
 	.wrap {
->>>>>>> 03f908a720a38abf27deb107aa6d3858625e0673
+
 		padding: 10rpx 50rpx;
 		width: 100%;
 		height: 100%;
 	}
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 03f908a720a38abf27deb107aa6d3858625e0673
 </style>
