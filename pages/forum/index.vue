@@ -189,7 +189,7 @@ onShow() {
     console.log('收到服务器内容：' + res.data);
 
 	//console.log("maxID",vm.maxID);
-
+	this.updateNewTopic();
 	console.log("maxID",this.maxID);
 
   }.bind(this)); // 使用 bind 绑定 this 上下文
@@ -373,15 +373,14 @@ onShow() {
 						            const imageUrl = `data:image/png;base64,${base64}`; 
 									vm.pic[userId] = imageUrl; 
 									console.log('get:',userId);
-						            // 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
-						            // 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
+
 						            resolve(imageUrl); // 解析Promise，传递图片URL  
 						        } else {  
 						            console.log('获取失败',userId)
 									const base64 = uni.arrayBufferToBase64(res.data);
 									const imageUrl = `data:image/png;base64,${base64}`; 
 									vm.pic[userId] = imageUrl; 
-									//this.loaded=true;
+
 									resolve(imageUrl); // 解析Promise，传递图片URL  
 									//reject(new Error(`Server returned status code ${res.statusCode}`)); // 拒绝Promise，传递错误信息  
 						        }  
@@ -445,7 +444,7 @@ onShow() {
 							this.getComment();
 							this.$forceUpdate();  // 强制更新视图
 						    this.currentComment.replyList.push({
-						        name: '我',  // 这里可以换成实际的用户名
+						        name: '我',  
 						        contentStr: this.replyContent
 						    });
 							
@@ -537,7 +536,7 @@ onShow() {
 							this.showInputBox2 = false;
 							console.log(this.showInputBox2);
 							this.showInputBox3 = true;
-							this.updateNewTopic();
+							//this.updateNewTopic();
 							this.$forceUpdate();  // 强制更新视图
 							//this.getComment();
 

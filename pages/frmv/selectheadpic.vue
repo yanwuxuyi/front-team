@@ -63,12 +63,9 @@
 			              imgCropped(event) {
 			                // 监听裁剪完成
 			                // 返回的 event 中包含了已经裁剪好图片的base64编码字符串
-			                // 你可以使用 <image :src="imgDataUrl" mode="aspectFit"></image> 组件来展示裁剪后的图片
-			                // 或者你可以将该字符串通过接口上传给服务器用来保存
 			                console.log(event,'11');
 			                that.imgDataUrl = event.data;
-			                // do whatever you want
-			                // upload to server
+			                // upload
 			              },
 			            },
 			          });
@@ -76,23 +73,23 @@
 		    // 上传图片  
 		    uploadImage() {  
 				let that=this;
-		      const uploadUrl = 'http://192.168.50.101:8090/auth/uploadImage'; // 替换为你的上传接口  
+		      const uploadUrl = 'http://192.168.50.101:8090/auth/uploadImage'; 
 		      console.log(this.imgDataUrl);
 			  uni.uploadFile({  
-		        url: uploadUrl, // 仅为示例，非真实的接口地址  
+		        url: uploadUrl, 
 		        filePath: this.imgDataUrl,  
-		        name: 'image', // 根据你的后端接口要求修改  
+		        name: 'image', 
 		        formData: {  
 		          'user': 'test' ,// 其他需要传递的参数  
 				  'studentId':this.studentId,
 		        },  
 		        success: (uploadRes) => {  
-		          // 返回值 res 为服务器返回的数据  
+		          
 		          console.log('uploadImage success:', uploadRes.data); 
 				   const value5 = uni.getStorageSync('user');
 				   value5.fileData=that.imgDataUrl;
 				   uni.setStorageSync('user',value5);
-		          // 这里可以根据返回的数据进行后续处理，如提示用户上传成功等 
+		          
 				    uni.request({
 				    	url:'http://192.168.50.101:8090/chat/uploadWithNull'
 				    })

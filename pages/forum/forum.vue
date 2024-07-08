@@ -180,7 +180,7 @@ export default {
 				this.hue=0;
 		      this.intervalId = setInterval(() => {  
 		        this.updateHue();  
-		      }, 100); // 注意：这里使用了箭头函数，但通常建议将函数单独定义  
+		      }, 100); 
 		    },  
 		    stopColorCycle() {  
 		      if (this.intervalId) {  

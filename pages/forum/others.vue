@@ -232,8 +232,7 @@ import { use } from 'echarts';
 								const imageUrl = `data:image/png;base64,${base64}`; 
 								vm.pic = imageUrl; 
 								console.log('get:',userId);
-								// 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
-								// 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
+
 								resolve(imageUrl); // 解析Promise，传递图片URL  
 							} else {  
 								console.log('获取失败',userId)
@@ -278,9 +277,7 @@ import { use } from 'echarts';
 									vm.showpic = imageUrl2; 	
 								}
 								console.log('get_backpic:',userId);
-								// 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
-								// 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
-								//resolve(imageUrl); // 解析Promise，传递图片URL  
+
 							} else {  
 								console.log('获取失败',userId)
 							}  
@@ -305,9 +302,7 @@ import { use } from 'echarts';
 									vm.backpic = imageUrl3; 	
 								}
 								console.log('get_backpic:',userId);
-								// 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
-								// 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
-								//resolve(imageUrl); // 解析Promise，传递图片URL  
+
 							} else {  
 								console.log('获取失败',userId)
 								

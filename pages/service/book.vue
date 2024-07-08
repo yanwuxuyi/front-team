@@ -100,6 +100,8 @@
 							this.zhexue = true;
 						}else if(data.includes('技术')){
 							this.jishu = true;
+						}else{
+							this.qinggan = true;
 						}
 						
 					},

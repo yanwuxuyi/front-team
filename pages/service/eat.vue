@@ -219,12 +219,12 @@
 		            辣白菜炒饭
 		        </li>
 		        <li>
-		            <img src="/static/service/xia7.png" alt="咸味薯片" />
-		            咸味薯片
+		            <img src="/static/service/xia7.png" alt="薯片" />
+		            薯片
 		        </li>
 		        <li>
-		            <img src="/static/service/xia8.png" alt="盐烤牛排" />
-		            盐烤牛排
+		            <img src="/static/service/xia8.png" alt="牛排" />
+		            牛排
 		        </li>
 		    </ul>
 		</div>

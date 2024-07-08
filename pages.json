@@ -322,6 +322,13 @@
 			}
 		},
 		{
+			"path" : "pages/service/schoolbus",
+			"style" : 
+			{
+				"navigationBarTitleText" : "校车时刻"
+			}
+		},
+		{
 			"path" : "pages/service/eat",
 			"style" : 
 			{

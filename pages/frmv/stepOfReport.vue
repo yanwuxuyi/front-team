@@ -97,7 +97,7 @@
 			navigateToMap() {
 				// 使用uniapp的导航功能跳转到指定页面
 				uni.navigateTo({
-					url: '/pages/frmv/map',
+					url: '/pages/service/map',
 				});
 			},
 			async fetchStudentInfo() {

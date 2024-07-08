@@ -292,9 +292,7 @@
 		onShow() {
 			this.initStatus();
 			this.fetchNotice();
-			console.info('当前通知如下', this.infoList)
-		},
-		onLoad() {
+			console.info('当前通知如下', this.infoList);
 			uni.request({
 				url: 'http://192.168.50.101:8090/count/countRegisterStudent',
 				success: (res) => {
@@ -304,6 +302,9 @@
 					}
 				}
 			})
+		},
+		onLoad() {
+
 			// uni.request({
 			// 	url: 'http://192.168.1.163:8083/countNumber',
 			// 	success: (res) => { //返回的结果（Result）对象 {"code":200,"reslut":...} 在res.data中

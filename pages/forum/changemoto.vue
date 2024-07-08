@@ -121,13 +121,10 @@
 					this.ind=index;
 				},
 				handleInput(e) {  
-				  // 监听输入事件，但注意：这里直接修改e.detail.value可能不会生效  
-				  // 因为v-model已经绑定了inputValue，并且uni-app的textarea组件可能会处理这个值  
-				  // 但我们可以在这里检查长度，并给出提示  
+				  // 监听输入事件
 				  if (this.moto.length > 80) {  
-					// 如果需要，可以在这里截断输入值  
-					// 但由于v-model的双向绑定，用户可能会再次修改，所以更好的做法是给出提示  
-					// this.inputValue = this.inputValue.slice(0, 80); // 截断字符串  \
+					// 截断输入值  
+					// v-model的双向绑定，
 					this.moto = this.moto.slice(0, 120);
 					uni.showToast({  
 					  title: '输入内容已超出限制（80字）',  
@@ -135,8 +132,6 @@
 					});  
 					
 				  }  
-				  // 注意：实际上，由于v-model的绑定，你通常不需要在这里修改inputValue  
-				  // 除非你想要在用户输入时就立即截断超出长度的部分  
 				},  
 				upLoadeMoto()
 				{

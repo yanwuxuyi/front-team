@@ -457,6 +457,8 @@
 				//this.form.password = '123';
 				console.log(this.form);
 				uni.setStorageSync('form', this.form);
+				// uni.setStorageSync('user', this.form);
+				
 				uni.request({
 					url: 'http://192.168.50.101:8090/auth/update',
 					data: this.form,
@@ -465,6 +467,19 @@
 					console.log(res);
 						if (res.data.status) { //成功注册
 							try {
+								const value = uni.getStorageSync('user')
+								value.nickName = this.form.nickName
+								value.phone = this.form.phone
+								value.gender = this.form.gender
+								value.city = this.form.city
+								value.province = this.form.province
+								value.dormitory = this.form.dormitory
+								value.email = this.form.email
+								value.academy = this.form.academy
+								value.interests = this.form.interests
+								value.political = this.form.political
+								value.interests = this.form.interests
+								uni.setStorageSync('user', value)
 								// console.log('数据');
 								// console.log(this.form);
 								//见：https://uniapp.dcloud.net.cn/api/storage/storage.html#setstoragesync

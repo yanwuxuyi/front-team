@@ -80,6 +80,8 @@
 							this.mountain = true;
 						}else if(data.includes('水')){
 							this.water = true;
+						}else{
+							this.city = true;
 						}
 						
 					},

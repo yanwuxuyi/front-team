@@ -258,8 +258,6 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 			        success: (res) => {  
 			          this.screenWidth = res.windowWidth; // 窗口宽度，单位px  
 			          this.screenHeight = res.windowHeight; // 窗口高度，单位px  
-			          // 注意：这里使用windowWidth和windowHeight获取的是可视区域的宽高  
-			          // 如果需要整个屏幕的宽高，可以使用screenWidth和screenHeight，但可能需要根据实际情况调整  
 			            
 			          // 计算宽高比  
 			          this.aspectRatio = this.screenWidth / this.screenHeight;  
@@ -276,7 +274,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 			            this.$refs.gmyImgCropper.chooseImage();
 			        },
 			chooseImg1:function(){
-			            // 调用实例的chooseImg方法，拉起图片选择界面，待图片选择完毕后直接进入图片截取界面
+
 			            this.$refs.gmyImgCropper1.chooseImage();
 			        },
 			// 点击完成时，返回截取图片的临时路径
@@ -286,20 +284,20 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				if(this.showpic)
 				{
 					let that=this;
-					const uploadUrl = 'http://'+this.ip+':8090/auth/uploadjingxuanpic'; // 替换为你的上传接口  
+					const uploadUrl = 'http://'+this.ip+':8090/auth/uploadjingxuanpic'; 
 					console.log(this.showpic);
 					uni.uploadFile({  
-					  url: uploadUrl, // 仅为示例，非真实的接口地址  
+					  url: uploadUrl, 
 					  filePath: this.showpic,  
-					  name: 'image', // 根据你的后端接口要求修改  
+					  name: 'image', 
 					  formData: {  
-					    'user': 'test' ,// 其他需要传递的参数  
+					    'user': 'test' ,
 						'studentId':this.account,
 					  },  
 					  success: (uploadRes) => {  
-					    // 返回值 res 为服务器返回的数据  
+
 					    console.log('uploadImage success:', uploadRes.data); 
-					    // 这里可以根据返回的数据进行后续处理，如提示用户上传成功等 
+
 					  },  
 					  fail: (err) => {  
 					    console.error('uploadImage fail:', err);  
@@ -316,20 +314,20 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 				if(this.backpic)
 				{
 					let that=this;
-					const uploadUrl = 'http://'+this.ip+':8090/auth/uploadbackground'; // 替换为你的上传接口  
+					const uploadUrl = 'http://'+this.ip+':8090/auth/uploadbackground';  
 					console.log('背景');
 					uni.uploadFile({  
-					  url: uploadUrl, // 仅为示例，非真实的接口地址  
+					  url: uploadUrl, 
 					  filePath: that.backpic,  
-					  name: 'image', // 根据你的后端接口要求修改  
+					  name: 'image',
 					  formData: {  
-					    'user': 'test' ,// 其他需要传递的参数  
+					    'user': 'test' ,
 						'studentId':that.account,
 					  },  
 					  success: (uploadRes) => {  
-					    // 返回值 res 为服务器返回的数据  
+
 					    console.log('uploadImage success:', uploadRes.data); 
-					    // 这里可以根据返回的数据进行后续处理，如提示用户上传成功等 
+
 					  },  
 					  fail: (err) => {  
 					    console.error('uploadImage fail:', err);  
@@ -415,9 +413,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 									vm.showpic = imageUrl2; 	
 								}
 								console.log('get_backpic:',userId);
-								// 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
-								// 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
-								//resolve(imageUrl); // 解析Promise，传递图片URL  
+
 							} else {  
 								console.log('获取失败',userId)
 							}  
@@ -443,9 +439,7 @@ import gmyImgCropper1 from '@/components/gmy-img-cropper/gmy-img-cropper.vue'
 									vm.backpic = imageUrl3; 	
 								}
 								console.log('get_backpic:',userId);
-								// 假设你有一个地方来存储这些图片URL，这里我们直接解析Promise  
-								// 但在实际应用中，你可能想将其存储在Vue的data属性或其他地方  
-								//resolve(imageUrl); // 解析Promise，传递图片URL  
+
 							} else {  
 								console.log('获取失败',userId)
 								
