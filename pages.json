@@ -1,5 +1,5 @@
 {
-"easycom": {
+	"easycom": {
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 
@@ -8,217 +8,349 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "CQU",
-				"navigationStyle": "custom" ,// 隐藏系统导航栏
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "white" // 状态栏字体为白色
 			}
-		}
-	    ,{
-            "path" : "pages/frmv/myinfo",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom" ,// 隐藏系统导航栏
+		}, {
+			"path": "pages/frmv/myinfo",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "white" // 状态栏字体为白色
-            }
-            
-        },
+			}
+
+		},
+
+
 		{
-		    "path" : "pages/frmv/login",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "登录",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
-		,{
-		    "path" : "pages/frmv/register",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "注册",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		},{
-            "path" : "pages/frmv/editmyinfo",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "设置个人信息",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/frmv/collect",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom" ,// 隐藏系统导航栏
+			"path": "pages/frmv/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/frmv/register",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/frmv/editmyinfo",
+			"style": {
+				"navigationBarTitleText": "设置个人信息",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/frmv/collect",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "white" // 状态栏字体为白色
-            }
-            
-        }
-        ,{
-            "path" : "pages/frmv/changepassword",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "修改密码",
-                "enablePullDownRefresh": false
-            }
-            
-        },
-		{
-		    "path" : "pages/frmv/selectheadpic",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "选择你的头像",
-		        "enablePullDownRefresh": false
-		    }
-		    
+			}
+
+		}, {
+			"path": "pages/frmv/changepassword",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"enablePullDownRefresh": false
+			}
+
 		},
 		{
-		    "path" : "pages/frmv/natives",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false,
-				"navigationStyle": "custom" ,// 隐藏系统导航栏
+			"path": "pages/frmv/selectheadpic",
+			"style": {
+				"navigationBarTitleText": "选择你的头像",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/frmv/webView",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/frmv/map",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "white" // 状态栏字体为白色
-		    }
-		    
-		}
-        ,{
-            "path" : "pages/frmv/similarinterests",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom" ,// 隐藏系统导航栏
+			}
+
+		}, {
+			"path": "pages/frmv/report",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "white" // 状态栏字体为白色
-            }
-            
-        }
-        ,{
-            "path" : "pages/frmv/webView",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        },
-		{
-		    "path" : "pages/frmv/map",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false,
-				"navigationStyle": "custom" ,// 隐藏系统导航栏
+			}
+
+		}, {
+			"path": "pages/frmv/freshman",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "white" // 状态栏字体为白色
-		    }
-		    
-		}
-        ,{
-            "path" : "pages/frmv/report",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom" ,// 隐藏系统导航栏
+			}
+
+		},
+		{
+			"path": "pages/forum/forum",
+			"style": {
+				"navigationBarTitleText": "生态圈"
+				
+			}
+		},
+		{
+			"path": "pages/forum/index",
+			"style": {
+				"navigationBarTitleText": "生态圈"
+			}
+		},
+		{
+			"path": "pages/forum/reply",
+			"style": {
+				"navigationBarTitleText": "回复"
+			}
+		},
+		{
+			"path": "pages/forum/me",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/forum/others",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "white" // 状态栏字体为白色
-            }
-            
-        }
-		,{
-		    "path" : "pages/frmv/freshman",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false,
-				"navigationStyle": "custom" ,// 隐藏系统导航栏
+			}
+		},
+		{
+			"path": "pages/forum/changemoto",
+			"style": {
+				"navigationBarTitleText": "修改签名"
+			}
+		},
+		{
+			"path": "pages/frmv/forgotPassword",
+			"style": {
+				"navigationBarTitleText": "忘记密码"
+			}
+		},
+		{
+			"path": "pages/service/dormmate",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "white" // 状态栏字体为白色
-		    }
-		    
-		},
-		{
-			"path" : "pages/forum/forum",
-			"style" : 
-			{
-				"navigationBarTitleText" : "生态圈"
 			}
 		},
 		{
-			"path" : "pages/forum/index",
-			"style" : 
-			{
-				"navigationBarTitleText" : "生态圈"
+			"path": "pages/index/test2",
+			"style": {
+
+				"navigationBarTitleText": "AI问答"
+
+
+
+			}
+		},
+		 {
+		 	"path": "pages/service/servicemain",
+			"style": {
+				"navigationBarTitleText": "服务中心"
+				 
 			}
 		},
 		{
-			"path" : "pages/forum/reply",
-			"style" : 
-			{
-				"navigationBarTitleText" : "回复"
+		 	"path": "pages/service/leave",
+			"style": {
+				"navigationBarTitleText": "请假申请"
+				 
+			}
+		},
+		
+		{
+			"path": "pages/service/samehometown",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "white" // 状态栏字体为白色
+			}
+		},
+
+		{
+			"path": "pages/service/schoolinfo",
+			"style": {
+				"navigationBarTitleText": "我的重大"
 			}
 		},
 		{
-			"path" : "pages/forum/me",
-			"style" : 
-			{
-				"navigationBarTitleText" : "我的"
+			"path": "pages/service/similarinterests",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "white" // 状态栏字体为白色
+			}
+
+		},
+
+		{
+			"path": "pages/service/map",
+			"style": {
+				"navigationBarTitleText": "校园地图"
+			}
+		},
+
+		{
+			"path": "pages/service/teachplan",
+			"style": {
+				"navigationBarTitleText": "培养方案"
 			}
 		},
 		{
-			"path" : "pages/frmv/forgotPassword",
-			"style" : 
-			{
-				"navigationBarTitleText" : "忘记密码"
-			}
-		},
-		{
-			"path" : "pages/frmv/dormmate",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
-		},
-		{
-			"path" : "pages/index/test2",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
-		},
-		{
-			"path" : "pages/service/servicemain",
-			"style" : 
-			{
-				"navigationBarTitleText" : "服务中心"
-			}
-		},
-		{
-			"path" : "pages/test/test",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/test/test",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
 			"path": "uview-ui/components/u-avatar-cropper/u-avatar-cropper",
 			"style": {
-						"navigationBarTitleText": "头像裁剪",
-						"navigationBarBackgroundColor": "#000000"
-					}
+				"navigationBarTitleText": "头像裁剪",
+				"navigationBarBackgroundColor": "#000000"
+			}
 		},
 		{
-		  "path": "uni_modules/buuug7-img-cropper/pages/cropper",
-		  "style": {
-			"navigationBarTitleText": "图片裁剪"
+			"path": "uni_modules/buuug7-img-cropper/pages/cropper",
+			"style": {
+				"navigationBarTitleText": "图片裁剪"
+			}
+
+		},
+		{
+			"path": "pages/index/weather",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/frmv/stepOfReport",
+			"style": {
+				"navigationBarTitleText": "报道注册"
+			}
+		},
+		{
+			"path": "pages/forum/searchresult",
+			"style": {
+				"navigationBarTitleText": "搜索结果"
+			}
+		},
+		{
+			"path": "pages/service/commonquestions",
+			"style": {
+				"navigationBarTitleText": "常见问题"
+			}
+		},
+		{
+			"path": "pages/service/otherquestion",
+			"style": {
+				"navigationBarTitleText": "在线咨询"
+			}
+		},
+		{
+			"path": "pages/forum/test3",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/frmv/connect",
+			"style": {
+				"navigationBarTitleText": "联系我们" 
+			}
+		},
+		{
+			"path" : "pages/service/dorm",
+			"style" : 
+			{
+				"navigationBarTitleText" : "寝室申请"
+			}
+		},
+		{
+			"path" : "pages/service/car",
+			"style" : 
+			{
+				"navigationBarTitleText" : "车辆预约"
+			}
+		},
+		{
+			"path" : "pages/service/historydorm",
+			"style" : 
+			{
+				"navigationBarTitleText" : "历史申请"
+			}
+		},
+		{
+			"path" : "pages/service/historyleave",
+			"style" : 
+			{
+				"navigationBarTitleText" : "历史申请"
+			}
+		},
+		{
+			"path" : "pages/service/historycar",
+			"style" : 
+			{
+				"navigationBarTitleText" : "历史申请"
+			}
+		},
+		{
+			"path" : "pages/service/schoolbus",
+			"style" : 
+			{
+				"navigationBarTitleText" : "校车时刻"
+			}
+		},
+		{
+			"path" : "pages/service/eat",
+			"style" : 
+			{
+				"navigationBarTitleText" : "猜你想吃"
+			}
+		},
+		{
+			"path" : "pages/service/play",
+			"style" : 
+			{
+				"navigationBarTitleText" : "猜你想玩"
+			}
+		},
+		{
+			"path" : "pages/service/book",
+			"style" : 
+			{
+				"navigationBarTitleText" : "猜你想看"
+			}
 		}
-		}
-    ],
+	],
+
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -226,47 +358,47 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"uniIdRouter": {},
-	
+
 	"tabBar": {
-						"color": "#7A7E83",
-						"selectedColor": "#3cc51f",
-						"borderStyle": "black",
-						"backgroundColor": "#ffffff",
-						"height": "50px",
-						"fontSize": "10px",
-						"iconWidth": "24px",
-						"spacing": "3px",
-						"list": [{
-							"pagePath": "pages/index/index",
-							"iconPath": "static/images/homegrey.png",
-							"selectedIconPath": "static/images/homeblue.png",
-							"text": "首页"
-				      		/* "iconfont": { // 优先级高于 iconPath，该属性依赖 tabbar 根节点的 iconfontSrc
+		"color": "#7A7E83",
+		"selectedColor": "#55aaff",
+		"borderStyle": "black",
+		"backgroundColor": "#eafffc",
+		"height": "50px",
+		"fontSize": "10px",
+		"iconWidth": "24px",
+		"spacing": "3px",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/homegrey.png",
+				"selectedIconPath": "static/images/homeblue.png",
+				"text": "首页"
+				/* "iconfont": { // 优先级高于 iconPath，该属性依赖 tabbar 根节点的 iconfontSrc
 				       			"text": "\ue102",
 				        		"selectedText": "\ue103",
 				        		"fontSize": "17px",
 				        		"color": "#000000",
 				        		"selectedColor": "#0000ff"
 				      		} */
-						}, 
-						{
-							"pagePath": "pages/forum/index",
-							"iconPath": "static/images/forum.png",
-							"selectedIconPath": "static/images/forumblue.png",
-							"text": "生态圈"
-						},
-						{
-							"pagePath": "pages/service/servicemain",
-							"iconPath": "static/images/forum.png",
-							"selectedIconPath": "static/images/forumblue.png",
-							"text": "服务中心"
-						},
-						{
-							"pagePath": "pages/frmv/myinfo",
-							"iconPath": "static/images/mygrey.png",
-							"selectedIconPath": "static/images/myblue.png",
-							"text": "我的"
-						}
-						]
-	} 
+			},
+			{
+				"pagePath": "pages/forum/index",
+				"iconPath": "static/images/forum.png",
+				"selectedIconPath": "static/images/forumblue.png",
+				"text": "生态圈"
+			},
+			{
+				"pagePath": "pages/service/servicemain",
+				"iconPath": "static/service/service0.png",
+				"selectedIconPath": "static/service/service1.png",
+				"text": "服务中心"
+			},
+			{
+				"pagePath": "pages/frmv/myinfo",
+				"iconPath": "static/images/mygrey.png",
+				"selectedIconPath": "static/images/myblue.png",
+				"text": "我的"
+			}
+		]
+	}
 }
